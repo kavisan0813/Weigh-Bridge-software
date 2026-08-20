@@ -9,6 +9,7 @@ type Screen = "login" | "dashboard" | AdminView | OperatorView;
 export default function App() {
   const [screen, setScreen] = useState<Screen>("login");
   const [darkMode, setDarkMode] = useState(false);
+  const [userRole, setUserRole] = useState<"admin" | "operator" | "maintenance" | "manager">("admin");
 
   const isOperatorScreen =
     screen === "operator-dashboard" ||
@@ -22,7 +23,10 @@ export default function App() {
     <div style={{ width: "100%", height: "100%", minHeight: "100vh" }}>
       {screen === "login" ? (
         <LoginScreen
-          onLogin={(role) => setScreen(role === "operator" ? "operator-dashboard" : "dashboard")}
+          onLogin={(role) => {
+            setUserRole(role);
+            setScreen(role === "operator" ? "operator-dashboard" : "dashboard");
+          }}
           darkMode={darkMode}
           onToggleDark={() => setDarkMode((v) => !v)}
         />
@@ -44,6 +48,7 @@ export default function App() {
       ) : (
         <AdminOperations
           view={screen}
+          userRole={userRole}
           darkMode={darkMode}
           onToggleDark={() => setDarkMode((v) => !v)}
           onLogout={() => setScreen("login")}

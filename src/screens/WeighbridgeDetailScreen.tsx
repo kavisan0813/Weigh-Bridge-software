@@ -76,37 +76,7 @@ export default function WeighbridgeDetailScreen({ darkMode: dm, onToggleDark, on
   ];
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: p.bg, color: p.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
-      {/* ── LEFT SIDEBAR ── */}
-      <aside style={{ width: 248, minWidth: 248, height: "100vh", position: "sticky", top: 0, display: "flex", flexDirection: "column", background: p.sidebarBg, borderRight: `1px solid ${p.sidebarBorder}`, overflowY: "auto", zIndex: 40, flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "16px 20px", borderBottom: `1px solid ${p.sidebarBorder}` }}>
-          <div style={{ width: 36, height: 36, borderRadius: 8, background: "#F97316", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3c0 1.5.83 2.8 2 3.46V10H7l-2 12h14L17 10h-4V8.46A3.5 3.5 0 0 0 15 5a3 3 0 0 0-3-3z"/></svg>
-          </div>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.13em", color: "#F97316", lineHeight: 1.2 }}>WEIGHBRIDGE</div>
-            <div style={{ fontSize: 10.5, color: p.muted, marginTop: 2 }}>ABC Industries</div>
-          </div>
-        </div>
-
-        <nav style={{ flex: 1, padding: "10px 10px 0" }}>
-          {NAV_LINKS.map(({ key, label, icon }) => {
-            const active = key === "monitoring";
-            const isNav = NAVIGABLE.has(key);
-            return (
-              <button key={key} onClick={() => isNav && onNavigate(key as "dashboard" | "monitoring" | "transactions")}
-                style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", marginBottom: 3, padding: "9.5px 12px", borderRadius: 8, border: "none", background: active ? (dm ? "rgba(251, 146, 60, 0.15)" : "#FFF7ED") : "transparent", color: active ? p.primaryOrange : p.secondary, fontWeight: active ? 700 : 400, fontSize: 13.5, cursor: "pointer", textAlign: "left" }}>
-                <span style={{ fontSize: 14, width: 16, textAlign: "center", flexShrink: 0, color: active ? p.primaryOrange : p.secondaryGold }}>{icon}</span>
-                {label}
-              </button>
-            );
-          })}
-        </nav>
-
-        <div style={{ padding: "10px 10px 16px", borderTop: `1px solid ${p.sidebarBorder}`, marginTop: 8 }}>
-          <button onClick={onLogout} style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "9px 12px", borderRadius: 8, border: "none", background: "transparent", color: p.muted, fontSize: 13.5, cursor: "pointer", textAlign: "left" }}>↪&nbsp; Sign Out</button>
-        </div>
-      </aside>
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, background: p.bg, color: p.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
 
       {/* ── MAIN COLUMN ── */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, position: "relative" }}>

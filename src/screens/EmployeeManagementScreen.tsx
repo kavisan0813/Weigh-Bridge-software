@@ -61,53 +61,8 @@ export default function EmployeeManagementScreen({ darkMode: dm, onToggleDark, o
   );
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: c.bg, color: c.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
-      {/* Sidebar */}
-      <aside style={{ width: 248, minWidth: 248, height: "100vh", position: "sticky", top: 0, display: "flex", flexDirection: "column", background: dm ? "#1F2937" : "#FFFFFF", borderRight: `1px solid ${dm ? "#374151" : "#E5E7EB"}`, overflowY: "auto", zIndex: 40, flexShrink: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "16px 20px", borderBottom: `1px solid ${dm ? "#374151" : "#E5E7EB"}` }}>
-          <div style={{ width: 36, height: 36, borderRadius: 8, background: "#F97316", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3c0 1.5.83 2.8 2 3.46V10H7l-2 12h14L17 10h-4V8.46A3.5 3.5 0 0 0 15 5a3 3 0 0 0-3-3z"/></svg>
-          </div>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.13em", color: "#F97316", lineHeight: 1.2 }}>WEIGHBRIDGE</div>
-            <div style={{ fontSize: 10.5, color: c.muted, marginTop: 2 }}>ABC Industries</div>
-          </div>
-        </div>
-        <nav style={{ flex: 1, padding: "10px 10px 0" }}>
-          {MAIN_NAV.map(({ key, label, icon }) => {
-            const active = key === "employees";
-            const isNav = NAVIGABLE.has(key);
-            return (
-              <button key={key} onClick={() => isNav && onNavigate(key as NavView)}
-                style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", marginBottom: 2, padding: "9px 12px", borderRadius: 8, border: "none", background: active ? "#FFF7ED" : "transparent", color: active ? "#F97316" : isNav ? (dm ? "#D1D5DB" : "#4B5563") : (dm ? "#6B7280" : "#9CA3AF"), fontWeight: active ? 600 : 400, fontSize: 13.5, cursor: isNav ? "pointer" : "default", textAlign: "left", opacity: !active && !isNav ? 0.55 : 1 }}>
-                <span style={{ fontSize: 14, width: 16, textAlign: "center", flexShrink: 0 }}>{icon}</span>{label}
-              </button>
-            );
-          })}
-        </nav>
-        <div style={{ padding: "10px 10px 16px", borderTop: `1px solid ${dm ? "#374151" : "#E5E7EB"}`, marginTop: 8 }}>
-          <button onClick={onLogout} style={{ display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "9px 12px", borderRadius: 8, border: "none", background: "transparent", color: c.muted, fontSize: 13.5, cursor: "pointer", textAlign: "left" }}>↪&nbsp; Sign Out</button>
-        </div>
-      </aside>
-
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
-        <header style={{ height: 60, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", background: c.s, borderBottom: `1px solid ${c.border}`, position: "sticky", top: 0, zIndex: 30 }}>
-          <div>
-            <div style={{ fontSize: 17, fontWeight: 700, color: c.text, lineHeight: 1.25 }}>Employees</div>
-            <div style={{ fontSize: 12, color: c.muted, marginTop: 1 }}>Manage operators and their weighbridge assignments.</div>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <button onClick={onToggleDark} style={{ width: 34, height: 34, borderRadius: 8, border: `1px solid ${c.border}`, background: "transparent", color: c.muted, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>{dm ? "☼" : "◐"}</button>
-            <div style={{ width: 1, height: 24, background: c.border, margin: "0 2px" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 10px 4px 4px", borderRadius: 8, cursor: "pointer" }}>
-              <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#F97316", color: "#fff", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>A</div>
-              <div><div style={{ fontSize: 13, fontWeight: 600, color: c.text, lineHeight: 1.2 }}>Admin</div><div style={{ fontSize: 11, color: c.muted }}>ABC Industries</div></div>
-            </div>
-          </div>
-        </header>
-
-        <main className="overflow-y-auto p-6 md:p-8" style={{ height: "calc(100vh - 60px)" }}>
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+    <main className="min-h-screen overflow-y-auto p-6 md:p-8" style={{ background: c.bg, color: c.text, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div />
             <button onClick={() => setOpen(true)} className="h-11 rounded-lg px-5 text-xs font-bold text-white" style={{ background: "#F97316", border: 0, cursor: "pointer" }}>
               ＋ Add Employee
@@ -203,8 +158,6 @@ export default function EmployeeManagementScreen({ darkMode: dm, onToggleDark, o
               </span>
             </div>
           </section>
-        </main>
-      </div>
 
       {open && (
         <div className="fixed inset-0 z-50 grid place-items-center p-4" style={{ background: "rgba(15,23,42,.48)" }}>
@@ -249,6 +202,6 @@ export default function EmployeeManagementScreen({ darkMode: dm, onToggleDark, o
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 }

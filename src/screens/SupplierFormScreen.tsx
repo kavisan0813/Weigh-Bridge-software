@@ -56,75 +56,8 @@ export default function SupplierFormScreen({ mode, darkMode: dm, onToggleDark, o
   /* ─────────────────────────────────────────────────────────────────── */
   function renderDesktopView() {
     return (
-      <div style={{ display: "flex", minHeight: "100vh", background: bg, color: primaryText, fontFamily: "'Inter', -apple-system, sans-serif" }}>
-
-        {/* ── SIDEBAR ── */}
-        <aside style={{ width: 248, minWidth: 248, height: "100vh", position: "sticky", top: 0, display: "flex", flexDirection: "column", background: dm ? "#1F2937" : "#0F2438", borderRight: `1px solid ${border}`, flexShrink: 0, zIndex: 40 }}>
-          <div style={{ padding: "18px 20px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: primaryOrange, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, color: "#FFF", fontSize: 16 }}>
-              ⚖
-            </div>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 800, color: "#FFFFFF" }}>WEIGHBRIDGE</div>
-              <div style={{ fontSize: 11, color: "#94A3B8" }}>ABC Industries</div>
-            </div>
-          </div>
-
-          <nav style={{ flex: 1, padding: "12px 8px", display: "flex", flexDirection: "column", gap: 2 }}>
-            {[
-              { key: "dashboard", label: "Dashboard", icon: "📊" },
-              { key: "monitoring", label: "Weighbridges", icon: "⚖" },
-              { key: "pending", label: "Pending Weighments", icon: "⏳" },
-              { key: "transactions", label: "Transactions", icon: "📜" },
-              { key: "vehicles", label: "Vehicles", icon: "🚛" },
-              { key: "drivers", label: "Drivers", icon: "👤" },
-              { key: "customers", label: "Customers", icon: "🏢" },
-              { key: "suppliers", label: "Suppliers", icon: "🏭", active: true },
-              { key: "materials", label: "Materials", icon: "📦" },
-              { key: "tickets", label: "Tickets", icon: "🎟" },
-              { key: "alerts", label: "Alerts Center", icon: "🔔" },
-              { key: "employees", label: "Employees", icon: "👷" },
-              { key: "reports", label: "Reports", icon: "📈" },
-              { key: "auditlogs", label: "Audit Logs", icon: "🛡" },
-              { key: "settings", label: "Settings", icon: "⚙" },
-            ].map((item) => (
-              <button
-                key={item.key}
-                onClick={() => onNavigate(item.key)}
-                style={{
-                  display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "9px 12px", borderRadius: 8, border: "none",
-                  background: item.active ? (dm ? "#FB923C" : "#F97316") : "transparent",
-                  color: item.active ? "#FFFFFF" : "#94A3B8",
-                  fontSize: 13, fontWeight: item.active ? 700 : 500, cursor: "pointer", textAlign: "left"
-                }}
-              >
-                <span style={{ fontSize: 14 }}>{item.icon}</span>
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </aside>
-
-        {/* ── MAIN CONTENT AREA ── */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
-
-          {/* TESTING & DEMO TOOLBAR */}
-          <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, zIndex: 30 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: secondaryGold, letterSpacing: "0.08em" }}>SCREEN 37</span>
-              <span style={{ color: "#475569" }}>|</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: "#F9FAFB" }}>{mode === "add" ? "ADD SUPPLIER" : "EDIT SUPPLIER"}</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <button onClick={() => setViewDevice("desktop")} style={{ padding: "3px 9px", borderRadius: 4, background: viewDevice === "desktop" ? primaryOrange : "transparent", color: "#FFF", border: "none", fontSize: 11 }}>💻 Desktop</button>
-              <button onClick={onToggleDark} style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.1)", color: "#F9FAFB", fontSize: 11 }}>{dm ? "☀️ Light" : "🌙 Dark"}</button>
-            </div>
-          </header>
-
-          {/* ── MAIN CANVAS SHELL (1440 MAX-WIDTH) ── */}
-          <div style={{ flex: 1, maxWidth: 1440, width: "100%", margin: "0 auto", background: surface, display: "flex", flexDirection: "column", minHeight: "calc(100vh - 49px)" }}>
-
-            {/* PAGE HEADER */}
+      <div style={{ flex: 1, maxWidth: 1440, width: "100%", margin: "0 auto", background: surface, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        {/* PAGE HEADER */}
             <header style={{ height: 68, padding: "0 32px", background: surface, borderBottom: `1px solid ${border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
               <div>
                 <h1 style={{ fontSize: 32, fontWeight: 700, margin: 0, color: primaryText, letterSpacing: "-0.01em" }}>
@@ -279,11 +212,8 @@ export default function SupplierFormScreen({ mode, darkMode: dm, onToggleDark, o
                   />
                 </div>
               </div>
-
             </form>
           </div>
-        </div>
-      </div>
     );
   }
 

@@ -202,19 +202,23 @@ export default function TicketDetailScreen({ darkMode: dm, onToggleDark, onLogou
   /* ─────────────────────────────────────────────────────────────────── */
   function renderDesktopView() {
     return (
-      <div style={{ display: "flex", minHeight: "100vh", background: bg, color: primaryText, fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      <div style={{ flex: 1, maxWidth: 1440, width: "100%", margin: "0 auto", background: surface, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
 
         {/* Resolve Modal */}
         {resolveModalOpen && (
           <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div style={{ width: 480, background: surface, borderRadius: 16, border: `1px solid ${border}`, padding: 24, boxShadow: "0 20px 50px rgba(0,0,0,0.3)" }}>
-              <h3 style={{ margin: "0 0 8px 0", fontSize: 18, fontWeight: 800, color: primaryText }}>RESOLVE SUPPORT TICKET</h3>
-              <p style={{ margin: "0 0 16px 0", fontSize: 13, color: secondaryText }}>Provide resolution notes before marking TKT-10248 as resolved.</p>
-
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: primaryText }}>✓ RESOLVE SUPPORT TICKET</h3>
+                <button onClick={() => setResolveModalOpen(false)} style={{ background: "none", border: 0, color: mutedText, fontSize: 16, cursor: "pointer" }}>✕</button>
+              </div>
+              <p style={{ margin: "0 0 16px 0", fontSize: 12.5, color: secondaryText }}>
+                Record resolution notes and mark ticket <strong style={{ color: primaryOrange }}>TCK-2026-0892</strong> as RESOLVED.
+              </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 <div>
                   <label style={{ fontSize: 11, fontWeight: 700, color: mutedText }}>RESOLUTION SUMMARY *</label>
-                  <input type="text" placeholder="e.g. Replaced loose RS-485 serial connector" value={resolutionSummary} onChange={(e) => setResolutionSummary(e.target.value)} style={{ width: "100%", height: 42, padding: "0 12px", borderRadius: 8, background: inputBg, color: primaryText, border: `1px solid ${border}`, fontSize: 13, outline: "none", boxSizing: "border-box" }} />
+                  <input type="text" placeholder="e.g. Replaced RS485 communication cable & recalibrated loadcell zero offset" value={resolutionSummary} onChange={(e) => setResolutionSummary(e.target.value)} style={{ width: "100%", height: 40, padding: "0 12px", borderRadius: 8, background: inputBg, color: primaryText, border: `1px solid ${border}`, fontSize: 13, outline: "none" }} />
                 </div>
                 <div>
                   <label style={{ fontSize: 11, fontWeight: 700, color: mutedText }}>RESOLUTION DETAILS *</label>
@@ -229,79 +233,7 @@ export default function TicketDetailScreen({ darkMode: dm, onToggleDark, onLogou
           </div>
         )}
 
-        {/* ── SIDEBAR ── */}
-        <aside style={{ width: 248, minWidth: 248, height: "100vh", position: "sticky", top: 0, display: "flex", flexDirection: "column", background: dm ? "#1F2937" : "#0F2438", borderRight: `1px solid ${border}`, flexShrink: 0, zIndex: 40 }}>
-          <div style={{ padding: "18px 20px", borderBottom: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 8, background: primaryOrange, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, color: "#FFF", fontSize: 16 }}>⚖</div>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 800, color: "#FFFFFF" }}>WEIGHBRIDGE</div>
-              <div style={{ fontSize: 11, color: "#94A3B8" }}>ABC Industries</div>
-            </div>
-          </div>
-
-          <nav style={{ flex: 1, padding: "12px 8px", display: "flex", flexDirection: "column", gap: 2 }}>
-            {[
-              { key: "dashboard", label: "Dashboard", icon: "📊" },
-              { key: "monitoring", label: "Weighbridges", icon: "⚖" },
-              { key: "pending", label: "Pending Weighments", icon: "⏳" },
-              { key: "transactions", label: "Transactions", icon: "📜" },
-              { key: "vehicles", label: "Vehicles", icon: "🚛" },
-              { key: "drivers", label: "Drivers", icon: "👤" },
-              { key: "customers", label: "Customers", icon: "🏢" },
-              { key: "suppliers", label: "Suppliers", icon: "🏭" },
-              { key: "materials", label: "Materials", icon: "📦" },
-              { key: "tickets", label: "Tickets", icon: "🎟", active: true },
-              { key: "employees", label: "Employees", icon: "👷" },
-              { key: "reports", label: "Reports", icon: "📈" },
-              { key: "auditlogs", label: "Audit Logs", icon: "🛡" },
-              { key: "settings", label: "Settings", icon: "⚙" },
-            ].map((item) => (
-              <button
-                key={item.key}
-                onClick={() => onNavigate(item.key)}
-                style={{
-                  display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "9px 12px", borderRadius: 8, border: "none",
-                  background: item.active ? (dm ? "#FB923C" : "#F97316") : "transparent",
-                  color: item.active ? "#FFFFFF" : "#94A3B8",
-                  fontSize: 13, fontWeight: item.active ? 700 : 500, cursor: "pointer", textAlign: "left"
-                }}
-              >
-                <span style={{ fontSize: 14 }}>{item.icon}</span>
-                <span>{item.label}</span>
-              </button>
-            ))}
-          </nav>
-        </aside>
-
-        {/* ── MAIN CONTENT AREA ── */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
-
-          {/* TESTING & DEMO TOOLBAR */}
-          <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, zIndex: 30 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: secondaryGold, letterSpacing: "0.08em" }}>SCREEN 46</span>
-              <span style={{ color: "#475569" }}>|</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: "#F9FAFB" }}>TICKET DETAIL / PRINTABLE TICKET</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6, gap: 2 }}>
-                {(["desktop", "mobile"] as ViewDevice[]).map(d => (
-                  <button key={d} onClick={() => setViewDevice(d)} style={{ padding: "3px 9px", borderRadius: 4, border: "none", background: viewDevice === d ? primaryOrange : "transparent", color: viewDevice === d ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>{d === "desktop" ? "💻 Desktop" : "📲 Mobile"}</button>
-                ))}
-              </div>
-              <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6, gap: 2 }}>
-                {(["admin", "operator", "maintenance"] as UserRole[]).map(r => (
-                  <button key={r} onClick={() => setRole(r)} style={{ padding: "3px 9px", borderRadius: 4, border: "none", background: role === r ? secondaryGold : "transparent", color: role === r ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 600, cursor: "pointer", textTransform: "capitalize" }}>{r}</button>
-                ))}
-              </div>
-              <button onClick={onToggleDark} style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.1)", color: "#F9FAFB", fontSize: 11, cursor: "pointer" }}>{dm ? "☀️ Light" : "🌙 Dark"}</button>
-            </div>
-          </header>
-
-          {/* ── MAIN CANVAS SHELL ── */}
-          <div style={{ flex: 1, maxWidth: 1440, width: "100%", margin: "0 auto", background: surface, display: "flex", flexDirection: "column", minHeight: "calc(100vh - 49px)" }}>
-
-            {/* PAGE HEADER */}
+        {/* PAGE HEADER */}
             <header style={{ height: 68, padding: "0 32px", background: surface, borderBottom: `1px solid ${border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
               <div>
                 <div style={{ fontSize: 11, color: mutedText, fontWeight: 600, marginBottom: 2, display: "flex", gap: 6 }}>
@@ -506,8 +438,6 @@ export default function TicketDetailScreen({ darkMode: dm, onToggleDark, onLogou
               </div>
             </div>
           </div>
-        </div>
-      </div>
     );
   }
 
@@ -566,7 +496,7 @@ export default function TicketDetailScreen({ darkMode: dm, onToggleDark, onLogou
                 { icon: "📜", label: "Transactions" },
                 { icon: "🎟", label: "Tickets" },
                 { icon: "•••", label: "More" },
-              ].map((nav, i) => (
+               ].map((nav, i) => (
                 <button key={i} style={{ background: "none", border: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: 2, color: i === 3 ? primaryOrange : mutedText, cursor: "pointer" }}>
                   <span style={{ fontSize: 16 }}>{nav.icon}</span>
                   <span style={{ fontSize: 10, fontWeight: i === 3 ? 700 : 500 }}>{nav.label}</span>
