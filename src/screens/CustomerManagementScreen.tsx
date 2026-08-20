@@ -160,43 +160,7 @@ export default function CustomerManagementScreen({ darkMode, onToggleDark, onLog
           </div>
         )}
 
-        {/* ── TOP TESTING BAR ── */}
-        <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 20px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10, zIndex: 100 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <button onClick={() => onNavigate("dashboard")} style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFF", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>← Dashboard</button>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#F9FAFB" }}>CUSTOMER MANAGEMENT CONTROL CENTER</div>
-              <div style={{ fontSize: 10.5, color: secondaryGold, fontWeight: 600 }}>SCREEN 32 — CUSTOMER LIST & DIRECTORY</div>
-            </div>
-          </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            {/* Role Switcher */}
-            <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6, gap: 2 }}>
-              <button onClick={() => setRole("admin")} style={{ padding: "3px 10px", borderRadius: 4, border: "none", background: role === "admin" ? primaryOrange : "transparent", color: role === "admin" ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
-                🔑 Admin
-              </button>
-              <button onClick={() => setRole("operator")} style={{ padding: "3px 10px", borderRadius: 4, border: "none", background: role === "operator" ? secondaryGold : "transparent", color: role === "operator" ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
-                👤 Operator
-              </button>
-            </div>
-
-            {/* Viewport Switcher */}
-            <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6, gap: 2 }}>
-              <button onClick={() => setViewDevice("desktop")} style={{ padding: "3px 9px", borderRadius: 4, border: "none", background: viewDevice === "desktop" ? "rgba(255,255,255,0.2)" : "transparent", color: viewDevice === "desktop" ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
-                💻 Desktop
-              </button>
-              <button onClick={() => setViewDevice("mobile")} style={{ padding: "3px 9px", borderRadius: 4, border: "none", background: viewDevice === "mobile" ? primaryOrange : "transparent", color: viewDevice === "mobile" ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
-                📲 Mobile
-              </button>
-            </div>
-
-            {/* Theme Toggle */}
-            <button onClick={onToggleDark} style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.1)", color: "#F9FAFB", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
-              {dm ? "☀️ Light" : "🌙 Dark"}
-            </button>
-          </div>
-        </header>
 
         {/* ── MAIN CANVAS SHELL ── */}
         <div style={{ flex: 1, maxWidth: 1440, width: "100%", margin: "0 auto", background: surface, display: "flex", flexDirection: "column", minHeight: "calc(100vh - 49px)" }}>
@@ -566,14 +530,7 @@ export default function CustomerManagementScreen({ darkMode, onToggleDark, onLog
     return (
       <div style={{ width: "100%", minHeight: "100vh", background: bg, fontFamily: "'Inter', -apple-system, sans-serif", color: primaryText, display: "flex", flexDirection: "column" }}>
 
-        {/* Testing Bar */}
-        <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: "#F9FAFB" }}>SCREEN 32 — CUSTOMERS MOBILE</span>
-          <div style={{ display: "flex", gap: 6 }}>
-            <button onClick={() => setViewDevice("desktop")} style={{ padding: "3px 8px", borderRadius: 4, background: "rgba(255,255,255,0.1)", border: "none", color: "#94A3B8", fontSize: 11, cursor: "pointer" }}>💻</button>
-            <button onClick={onToggleDark} style={{ padding: "3px 8px", borderRadius: 4, background: "rgba(255,255,255,0.1)", border: "none", color: "#94A3B8", fontSize: 11, cursor: "pointer" }}>{dm ? "☀️" : "🌙"}</button>
-          </div>
-        </header>
+
 
         {/* Mobile Frame Container */}
         <div style={{ display: "flex", justifyContent: "center", padding: "16px 0 40px" }}>

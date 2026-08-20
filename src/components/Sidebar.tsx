@@ -164,6 +164,15 @@ function SlidersIcon({ color = "currentColor" }: { color?: string }) {
   );
 }
 
+function CreditCardIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+      <line x1="1" y1="10" x2="23" y2="10" />
+    </svg>
+  );
+}
+
 function BarChartIcon({ color = "currentColor" }: { color?: string }) {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -314,6 +323,12 @@ export default function Sidebar({
       ],
     },
     {
+      title: "FINANCE",
+      items: [
+        { key: "billing", label: "Billing", icon: (c) => <CreditCardIcon color={c} /> },
+      ],
+    },
+    {
       title: "REPORTS",
       items: [
         { key: "reports", label: "Report Center", icon: (c) => <BarChartIcon color={c} /> },
@@ -370,6 +385,8 @@ export default function Sidebar({
         return activeView === "printers";
       case "calibration":
         return activeView === "calibration";
+      case "billing":
+        return activeView === "billing";
       case "reports":
         return activeView === "reports" || activeView === "weighment-report" || activeView === "performance-report" || activeView === "customer-report";
       case "employees":
@@ -398,6 +415,7 @@ export default function Sidebar({
     OPERATIONS: true,
     MANAGEMENT: false,
     WEIGHBRIDGE: false,
+    FINANCE: false,
     REPORTS: false,
     ADMINISTRATION: false,
   }));

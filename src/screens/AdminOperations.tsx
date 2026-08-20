@@ -25,8 +25,14 @@ import EmployeeManagementScreen from "./EmployeeManagementScreen";
 import ReportsScreen from "./ReportsScreen";
 import SettingsScreen from "./SettingsScreen";
 import AuditLogsScreen from "./AuditLogsScreen";
+import WeighbridgeManagementScreen from "./WeighbridgeManagementScreen";
+import DeviceMonitoringScreen from "./DeviceMonitoringScreen";
+import WeightIndicatorsScreen from "./WeightIndicatorsScreen";
+import CamerasScreen from "./CamerasScreen";
+import PrintersScreen from "./PrintersScreen";
+import CalibrationScreen from "./CalibrationScreen";
 
-export type AdminView = "monitoring" | "detail" | "transactions" | "transaction-detail" | "vehicles" | "vehicle-detail" | "vehicle-add" | "vehicle-edit" | "drivers" | "driver-detail" | "driver-add" | "driver-edit" | "customers" | "customer-detail" | "customer-add" | "customer-edit" | "suppliers" | "supplier-detail" | "supplier-add" | "supplier-edit" | "materials" | "material-detail" | "material-add" | "material-edit" | "tickets" | "ticket-detail" | "alerts" | "billing" | "employees" | "reports" | "auditlogs" | "settings";
+export type AdminView = "monitoring" | "detail" | "weighbridges" | "device-monitoring" | "indicators" | "cameras" | "printers" | "calibration" | "transactions" | "transaction-detail" | "vehicles" | "vehicle-detail" | "vehicle-add" | "vehicle-edit" | "drivers" | "driver-detail" | "driver-add" | "driver-edit" | "customers" | "customer-detail" | "customer-add" | "customer-edit" | "suppliers" | "supplier-detail" | "supplier-add" | "supplier-edit" | "materials" | "material-detail" | "material-add" | "material-edit" | "tickets" | "ticket-detail" | "alerts" | "billing" | "employees" | "reports" | "auditlogs" | "settings";
 
 import AppShell from "../components/AppShell";
 
@@ -422,6 +428,12 @@ export default function AdminOperations(props: AdminOperationsProps) {
   const renderContent = () => {
     if (props.view === "monitoring") return <Monitoring {...props} />;
     if (props.view === "detail") return <WeighbridgeDetailScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
+    if (props.view === "weighbridges") return <WeighbridgeManagementScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
+    if (props.view === "device-monitoring") return <DeviceMonitoringScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
+    if (props.view === "indicators") return <WeightIndicatorsScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
+    if (props.view === "cameras") return <CamerasScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
+    if (props.view === "printers") return <PrintersScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
+    if (props.view === "calibration") return <CalibrationScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
     if (props.view === "transaction-detail") return <TransactionDetailScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
     if (props.view === "vehicle-detail") return <VehicleDetailScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
     if (props.view === "vehicle-add") return <VehicleFormScreen mode="add" darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
@@ -451,6 +463,7 @@ export default function AdminOperations(props: AdminOperationsProps) {
     if (props.view === "reports") return <ReportsScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
     if (props.view === "auditlogs") return <AuditLogsScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
     if (props.view === "settings") return <SettingsScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
+    if (props.view === "transactions") return <TransactionsScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
     return <TransactionsScreen darkMode={props.darkMode} onToggleDark={props.onToggleDark} onLogout={props.onLogout} onNavigate={props.onNavigate} />;
   };
 

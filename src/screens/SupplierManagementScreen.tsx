@@ -386,13 +386,7 @@ export default function SupplierManagementScreen({ darkMode: dm, onToggleDark, o
   function renderMobileView() {
     return (
       <div style={{ width: "100%", minHeight: "100vh", background: bg, color: primaryText, fontFamily: "'Inter', -apple-system, sans-serif", display: "flex", flexDirection: "column" }}>
-        <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: "#F9FAFB" }}>SCREEN 35 — SUPPLIERS</span>
-          <div style={{ display: "flex", gap: 6 }}>
-            <button onClick={() => setViewDevice("desktop")} style={{ padding: "3px 8px", borderRadius: 4, background: "rgba(255,255,255,0.1)", border: "none", color: "#94A3B8", fontSize: 11, cursor: "pointer" }}>💻</button>
-            <button onClick={onToggleDark} style={{ padding: "3px 8px", borderRadius: 4, background: "rgba(255,255,255,0.1)", border: "none", color: "#94A3B8", fontSize: 11, cursor: "pointer" }}>{dm ? "☀️" : "🌙"}</button>
-          </div>
-        </header>
+
 
         <div style={{ display: "flex", justifyContent: "center", padding: "16px 0 40px" }}>
           <div style={{ width: 390, minHeight: 844, background: surface, borderRadius: 24, border: `1px solid ${border}`, boxShadow: "0 20px 40px rgba(0,0,0,0.25)", overflow: "hidden", display: "flex", flexDirection: "column", position: "relative" }}>

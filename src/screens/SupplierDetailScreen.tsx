@@ -184,10 +184,7 @@ export default function SupplierDetailScreen({ darkMode: dm, onToggleDark, onLog
   function renderMobileView() {
     return (
       <div style={{ width: "100%", minHeight: "100vh", background: bg, color: primaryText, fontFamily: "'Inter', -apple-system, sans-serif", display: "flex", flexDirection: "column" }}>
-        <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: "#F9FAFB" }}>SCREEN 36 — SUPPLIER DETAIL</span>
-          <button onClick={() => setViewDevice("desktop")} style={{ padding: "3px 8px", borderRadius: 4, background: "rgba(255,255,255,0.1)", border: "none", color: "#94A3B8", fontSize: 11, cursor: "pointer" }}>💻 Desktop</button>
-        </header>
+
 
         <div style={{ display: "flex", justifyContent: "center", padding: "16px 0 40px" }}>
           <div style={{ width: 390, minHeight: 844, background: surface, borderRadius: 24, border: `1px solid ${border}`, overflow: "hidden", display: "flex", flexDirection: "column" }}>

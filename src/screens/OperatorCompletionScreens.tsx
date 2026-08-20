@@ -188,7 +188,7 @@ function SecondWeighingScreen({ darkMode, onToggleDark, onLogout, onNavigate }: 
     <div
       style={{
         width: "100%",
-        minHeight: "100vh",
+        flex: 1,
         background: bg,
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
         color: primaryText,
@@ -197,24 +197,23 @@ function SecondWeighingScreen({ darkMode, onToggleDark, onLogout, onNavigate }: 
       }}
     >
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          TOP TOOLBAR / DEMO PRESET TESTER
+          OPERATOR SECOND WEIGHING PRESET TOOLBAR (COMMENTED OUT)
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <header
+      {/*
+      <div
         style={{
-          width: "100%",
-          background: dm ? "#1F2937" : "#FFFFFF",
-          borderBottom: `1px solid ${dm ? "#374151" : "#E5E7EB"}`,
-          padding: "8px 20px",
+          margin: "16px 24px 0",
+          background: surface,
+          border: `1px solid ${border}`,
+          borderRadius: 12,
+          padding: "10px 20px",
           display: "flex",
           flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "space-between",
           gap: 10,
-          zIndex: 100,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
         }}
       >
-        {/* Title */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <button
             onClick={() => onNavigate("live-weighment")}
@@ -241,7 +240,6 @@ function SecondWeighingScreen({ darkMode, onToggleDark, onLogout, onNavigate }: 
           </div>
         </div>
 
-        {/* Demo State Switcher */}
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
           <span style={{ fontSize: 10.5, color: "#94A3B8", fontWeight: 600, textTransform: "uppercase" }}>State Preset:</span>
           {[
@@ -271,7 +269,6 @@ function SecondWeighingScreen({ darkMode, onToggleDark, onLogout, onNavigate }: 
           ))}
         </div>
 
-        {/* Viewport & Theme Controls */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6 }}>
             <button
@@ -337,7 +334,8 @@ function SecondWeighingScreen({ darkMode, onToggleDark, onLogout, onNavigate }: 
             {dm ? "☀️ Light" : "🌙 Dark"}
           </button>
         </div>
-      </header>
+      </div>
+      */}
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           MAIN CANVAS — DESKTOP / TABLET / MOBILE VIEWPORTS
@@ -541,25 +539,6 @@ function SecondWeighingScreen({ darkMode, onToggleDark, onLogout, onNavigate }: 
                   <p style={{ fontSize: 12, color: mutedText, margin: "2px 0 0 0" }}>
                     Capture the tare weight and complete ticket WB-2026-00463 for vehicle TN22GH3456.
                   </p>
-                </div>
-              </div>
-
-              {/* Station Info & Operator */}
-              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: primaryText }}>WB-01 — Main Gate</div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: isWbOffline ? statusOffline : statusOnline }}>
-                    ● {isWbOffline ? "OFFLINE" : "ONLINE"}
-                  </div>
-                </div>
-
-                <div style={{ height: 28, width: 1, background: border }} />
-
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 34, height: 34, borderRadius: 999, background: primaryOrange, color: "#FFF", fontWeight: 800, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    AK
-                  </div>
-                  <div style={{ fontSize: 12.5, fontWeight: 700, color: primaryText }}>Arun Kumar</div>
                 </div>
               </div>
             </header>

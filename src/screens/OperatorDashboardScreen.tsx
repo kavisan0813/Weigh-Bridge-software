@@ -105,7 +105,7 @@ export default function OperatorDashboardScreen({ darkMode, onToggleDark, onLogo
     <div
       style={{
         width: "100%",
-        minHeight: "100vh",
+        flex: 1,
         background: bg,
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
         color: primaryText,
@@ -114,24 +114,23 @@ export default function OperatorDashboardScreen({ darkMode, onToggleDark, onLogo
       }}
     >
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          TOP TOOLBAR / DEMO PRESET TESTER (Master Design System)
+          OPERATOR DEMO PRESET TOOLBAR (COMMENTED OUT)
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <header
+      {/*
+      <div
         style={{
-          width: "100%",
-          background: dm ? "#1F2937" : "#FFFFFF",
-          borderBottom: `1px solid ${dm ? "#374151" : "#E5E7EB"}`,
-          padding: "8px 20px",
+          margin: "16px 24px 0",
+          background: surface,
+          border: `1px solid ${border}`,
+          borderRadius: 12,
+          padding: "10px 20px",
           display: "flex",
           flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "space-between",
           gap: 10,
-          zIndex: 100,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
         }}
       >
-        {/* Title */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div
             style={{
@@ -159,9 +158,7 @@ export default function OperatorDashboardScreen({ darkMode, onToggleDark, onLogo
           </div>
         </div>
 
-        {/* Middle: Interactive Controls for Hardware & Weight States */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-          {/* Weight Simulator */}
           <div style={{ display: "flex", alignItems: "center", gap: 4, background: "rgba(255,255,255,0.06)", padding: "3px 6px", borderRadius: 6 }}>
             <span style={{ fontSize: 10, color: "#94A3B8", fontWeight: 700, textTransform: "uppercase" }}>Weight State:</span>
             {[
@@ -190,7 +187,6 @@ export default function OperatorDashboardScreen({ darkMode, onToggleDark, onLogo
             ))}
           </div>
 
-          {/* Hardware Status Simulator */}
           <div style={{ display: "flex", alignItems: "center", gap: 4, background: "rgba(255,255,255,0.06)", padding: "3px 6px", borderRadius: 6 }}>
             <span style={{ fontSize: 10, color: "#94A3B8", fontWeight: 700, textTransform: "uppercase" }}>Hardware State:</span>
             {[
@@ -221,7 +217,6 @@ export default function OperatorDashboardScreen({ darkMode, onToggleDark, onLogo
           </div>
         </div>
 
-        {/* Right: Device Viewport Controls & Dark Mode */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6 }}>
             <button
@@ -287,7 +282,8 @@ export default function OperatorDashboardScreen({ darkMode, onToggleDark, onLogo
             {dm ? "☀️ Light" : "🌙 Dark"}
           </button>
         </div>
-      </header>
+      </div>
+      */}
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           MAIN CANVAS — DESKTOP / TABLET / MOBILE VIEWPORTS
@@ -571,56 +567,6 @@ export default function OperatorDashboardScreen({ darkMode, onToggleDark, onLogo
                   <p style={{ fontSize: 12.5, color: mutedText, margin: "2px 0 0 0" }}>
                     Ready to start today's weighbridge operations.
                   </p>
-                </div>
-
-                {/* Right Status Badge & Controls */}
-                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                  {/* Station Badge */}
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      padding: "6px 14px",
-                      borderRadius: 8,
-                      background: isWbOffline ? "rgba(220,38,38,0.12)" : "rgba(22,163,74,0.12)",
-                      border: `1px solid ${isWbOffline ? "rgba(220,38,38,0.3)" : "rgba(22,163,74,0.3)"}`,
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 8,
-                        height: 8,
-                        borderRadius: "50%",
-                        background: isWbOffline ? statusOffline : statusOnline,
-                      }}
-                    />
-                    <div>
-                      <div style={{ fontSize: 12, fontWeight: 800, color: primaryText }}>WB-01 — Main Gate</div>
-                      <div style={{ fontSize: 10, fontWeight: 700, color: isWbOffline ? statusOffline : statusOnline }}>
-                        ● {isWbOffline ? "OFFLINE" : "ONLINE"}
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    style={{
-                      width: 38,
-                      height: 38,
-                      borderRadius: 8,
-                      border: `1px solid ${border}`,
-                      background: inputBg,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      fontSize: 16,
-                      position: "relative",
-                    }}
-                  >
-                    🔔
-                    <span style={{ position: "absolute", top: 8, right: 8, width: 7, height: 7, borderRadius: "50%", background: primaryOrange }} />
-                  </button>
                 </div>
               </header>
 

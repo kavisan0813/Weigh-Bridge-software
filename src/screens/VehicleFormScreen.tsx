@@ -163,26 +163,7 @@ export default function VehicleFormScreen({ mode: initialMode = "add", darkMode,
           </div>
         )}
 
-        {/* Testing Bar */}
-        <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 20px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <button onClick={() => onNavigate("vehicles")} style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFF", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>← Vehicles</button>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#F9FAFB" }}>SCREEN 28 — {mode === "add" ? "ADD" : "EDIT"} VEHICLE</span>
-          </div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6, gap: 2 }}>
-              {(["desktop", "mobile"] as ViewDevice[]).map(d => (
-                <button key={d} onClick={() => setViewDevice(d)} style={{ padding: "3px 9px", borderRadius: 4, border: "none", background: viewDevice === d ? primaryOrange : "transparent", color: viewDevice === d ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>{d === "desktop" ? "💻" : "📲"} {d}</button>
-              ))}
-            </div>
-            <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6, gap: 2 }}>
-              {(["add", "edit"] as FormMode[]).map(m => (
-                <button key={m} onClick={() => setMode(m)} style={{ padding: "3px 9px", borderRadius: 4, border: "none", background: mode === m ? secondaryGold : "transparent", color: mode === m ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 600, cursor: "pointer", textTransform: "capitalize" }}>{m === "add" ? "Add Mode" : "Edit Mode"}</button>
-              ))}
-            </div>
-            <button onClick={onToggleDark} style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.1)", color: "#F9FAFB", fontSize: 11, cursor: "pointer" }}>{dm ? "☀️" : "🌙"}</button>
-          </div>
-        </header>
+
 
         <div style={{ flex: 1, maxWidth: 1440, width: "100%", margin: "0 auto", background: surface, display: "flex", flexDirection: "column" }}>
 
@@ -428,13 +409,7 @@ export default function VehicleFormScreen({ mode: initialMode = "add", darkMode,
   function renderMobile() {
     return (
       <div style={{ width: "100%", minHeight: "100vh", background: bg, fontFamily: "'Inter', -apple-system, sans-serif", color: primaryText, display: "flex", flexDirection: "column" }}>
-        <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: "#F9FAFB" }}>SCREEN 28 — {mode === "add" ? "ADD" : "EDIT"} VEHICLE</span>
-          <div style={{ display: "flex", gap: 6 }}>
-            <button onClick={() => setViewDevice("desktop")} style={{ padding: "3px 8px", borderRadius: 4, background: "rgba(255,255,255,0.1)", border: "none", color: "#94A3B8", fontSize: 11, cursor: "pointer" }}>💻</button>
-            <button onClick={onToggleDark} style={{ padding: "3px 8px", borderRadius: 4, background: "rgba(255,255,255,0.1)", border: "none", color: "#94A3B8", fontSize: 11, cursor: "pointer" }}>{dm ? "☀️" : "🌙"}</button>
-          </div>
-        </header>
+
         {toast && <div style={{ position: "fixed", top: 20, right: 16, zIndex: 1200, background: primaryOrange, color: "#FFF", padding: "12px 16px", borderRadius: 10, fontWeight: 700, fontSize: 13 }}>{toast}</div>}
         <div style={{ display: "flex", justifyContent: "center", padding: "16px 0 40px" }}>
           <div style={{ width: 390, minHeight: 844, background: surface, borderRadius: 24, border: `1px solid ${border}`, boxShadow: "0 20px 40px rgba(0,0,0,0.25)", overflow: "hidden", display: "flex", flexDirection: "column" }}>

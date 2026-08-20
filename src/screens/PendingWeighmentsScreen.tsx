@@ -172,7 +172,7 @@ export default function PendingWeighmentsScreen({ darkMode, onToggleDark, onLogo
     <div
       style={{
         width: "100%",
-        minHeight: "100vh",
+        flex: 1,
         background: bg,
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
         color: primaryText,
@@ -181,24 +181,23 @@ export default function PendingWeighmentsScreen({ darkMode, onToggleDark, onLogo
       }}
     >
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          TOP TOOLBAR / DEMO PRESET TESTER
+          OPERATOR PENDING WEIGHMENTS PRESET TOOLBAR (COMMENTED OUT)
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <header
+      {/*
+      <div
         style={{
-          width: "100%",
-          background: dm ? "#1F2937" : "#FFFFFF",
-          borderBottom: `1px solid ${dm ? "#374151" : "#E5E7EB"}`,
-          padding: "8px 20px",
+          margin: "16px 24px 0",
+          background: surface,
+          border: `1px solid ${border}`,
+          borderRadius: 12,
+          padding: "10px 20px",
           display: "flex",
           flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "space-between",
           gap: 10,
-          zIndex: 100,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
         }}
       >
-        {/* Title */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <button
             onClick={() => onNavigate("operator-dashboard")}
@@ -225,7 +224,6 @@ export default function PendingWeighmentsScreen({ darkMode, onToggleDark, onLogo
           </div>
         </div>
 
-        {/* Demo Presets Switcher */}
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
           <span style={{ fontSize: 10.5, color: "#94A3B8", fontWeight: 600, textTransform: "uppercase" }}>Queue State:</span>
           {[
@@ -253,7 +251,6 @@ export default function PendingWeighmentsScreen({ darkMode, onToggleDark, onLogo
           ))}
         </div>
 
-        {/* Viewport & Theme Controls */}
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6 }}>
             <button
@@ -319,7 +316,8 @@ export default function PendingWeighmentsScreen({ darkMode, onToggleDark, onLogo
             {dm ? "☀️ Light" : "🌙 Dark"}
           </button>
         </div>
-      </header>
+      </div>
+      */}
 
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           MAIN CANVAS — DESKTOP / TABLET / MOBILE VIEWPORTS
@@ -496,43 +494,6 @@ export default function PendingWeighmentsScreen({ darkMode, onToggleDark, onLogo
                 <p style={{ fontSize: 12, color: mutedText, margin: "2px 0 0 0" }}>
                   Vehicles that completed first weighing and are awaiting second tare weighing.
                 </p>
-              </div>
-
-              {/* Station Info & Operator */}
-              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                <button
-                  onClick={() => onNavigate("vehicle-entry")}
-                  style={{
-                    height: 42,
-                    padding: "0 18px",
-                    borderRadius: 8,
-                    background: primaryOrange,
-                    color: "#FFFFFF",
-                    fontSize: 13,
-                    fontWeight: 800,
-                    border: "none",
-                    cursor: "pointer",
-                    boxShadow: "0 4px 14px rgba(249,115,22,0.3)",
-                  }}
-                >
-                  + START NEW WEIGHMENT
-                </button>
-
-                <div style={{ height: 28, width: 1, background: border }} />
-
-                <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: primaryText }}>WB-01 — Main Gate</div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: statusOnline }}>
-                    ● ONLINE
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 34, height: 34, borderRadius: 999, background: primaryOrange, color: "#FFF", fontWeight: 800, fontSize: 13, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    AK
-                  </div>
-                  <div style={{ fontSize: 12.5, fontWeight: 700, color: primaryText }}>Arun Kumar</div>
-                </div>
               </div>
             </header>
 

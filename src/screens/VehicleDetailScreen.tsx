@@ -57,26 +57,7 @@ export default function VehicleDetailScreen({ darkMode, onToggleDark, onLogout, 
   function renderDesktop() {
     return (
       <div style={{ width: "100%", minHeight: "100vh", background: bg, fontFamily: "'Inter', -apple-system, sans-serif", color: primaryText, display: "flex", flexDirection: "column" }}>
-        {/* Testing Bar */}
-        <header style={{ background: dm ? "#1F2937" : "#0F172A", borderBottom: `1px solid ${border}`, padding: "8px 20px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10, zIndex: 100 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <button onClick={() => onNavigate("vehicles")} style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#FFF", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>← Vehicles</button>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#F9FAFB" }}>VEHICLE DETAIL</div>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6, gap: 2 }}>
-              {(["desktop", "mobile"] as ViewDevice[]).map(d => (
-                <button key={d} onClick={() => setViewDevice(d)} style={{ padding: "3px 9px", borderRadius: 4, border: "none", background: viewDevice === d ? primaryOrange : "transparent", color: viewDevice === d ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>{d === "desktop" ? "💻" : "📲"} {d}</button>
-              ))}
-            </div>
-            <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6, gap: 2 }}>
-              {(["admin", "operator"] as UserRole[]).map(r => (
-                <button key={r} onClick={() => setRole(r)} style={{ padding: "3px 9px", borderRadius: 4, border: "none", background: role === r ? secondaryGold : "transparent", color: role === r ? "#FFF" : "#94A3B8", fontSize: 11, fontWeight: 600, cursor: "pointer", textTransform: "capitalize" }}>{r}</button>
-              ))}
-            </div>
-            <button onClick={onToggleDark} style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.1)", color: "#F9FAFB", fontSize: 11, cursor: "pointer" }}>{dm ? "☀️" : "🌙"}</button>
-          </div>
-        </header>
+
 
         {/* Main Shell */}
         <div style={{ flex: 1, maxWidth: 1440, width: "100%", margin: "0 auto", background: surface, display: "flex", flexDirection: "column", minHeight: "calc(100vh - 49px)" }}>
