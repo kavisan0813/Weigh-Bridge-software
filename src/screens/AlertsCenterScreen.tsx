@@ -921,7 +921,7 @@ export default function AlertsCenterScreen({
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(5, 1fr)",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
                 gap: 16,
               }}
             >
@@ -968,44 +968,50 @@ export default function AlertsCenterScreen({
                     background: surface,
                     borderRadius: 12,
                     border: `1px solid ${border}`,
-                    padding: 18,
-                    position: "relative",
-                    overflow: "hidden",
+                    padding: "20px 22px",
                   }}
                 >
                   <div
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: 4,
-                      height: "100%",
-                      background: kpi.accent,
-                    }}
-                  />
-                  <div
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 800,
-                      color: mutedText,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
                   >
-                    {kpi.label}
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 800,
+                        color: kpi.label === "TOTAL ALERTS" ? mutedText : kpi.accent,
+                        letterSpacing: "0.05em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {kpi.label}
+                    </span>
+                    {kpi.label !== "TOTAL ALERTS" && (
+                      <span
+                        style={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          background: kpi.accent,
+                        }}
+                      />
+                    )}
                   </div>
                   <div
                     style={{
-                      fontSize: 26,
-                      fontWeight: 900,
+                      fontSize: 32,
+                      fontWeight: 800,
                       color: kpi.color,
-                      marginTop: 4,
-                      fontFamily: "Inter, sans-serif",
+                      margin: "6px 0 2px",
+                      fontFamily: "monospace",
                     }}
                   >
                     {kpi.val}
                   </div>
-                  <div style={{ fontSize: 11, color: mutedText, marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: secondaryText }}>
                     {kpi.sub}
                   </div>
                 </div>
