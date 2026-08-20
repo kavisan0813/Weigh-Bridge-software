@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@theme inline {
+  /* Primary — Soft Orange */
+  --color-wb-orange: #F97316;
+  --color-wb-orange-hover: #EA580C;
+  --color-wb-orange-pressed: #C2410C;
+  --color-wb-orange-soft: #FFF7ED;
+  --color-wb-orange-light: #FFEDD5;
+
+  /* Secondary — Gold */
+  --color-wb-gold: #C99A2E;
+  --color-wb-gold-dark: #8C6415;
+  --color-wb-gold-hover: #A97C1F;
+  --color-wb-gold-soft: #FFFBEB;
+  --color-wb-gold-light: #FEF3C7;
+
+  /* Light Mode Neutrals */
+  --color-wb-bg: #F8FAFC;
+  --color-wb-surface: #FFFFFF;
+  --color-wb-surface-elevated: #FFFFFF;
+  --color-wb-text: #111827;
+  --color-wb-text-secondary: #4B5563;
+  --color-wb-text-muted: #6B7280;
+  --color-wb-border: #E5E7EB;
+  --color-wb-divider: #F1F5F9;
+  --color-wb-input-bg: #FFFFFF;
+  --color-wb-disabled-bg: #F1F5F9;
+
+  /* Sidebar Light Mode */
+  --color-wb-sidebar: #FFFFFF;
+  --color-wb-sidebar-text: #111827;
+
+  /* Dark Mode Neutrals */
+  --color-wb-dark-bg: #111827;
+  --color-wb-dark-surface: #1F2937;
+  --color-wb-dark-elevated: #273449;
+  --color-wb-dark-text: #F9FAFB;
+  --color-wb-dark-text-secondary: #D1D5DB;
+  --color-wb-dark-text-muted: #9CA3AF;
+  --color-wb-dark-border: #374151;
+  --color-wb-dark-orange: #FB923C;
+  --color-wb-dark-orange-hover: #F97316;
+  --color-wb-dark-gold: #D4A83A;
+  --color-wb-dark-gold-hover: #C99A2E;
+  --color-wb-dark-gold-soft: #422F0A;
+  --color-wb-dark-gold-light: #5A430E;
+
+  /* Status Colors */
+  --color-wb-success: #16A34A;
+  --color-wb-warning: #F59E0B;
+  --color-wb-error: #DC2626;
+  --color-wb-info: #2563EB;
+  --color-wb-purple: #8B5CF6;
+  --color-wb-neutral: #64748B;
+}
+
+:root {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Tabular numbers for weights, quantities, ticket numbers, financial metrics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}

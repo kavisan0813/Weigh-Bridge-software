@@ -1,0 +1,10 @@
+{
+  "description": "Streamline weighbridge management for admins with real-time monitoring, KPI insights, and operational control across multiple weighbridges.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
