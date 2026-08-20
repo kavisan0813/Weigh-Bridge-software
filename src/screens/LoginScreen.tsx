@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { authService } from "../services/authService";
 
 type RoleMode = "operator" | "admin";
 type ScreenState =
@@ -99,8 +100,8 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
   const [activeState, setActiveState] = useState<ScreenState>("default");
 
   // Form Fields
-  const [operatorId, setOperatorId] = useState("EMP-0012");
-  const [password, setPassword] = useState("••••••••");
+  const [operatorId, setOperatorId] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [selectedWbId, setSelectedWbId] = useState<string>("WB-01");
   const [filterAssignedOnly, setFilterAssignedOnly] = useState(false);
@@ -111,7 +112,29 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
   const [idFocused, setIdFocused] = useState(false);
   const [passFocused, setPassFocused] = useState(false);
   const [wbDropdownOpen, setWbDropdownOpen] = useState(false);
+  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [loadingStepText, setLoadingStepText] = useState("");
+  const [authErrorMessage, setAuthErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Close role switcher dropdown when clicking outside
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        !target.closest("#role-switcher-desktop") &&
+        !target.closest("#role-switcher-mobile")
+      ) {
+        setRoleDropdownOpen(false);
+      }
+    };
+    if (roleDropdownOpen) {
+      document.addEventListener("click", handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [roleDropdownOpen]);
 
   // Dark Mode Tokens
   const dm = darkMode;
@@ -147,57 +170,65 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
 
   const selectedWb = WEIGHBRIDGES.find((w) => w.id === selectedWbId);
 
-  // Quick State Trigger
-  const triggerStatePreset = (state: ScreenState) => {
-    setActiveState(state);
-    if (state === "no-wb") {
-      setSelectedWbId("");
-    } else if (state === "wb-offline") {
-      setSelectedWbId("WB-05");
-    } else if (state === "device-error") {
-      setSelectedWbId("WB-04");
-    } else if (state === "id-error") {
-      setOperatorId("");
-    } else if (state === "default") {
-      setOperatorId("EMP-0012");
-      setPassword("••••••••");
-      setSelectedWbId("WB-01");
-    } else if (state === "locked" || state === "disabled" || state === "invalid-creds") {
-      setSelectedWbId("WB-01");
-    }
-  };
+  // Dynamic Role Flag strictly tied to selected role mode
+  const isAdminRole = roleMode === "admin";
 
-  const handleStartWeighbridge = (e: React.FormEvent) => {
+  const handleStartWeighbridge = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
+    setAuthErrorMessage("");
 
     // Validation checks
     if (!operatorId.trim()) {
       setActiveState("id-error");
+      setAuthErrorMessage("Enter your username.");
       return;
     }
-    if (!selectedWbId) {
-      setActiveState("no-wb");
+    if (!password.trim()) {
+      setAuthErrorMessage("Enter your password.");
       return;
     }
-    if (selectedWb && selectedWb.status === "OFFLINE") {
-      setActiveState("wb-offline");
-      return;
+
+    // Only validate selected station for Operator role
+    if (!isAdminRole) {
+      if (!selectedWbId) {
+        setActiveState("no-wb");
+        return;
+      }
+      if (selectedWb && selectedWb.status === "OFFLINE") {
+        setActiveState("wb-offline");
+        return;
+      }
     }
 
     // Trigger authenticating state animation
+    setIsSubmitting(true);
     setActiveState("authenticating");
-    setLoadingStepText("Authenticating Operator ID & Credentials...");
+    setLoadingStepText("Authenticating User Credentials...");
+
+    const result = await authService.authenticate(operatorId, password, selectedWbId);
+
+    // Enforce credential-based role matching: selected role must match actual account role
+    if (!result.success || (result.session && result.session.role !== roleMode)) {
+      setIsSubmitting(false);
+      setActiveState("invalid-creds");
+      setAuthErrorMessage("Invalid username or password.");
+      return;
+    }
+
+    setActiveState("connecting");
+    setLoadingStepText(`Establishing session for ${result.session?.user}...`);
 
     setTimeout(() => {
-      setActiveState("connecting");
-      setLoadingStepText(`Establishing secure link to ${selectedWbId || "WB-01"} Workstation...`);
+      setActiveState("success");
       setTimeout(() => {
-        setActiveState("success");
-        setTimeout(() => {
-          onLogin(roleMode);
-        }, 1200);
-      }, 1000);
-    }, 1000);
+        setIsSubmitting(false);
+        if (result.session) {
+          onLogin(result.session.role);
+        }
+      }, 500);
+    }, 500);
   };
 
   return (
@@ -214,209 +245,6 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
         justifyContent: "flex-start",
       }}
     >
-      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          TOP DEMO CONTROL BAR (Master Design System Toolbar)
-         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <header
-        style={{
-          width: "100%",
-          background: dm ? "#1F2937" : "#FFFFFF",
-          borderBottom: `1px solid ${dm ? "#374151" : "#E5E7EB"}`,
-          padding: "10px 20px",
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 12,
-          zIndex: 100,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-        }}
-      >
-        {/* Left: Role Switcher & System Title */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div
-              style={{
-                width: 28,
-                height: 28,
-                borderRadius: 6,
-                background: primaryOrange,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: 800,
-                color: "#FFF",
-                fontSize: 14,
-              }}
-            >
-              ⚖
-            </div>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#F9FAFB", letterSpacing: "0.03em" }}>
-                WEIGHBRIDGE MANAGEMENT SOFTWARE
-              </div>
-              <div style={{ fontSize: 10, color: secondaryGold, fontWeight: 600 }}>
-                SCREEN 19 — OPERATOR LOGIN
-              </div>
-            </div>
-          </div>
-
-          <div style={{ height: 24, width: 1, background: "rgba(255,255,255,0.15)" }} />
-
-          {/* Role selector */}
-          <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6 }}>
-            <button
-              onClick={() => setRoleMode("operator")}
-              style={{
-                padding: "5px 12px",
-                borderRadius: 4,
-                border: "none",
-                background: roleMode === "operator" ? primaryOrange : "transparent",
-                color: roleMode === "operator" ? "#FFFFFF" : "#94A3B8",
-                fontSize: 11.5,
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 5,
-              }}
-            >
-              <span>👤</span> Operator Login
-            </button>
-            <button
-              onClick={() => {
-                setRoleMode("admin");
-                onLogin("admin");
-              }}
-              style={{
-                padding: "5px 12px",
-                borderRadius: 4,
-                border: "none",
-                background: roleMode === "admin" ? secondaryGold : "transparent",
-                color: roleMode === "admin" ? "#FFFFFF" : "#94A3B8",
-                fontSize: 11.5,
-                fontWeight: 600,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: 5,
-              }}
-            >
-              <span>🛡️</span> Switch to Admin Login
-            </button>
-          </div>
-        </div>
-
-        {/* Center: State Presets Tester */}
-        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-          <span style={{ fontSize: 10.5, color: "#94A3B8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            Login State Simulator:
-          </span>
-          {[
-            { id: "default", label: "Default" },
-            { id: "id-error", label: "ID Error" },
-            { id: "invalid-creds", label: "Invalid Creds" },
-            { id: "no-wb", label: "No WB" },
-            { id: "wb-offline", label: "WB Offline" },
-            { id: "device-error", label: "Device Warning" },
-            { id: "authenticating", label: "Authenticating" },
-            { id: "locked", label: "Account Locked" },
-            { id: "disabled", label: "Disabled" },
-          ].map((st) => (
-            <button
-              key={st.id}
-              onClick={() => triggerStatePreset(st.id as ScreenState)}
-              style={{
-                padding: "4px 9px",
-                borderRadius: 4,
-                fontSize: 11,
-                fontWeight: activeState === st.id ? 700 : 500,
-                border: activeState === st.id ? `1px solid ${secondaryGold}` : "1px solid rgba(255,255,255,0.15)",
-                background: activeState === st.id ? "rgba(201,154,46,0.25)" : "rgba(255,255,255,0.05)",
-                color: activeState === st.id ? "#FDE047" : "#CBD5E1",
-                cursor: "pointer",
-              }}
-            >
-              {st.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Right: Device Viewport Controls & Dark Mode */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {/* Device Frame selector */}
-          <div style={{ display: "flex", background: "rgba(255,255,255,0.08)", padding: 3, borderRadius: 6 }}>
-            <button
-              onClick={() => setViewDevice("desktop")}
-              style={{
-                padding: "4px 10px",
-                borderRadius: 4,
-                border: "none",
-                background: viewDevice === "desktop" ? "rgba(255,255,255,0.2)" : "transparent",
-                color: viewDevice === "desktop" ? "#FFF" : "#94A3B8",
-                fontSize: 11,
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-              title="Desktop 1440 x 1024 Split View"
-            >
-              💻 Desktop
-            </button>
-            <button
-              onClick={() => setViewDevice("tablet")}
-              style={{
-                padding: "4px 10px",
-                borderRadius: 4,
-                border: "none",
-                background: viewDevice === "tablet" ? "rgba(255,255,255,0.2)" : "transparent",
-                color: viewDevice === "tablet" ? "#FFF" : "#94A3B8",
-                fontSize: 11,
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-              title="Tablet Layout"
-            >
-              📱 Tablet
-            </button>
-            <button
-              onClick={() => setViewDevice("mobile")}
-              style={{
-                padding: "4px 10px",
-                borderRadius: 4,
-                border: "none",
-                background: viewDevice === "mobile" ? primaryOrange : "transparent",
-                color: viewDevice === "mobile" ? "#FFF" : "#94A3B8",
-                fontSize: 11,
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-              title="Mobile 390 x 844 Touch View"
-            >
-              📲 Mobile (390×844)
-            </button>
-          </div>
-
-          <button
-            onClick={onToggleDark}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "5px 12px",
-              borderRadius: 6,
-              border: "1px solid rgba(255,255,255,0.2)",
-              background: "rgba(255,255,255,0.1)",
-              color: "#F9FAFB",
-              fontSize: 11.5,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            {dm ? "☀️ Light" : "🌙 Dark"}
-          </button>
-        </div>
-      </header>
-
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           MAIN CANVAS CONTAINING DESKTOP / TABLET / MOBILE FRAME
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
@@ -474,25 +302,120 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                     width: 36,
                     height: 36,
                     borderRadius: 8,
-                    background: primaryOrange,
+                    background: isAdminRole ? secondaryGold : primaryOrange,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    boxShadow: "0 2px 8px rgba(249,115,22,0.35)",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
                   }}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2">
-                    <path d="M12 2a3 3 0 0 0-3 3c0 1.5.83 2.8 2 3.46V10H7l-2 12h14L17 10h-4V8.46A3.5 3.5 0 0 0 15 5a3 3 0 0 0-3-3z" />
-                  </svg>
+                  <span style={{ fontSize: 18, color: "#FFF" }}>{isAdminRole ? "🛡️" : "⚖"}</span>
                 </div>
                 <div>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: primaryOrange, letterSpacing: "0.1em" }}>
+                  <div style={{ fontSize: 12, fontWeight: 800, color: isAdminRole ? secondaryGold : primaryOrange, letterSpacing: "0.1em" }}>
                     WEIGHBRIDGE
                   </div>
                   <div style={{ fontSize: 10, color: mutedText, fontWeight: 600 }}>
-                    OPERATOR PORTAL
+                    {isAdminRole ? "MANAGEMENT PORTAL" : "OPERATOR PORTAL"}
                   </div>
                 </div>
+              </div>
+
+              {/* Role Switcher Badge directly above Welcome Back */}
+              <div id="role-switcher-mobile" style={{ position: "relative", display: "inline-block", marginBottom: 14 }}>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setRoleDropdownOpen((v) => !v);
+                  }}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "6px 12px",
+                    borderRadius: 6,
+                    background: roleMode === "admin" ? secondaryGoldSoft : primaryOrangeSoft,
+                    border: `1px solid ${roleMode === "admin" ? (dm ? "#5A430E" : "#FEF3C7") : (dm ? "#5A430E" : "#FFEDD5")}`,
+                    color: roleMode === "admin" ? secondaryGold : primaryOrange,
+                    fontSize: 11.5,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+                  }}
+                >
+                  <span>{roleMode === "admin" ? "🛡 ADMINISTRATOR LOGIN" : "👤 OPERATOR / EMPLOYEE LOGIN"}</span>
+                  <span style={{ fontSize: 10, opacity: 0.8, marginLeft: 2 }}>▼</span>
+                </button>
+
+                {roleDropdownOpen && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      marginTop: 6,
+                      width: 230,
+                      background: surface,
+                      borderRadius: 8,
+                      border: `1px solid ${border}`,
+                      boxShadow: "0 10px 25px rgba(0,0,0,0.25)",
+                      zIndex: 100,
+                      padding: 4,
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRoleMode("operator");
+                        setRoleDropdownOpen(false);
+                        setAuthErrorMessage("");
+                      }}
+                      style={{
+                        width: "100%",
+                        padding: "9px 12px",
+                        borderRadius: 6,
+                        border: "none",
+                        background: roleMode === "operator" ? primaryOrangeSoft : "transparent",
+                        color: roleMode === "operator" ? primaryOrange : primaryText,
+                        fontSize: 12,
+                        fontWeight: roleMode === "operator" ? 700 : 600,
+                        textAlign: "left",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                      }}
+                    >
+                      <span>👤</span> OPERATOR / EMPLOYEE
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRoleMode("admin");
+                        setRoleDropdownOpen(false);
+                        setAuthErrorMessage("");
+                      }}
+                      style={{
+                        width: "100%",
+                        padding: "9px 12px",
+                        borderRadius: 6,
+                        border: "none",
+                        background: roleMode === "admin" ? secondaryGoldSoft : "transparent",
+                        color: roleMode === "admin" ? secondaryGold : primaryText,
+                        fontSize: 12,
+                        fontWeight: roleMode === "admin" ? 700 : 600,
+                        textAlign: "left",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                      }}
+                    >
+                      <span>🛡</span> ADMINISTRATOR
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Title */}
@@ -501,46 +424,45 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                   Welcome Back
                 </h2>
                 <p style={{ fontSize: 13, color: secondaryText, margin: 0 }}>
-                  Sign in to start your weighbridge operations.
+                  {roleMode === "admin" ? "Sign in to access your weighbridge management system." : "Sign in to start your weighbridge operations."}
                 </p>
-              </div>
-
-              {/* Role Confirmation Banner */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "8px 12px",
-                  borderRadius: 8,
-                  background: secondaryGoldSoft,
-                  border: `1px solid ${dm ? "#5A430E" : "#FEF3C7"}`,
-                  marginBottom: 20,
-                  fontSize: 12,
-                  color: secondaryGold,
-                  fontWeight: 600,
-                }}
-              >
-                <span>👤</span>
-                Signing in as Weighbridge Operator
               </div>
 
               {/* Mobile Login Form */}
               <form onSubmit={handleStartWeighbridge} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {/* Operator ID */}
+                {(activeState === "invalid-creds" || authErrorMessage) && activeState !== "authenticating" && activeState !== "connecting" && activeState !== "success" && (
+                  <div
+                    style={{
+                      padding: "10px 12px",
+                      borderRadius: 8,
+                      background: dm ? "#450A0A" : "#FEF2F2",
+                      border: `1px solid ${statusOffline}`,
+                      color: statusOffline,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <span>⚠️</span>
+                    <span>{authErrorMessage || "Invalid username or password."}</span>
+                  </div>
+                )}
+                {/* ID Field */}
                 <div>
                   <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: secondaryText, marginBottom: 6 }}>
-                    Operator ID *
+                    {isAdminRole ? "Administrator ID *" : "Operator ID *"}
                   </label>
                   <div style={{ position: "relative" }}>
                     <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: mutedText }}>
-                      👤
+                      {isAdminRole ? "🛡️" : "👤"}
                     </span>
                     <input
                       type="text"
                       value={operatorId}
                       onChange={(e) => setOperatorId(e.target.value)}
-                      placeholder="e.g. EMP-0012"
+                      placeholder={isAdminRole ? "e.g. ADM-0001 or admin" : "e.g. EMP-0012 or operator"}
                       style={{
                         width: "100%",
                         height: 48,
@@ -558,7 +480,7 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                   </div>
                   {activeState === "id-error" && (
                     <div style={{ fontSize: 11, color: statusOffline, marginTop: 4, fontWeight: 500 }}>
-                      ⚠️ Operator ID is required.
+                      ⚠️ {isAdminRole ? "Administrator ID" : "Operator ID"} is required.
                     </div>
                   )}
                 </div>
@@ -611,91 +533,140 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                   </div>
                 </div>
 
-                {/* Weighbridge Selection via Bottom Sheet Trigger */}
-                <div>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: secondaryText, marginBottom: 6 }}>
-                    Weighbridge Station *
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setIsBottomSheetOpen(true)}
-                    style={{
-                      width: "100%",
-                      minHeight: 48,
-                      padding: "10px 14px",
-                      borderRadius: 8,
-                      border: activeState === "no-wb" ? `1.5px solid ${statusOffline}` : `1px solid ${border}`,
-                      background: inputBg,
-                      color: primaryText,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      cursor: "pointer",
-                      textAlign: "left",
-                    }}
-                  >
-                    <div>
-                      {selectedWb ? (
-                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <span
-                            style={{
-                              width: 8,
-                              height: 8,
-                              borderRadius: "50%",
-                              background: selectedWb.status === "ONLINE" ? statusOnline : statusOffline,
-                            }}
-                          />
-                          <span style={{ fontWeight: 700, fontSize: 13 }}>{selectedWb.id}</span>
-                          <span style={{ fontSize: 12, color: mutedText }}>— {selectedWb.location}</span>
-                        </div>
-                      ) : (
-                        <span style={{ color: mutedText, fontSize: 13 }}>Select Weighbridge...</span>
-                      )}
-                    </div>
-                    <span style={{ color: primaryOrange, fontWeight: 700, fontSize: 13 }}>Tap to Select ▼</span>
-                  </button>
-                  {activeState === "no-wb" && (
-                    <div style={{ fontSize: 11, color: statusOffline, marginTop: 4, fontWeight: 500 }}>
-                      ⚠️ Select a weighbridge to continue.
-                    </div>
-                  )}
-                </div>
+                {/* Operator-only: Weighbridge Station Picker */}
+                {!isAdminRole && (
+                  <div>
+                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: secondaryText, marginBottom: 6 }}>
+                      Weighbridge Station *
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setIsBottomSheetOpen(true)}
+                      style={{
+                        width: "100%",
+                        minHeight: 48,
+                        padding: "10px 14px",
+                        borderRadius: 8,
+                        border: activeState === "no-wb" ? `1.5px solid ${statusOffline}` : `1px solid ${border}`,
+                        background: inputBg,
+                        color: primaryText,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        cursor: "pointer",
+                        textAlign: "left",
+                      }}
+                    >
+                      <div>
+                        {selectedWb ? (
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span
+                              style={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: "50%",
+                                background: selectedWb.status === "ONLINE" ? statusOnline : statusOffline,
+                              }}
+                            />
+                            <span style={{ fontWeight: 700, fontSize: 13 }}>{selectedWb.id}</span>
+                            <span style={{ fontSize: 12, color: mutedText }}>— {selectedWb.location}</span>
+                          </div>
+                        ) : (
+                          <span style={{ color: mutedText, fontSize: 13 }}>Select Weighbridge...</span>
+                        )}
+                      </div>
+                      <span style={{ color: primaryOrange, fontWeight: 700, fontSize: 13 }}>Tap to Select ▼</span>
+                    </button>
+                    {activeState === "no-wb" && (
+                      <div style={{ fontSize: 11, color: statusOffline, marginTop: 4, fontWeight: 500 }}>
+                        ⚠️ Select a weighbridge to continue.
+                      </div>
+                    )}
+                  </div>
+                )}
 
-                {/* Selected WB Status Compact Card */}
-                {selectedWb && (
+                {/* Dynamic Status / Scope Card */}
+                {isAdminRole ? (
+                  /* ADMIN ACCESS SCOPE CARD */
                   <div
                     style={{
                       padding: 12,
                       borderRadius: 10,
                       background: dm ? "#111827" : "#F8FAFC",
-                      border: `1px solid ${selectedWb.status === "ONLINE" ? "rgba(22,163,74,0.3)" : "rgba(220,38,38,0.3)"}`,
+                      border: `1.5px solid ${secondaryGold}`,
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: primaryText }}>{selectedWb.id} ({selectedWb.location})</span>
-                      <span
-                        style={{
-                          fontSize: 10.5,
-                          fontWeight: 700,
-                          padding: "2px 8px",
-                          borderRadius: 999,
-                          background: selectedWb.status === "ONLINE" ? "rgba(22,163,74,0.15)" : "rgba(220,38,38,0.15)",
-                          color: selectedWb.status === "ONLINE" ? statusOnline : statusOffline,
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 4,
-                        }}
-                      >
-                        ● {selectedWb.status}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+                      <span style={{ fontSize: 10.5, fontWeight: 800, color: secondaryGold, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                        ACCESS SCOPE
+                      </span>
+                      <span style={{ fontSize: 10.5, fontWeight: 700, color: statusOnline }}>
+                        ● 5 STATIONS AVAILABLE
                       </span>
                     </div>
-
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, fontSize: 10.5, color: secondaryText }}>
-                      <div>Scale: <span style={{ color: selectedWb.weightIndicator ? statusOnline : statusOffline, fontWeight: 600 }}>{selectedWb.weightIndicator ? "✓ Ready" : "✕ Off"}</span></div>
-                      <div>Printer: <span style={{ color: selectedWb.printer ? statusOnline : statusOffline, fontWeight: 600 }}>{selectedWb.printer ? "✓ Ready" : "✕ Off"}</span></div>
-                      <div>Camera: <span style={{ color: selectedWb.camera ? statusOnline : statusOffline, fontWeight: 600 }}>{selectedWb.camera ? "✓ Ready" : "✕ Off"}</span></div>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: primaryText, marginBottom: 8 }}>
+                      All Weighbridges
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                      {WEIGHBRIDGES.map((wb) => (
+                        <div
+                          key={wb.id}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            padding: "4px 8px",
+                            borderRadius: 6,
+                            background: elevatedSurface,
+                            border: `1px solid ${border}`,
+                            fontSize: 11,
+                          }}
+                        >
+                          <span style={{ fontWeight: 700, color: primaryText }}>{wb.id} — {wb.location}</span>
+                          <span style={{ fontWeight: 800, color: wb.status === "ONLINE" ? statusOnline : statusOffline }}>
+                            ● {wb.status}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
+                ) : (
+                  /* OPERATOR STATION CARD */
+                  selectedWb && (
+                    <div
+                      style={{
+                        padding: 12,
+                        borderRadius: 10,
+                        background: dm ? "#111827" : "#F8FAFC",
+                        border: `1px solid ${selectedWb.status === "ONLINE" ? "rgba(22,163,74,0.3)" : "rgba(220,38,38,0.3)"}`,
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: primaryText }}>{selectedWb.id} ({selectedWb.location})</span>
+                        <span
+                          style={{
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            padding: "2px 8px",
+                            borderRadius: 999,
+                            background: selectedWb.status === "ONLINE" ? "rgba(22,163,74,0.15)" : "rgba(220,38,38,0.15)",
+                            color: selectedWb.status === "ONLINE" ? statusOnline : statusOffline,
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 4,
+                          }}
+                        >
+                          ● {selectedWb.status}
+                        </span>
+                      </div>
+
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, fontSize: 10.5, color: secondaryText }}>
+                        <div>Scale: <span style={{ color: selectedWb.weightIndicator ? statusOnline : statusOffline, fontWeight: 600 }}>{selectedWb.weightIndicator ? "✓ Ready" : "✕ Off"}</span></div>
+                        <div>Printer: <span style={{ color: selectedWb.printer ? statusOnline : statusOffline, fontWeight: 600 }}>{selectedWb.printer ? "✓ Ready" : "✕ Off"}</span></div>
+                        <div>Camera: <span style={{ color: selectedWb.camera ? statusOnline : statusOffline, fontWeight: 600 }}>{selectedWb.camera ? "✓ Ready" : "✕ Off"}</span></div>
+                      </div>
+                    </div>
+                  )
                 )}
 
                 {/* Remember Device */}
@@ -712,21 +683,21 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                 {/* Submit CTA */}
                 <button
                   type="submit"
-                  disabled={selectedWb?.status === "OFFLINE" || activeState === "locked" || activeState === "disabled"}
+                  disabled={isSubmitting || (!isAdminRole && selectedWb?.status === "OFFLINE") || activeState === "locked" || activeState === "disabled"}
                   style={{
                     width: "100%",
                     height: 48,
                     borderRadius: 8,
-                    background: selectedWb?.status === "OFFLINE" ? "#9CA3AF" : primaryOrange,
+                    background: isSubmitting || (!isAdminRole && selectedWb?.status === "OFFLINE") ? "#9CA3AF" : primaryOrange,
                     color: "#FFFFFF",
                     fontSize: 15,
                     fontWeight: 700,
                     border: "none",
-                    cursor: selectedWb?.status === "OFFLINE" ? "not-allowed" : "pointer",
-                    boxShadow: selectedWb?.status === "OFFLINE" ? "none" : "0 4px 12px rgba(249,115,22,0.3)",
+                    cursor: isSubmitting || (!isAdminRole && selectedWb?.status === "OFFLINE") ? "not-allowed" : "pointer",
+                    boxShadow: !isAdminRole && selectedWb?.status === "OFFLINE" ? "none" : "0 4px 12px rgba(249,115,22,0.3)",
                   }}
                 >
-                  START WEIGHBRIDGE →
+                  {isSubmitting ? "Signing in..." : isAdminRole ? "ACCESS ADMIN DASHBOARD →" : "START WEIGHBRIDGE →"}
                 </button>
               </form>
 
@@ -1123,22 +1094,104 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
             >
               {/* Login Card Header */}
               <div style={{ width: "100%", maxWidth: 440, margin: "0 auto" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      padding: "5px 12px",
-                      borderRadius: 6,
-                      background: primaryOrangeSoft,
-                      border: `1px solid ${dm ? "#5A430E" : "#FFEDD5"}`,
-                      color: primaryOrange,
-                      fontSize: 11.5,
-                      fontWeight: 700,
-                    }}
-                  >
-                    👤 OPERATOR / EMPLOYEE LOGIN
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+                  {/* Interactive Role Switcher Badge & Dropdown */}
+                  <div id="role-switcher-desktop" style={{ position: "relative", display: "inline-block" }}>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setRoleDropdownOpen((v) => !v);
+                      }}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                        padding: "6px 14px",
+                        borderRadius: 6,
+                        background: roleMode === "admin" ? secondaryGoldSoft : primaryOrangeSoft,
+                        border: `1px solid ${roleMode === "admin" ? (dm ? "#5A430E" : "#FEF3C7") : (dm ? "#5A430E" : "#FFEDD5")}`,
+                        color: roleMode === "admin" ? secondaryGold : primaryOrange,
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+                        transition: "all 0.15s ease-in-out",
+                      }}
+                    >
+                      <span>{roleMode === "admin" ? "🛡 ADMINISTRATOR LOGIN" : "👤 OPERATOR / EMPLOYEE LOGIN"}</span>
+                      <span style={{ fontSize: 10, opacity: 0.8, marginLeft: 2 }}>▼</span>
+                    </button>
+
+                    {/* Compact Dropdown Menu */}
+                    {roleDropdownOpen && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "100%",
+                          left: 0,
+                          marginTop: 6,
+                          width: 230,
+                          background: surface,
+                          borderRadius: 8,
+                          border: `1px solid ${border}`,
+                          boxShadow: "0 10px 25px rgba(0,0,0,0.25)",
+                          zIndex: 100,
+                          padding: 4,
+                        }}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setRoleMode("operator");
+                            setRoleDropdownOpen(false);
+                            setAuthErrorMessage("");
+                          }}
+                          style={{
+                            width: "100%",
+                            padding: "9px 12px",
+                            borderRadius: 6,
+                            border: "none",
+                            background: roleMode === "operator" ? primaryOrangeSoft : "transparent",
+                            color: roleMode === "operator" ? primaryOrange : primaryText,
+                            fontSize: 12,
+                            fontWeight: roleMode === "operator" ? 700 : 600,
+                            textAlign: "left",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8,
+                          }}
+                        >
+                          <span>👤</span> OPERATOR / EMPLOYEE
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setRoleMode("admin");
+                            setRoleDropdownOpen(false);
+                            setAuthErrorMessage("");
+                          }}
+                          style={{
+                            width: "100%",
+                            padding: "9px 12px",
+                            borderRadius: 6,
+                            border: "none",
+                            background: roleMode === "admin" ? secondaryGoldSoft : "transparent",
+                            color: roleMode === "admin" ? secondaryGold : primaryText,
+                            fontSize: 12,
+                            fontWeight: roleMode === "admin" ? 700 : 600,
+                            textAlign: "left",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8,
+                          }}
+                        >
+                          <span>🛡</span> ADMINISTRATOR
+                        </button>
+                      </div>
+                    )}
                   </div>
 
                   <span style={{ fontSize: 12, color: mutedText }}>
@@ -1151,12 +1204,12 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                     Welcome Back
                   </h2>
                   <p style={{ fontSize: 14, color: secondaryText, margin: 0, lineHeight: 1.5 }}>
-                    Sign in to start your weighbridge operations.
+                    {roleMode === "admin" ? "Sign in to access your weighbridge management system." : "Sign in to start your weighbridge operations."}
                   </p>
                 </div>
 
                 {/* State Banner Notifications */}
-                {activeState === "invalid-creds" && (
+                {(activeState === "invalid-creds" || authErrorMessage) && activeState !== "authenticating" && activeState !== "connecting" && activeState !== "success" && (
                   <div
                     style={{
                       marginBottom: 20,
@@ -1174,7 +1227,7 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                   >
                     <span style={{ fontSize: 16 }}>⚠️</span>
                     <div>
-                      <div>Invalid Operator ID or password.</div>
+                      <div>{authErrorMessage || "Invalid username or password."}</div>
                       <div style={{ fontSize: 11.5, fontWeight: 400, opacity: 0.9, marginTop: 2 }}>
                         Please check your credentials and try again.
                       </div>
@@ -1285,7 +1338,7 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                     <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
                       <button
                         type="button"
-                        onClick={() => triggerStatePreset("default")}
+                        onClick={() => setActiveState("default")}
                         style={{
                           padding: "6px 12px",
                           borderRadius: 6,
@@ -1335,20 +1388,20 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                       {activeState === "success" ? "✓" : "⏳"}
                     </div>
                     <div style={{ fontSize: 15, fontWeight: 800, color: activeState === "success" ? statusOnline : primaryOrange }}>
-                      {activeState === "success" ? "Welcome, Arun Kumar" : "Authenticating..."}
+                      {activeState === "success" ? `Welcome, ${operatorId}` : "Authenticating..."}
                     </div>
                     <div style={{ fontSize: 13, color: secondaryText, marginTop: 4, fontWeight: 500 }}>
-                      {activeState === "success" ? `${selectedWbId} — Main Gate ● READY. Launching workstation...` : loadingStepText}
+                      {activeState === "success" ? "Launching session..." : loadingStepText}
                     </div>
                   </div>
                 )}
 
                 {/* Form */}
                 <form onSubmit={handleStartWeighbridge} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-                  {/* Field 1: Operator ID */}
+                  {/* Field 1: User ID */}
                   <div>
                     <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: secondaryText, marginBottom: 6 }}>
-                      Operator ID *
+                      {isAdminRole ? "Administrator ID *" : "Operator ID *"}
                     </label>
                     <div style={{ position: "relative" }}>
                       <span
@@ -1361,7 +1414,7 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                           fontSize: 15,
                         }}
                       >
-                        👤
+                        {isAdminRole ? "🛡️" : "👤"}
                       </span>
                       <input
                         type="text"
@@ -1372,7 +1425,7 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                         }}
                         onFocus={() => setIdFocused(true)}
                         onBlur={() => setIdFocused(false)}
-                        placeholder="e.g. EMP-0012"
+                        placeholder={isAdminRole ? "e.g. ADM-0001 or admin" : "e.g. EMP-0012 or operator"}
                         style={{
                           width: "100%",
                           height: 48,
@@ -1396,7 +1449,7 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                     </div>
                     {activeState === "id-error" && (
                       <div style={{ fontSize: 12, color: statusOffline, marginTop: 6, fontWeight: 500 }}>
-                        ⚠️ Operator ID is required.
+                        ⚠️ {isAdminRole ? "Administrator ID" : "Operator ID"} is required.
                       </div>
                     )}
                   </div>
@@ -1463,238 +1516,301 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                     </div>
                   </div>
 
-                  {/* Field 3: Weighbridge Selection */}
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: secondaryText }}>
-                        Weighbridge Station *
-                      </label>
-                      <label style={{ fontSize: 11.5, color: secondaryGold, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontWeight: 600 }}>
-                        <input
-                          type="checkbox"
-                          checked={filterAssignedOnly}
-                          onChange={(e) => setFilterAssignedOnly(e.target.checked)}
-                          style={{ accentColor: secondaryGold }}
-                        />
-                        Only Assigned to Me
-                      </label>
-                    </div>
+                  {/* Field 3: Operator-only Weighbridge Selection */}
+                  {!isAdminRole && (
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+                        <label style={{ fontSize: 13, fontWeight: 600, color: secondaryText }}>
+                          Weighbridge Station *
+                        </label>
+                        <label style={{ fontSize: 11.5, color: secondaryGold, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontWeight: 600 }}>
+                          <input
+                            type="checkbox"
+                            checked={filterAssignedOnly}
+                            onChange={(e) => setFilterAssignedOnly(e.target.checked)}
+                            style={{ accentColor: secondaryGold }}
+                          />
+                          Only Assigned to Me
+                        </label>
+                      </div>
 
-                    <div style={{ position: "relative" }}>
-                      <button
-                        type="button"
-                        onClick={() => setWbDropdownOpen(!wbDropdownOpen)}
-                        style={{
-                          width: "100%",
-                          height: 48,
-                          padding: "0 14px",
-                          borderRadius: 8,
-                          border: activeState === "no-wb" ? `1.5px solid ${statusOffline}` : `1px solid ${border}`,
-                          background: inputBg,
-                          color: primaryText,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          fontSize: 14,
-                          cursor: "pointer",
-                          textAlign: "left",
-                        }}
-                      >
-                        {selectedWb ? (
-                          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                            <span
-                              style={{
-                                width: 9,
-                                height: 9,
-                                borderRadius: "50%",
-                                background: selectedWb.status === "ONLINE" ? statusOnline : statusOffline,
-                              }}
-                            />
-                            <span style={{ fontWeight: 700 }}>{selectedWb.id}</span>
-                            <span style={{ color: secondaryText }}>— {selectedWb.name}</span>
-                          </div>
-                        ) : (
-                          <span style={{ color: mutedText }}>Select Weighbridge...</span>
-                        )}
-                        <span style={{ color: mutedText, fontSize: 12 }}>▼</span>
-                      </button>
-
-                      {/* Dropdown Options List */}
-                      {wbDropdownOpen && (
-                        <div
+                      <div style={{ position: "relative" }}>
+                        <button
+                          type="button"
+                          onClick={() => setWbDropdownOpen(!wbDropdownOpen)}
                           style={{
-                            position: "absolute",
-                            top: "100%",
-                            left: 0,
-                            right: 0,
-                            marginTop: 4,
-                            background: surface,
-                            borderRadius: 10,
-                            border: `1px solid ${border}`,
-                            boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-                            zIndex: 50,
-                            maxHeight: 240,
-                            overflowY: "auto",
+                            width: "100%",
+                            height: 48,
+                            padding: "0 14px",
+                            borderRadius: 8,
+                            border: activeState === "no-wb" ? `1.5px solid ${statusOffline}` : `1px solid ${border}`,
+                            background: inputBg,
+                            color: primaryText,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            fontSize: 14,
+                            cursor: "pointer",
+                            textAlign: "left",
                           }}
                         >
-                          {availableWbs.map((wb) => (
-                            <div
-                              key={wb.id}
-                              onClick={() => {
-                                setSelectedWbId(wb.id);
-                                setWbDropdownOpen(false);
-                                if (wb.status === "OFFLINE") {
-                                  setActiveState("wb-offline");
-                                } else {
-                                  setActiveState("default");
-                                }
-                              }}
-                              style={{
-                                padding: "12px 14px",
-                                cursor: "pointer",
-                                borderBottom: `1px solid ${divider}`,
-                                background: wb.id === selectedWbId ? primaryOrangeSoft : "transparent",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <div>
-                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                  <span style={{ fontWeight: 700, fontSize: 13, color: wb.id === selectedWbId ? primaryOrange : primaryText }}>
-                                    {wb.id}
-                                  </span>
-                                  <span style={{ fontSize: 12, color: secondaryText }}>{wb.name}</span>
-                                  {wb.assigned && (
-                                    <span
-                                      style={{
-                                        fontSize: 10,
-                                        padding: "1px 6px",
-                                        borderRadius: 4,
-                                        background: "rgba(201,154,46,0.15)",
-                                        color: secondaryGold,
-                                        fontWeight: 600,
-                                      }}
-                                    >
-                                      Assigned
-                                    </span>
-                                  )}
-                                </div>
-                                <div style={{ fontSize: 11, color: mutedText, marginTop: 2 }}>Location: {wb.location}</div>
-                              </div>
+                          {selectedWb ? (
+                            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                               <span
                                 style={{
-                                  fontSize: 11,
-                                  fontWeight: 700,
-                                  color: wb.status === "ONLINE" ? statusOnline : statusOffline,
+                                  width: 9,
+                                  height: 9,
+                                  borderRadius: "50%",
+                                  background: selectedWb.status === "ONLINE" ? statusOnline : statusOffline,
+                                }}
+                              />
+                              <span style={{ fontWeight: 700 }}>{selectedWb.id}</span>
+                              <span style={{ color: secondaryText }}>— {selectedWb.name}</span>
+                            </div>
+                          ) : (
+                            <span style={{ color: mutedText }}>Select Weighbridge...</span>
+                          )}
+                          <span style={{ color: mutedText, fontSize: 12 }}>▼</span>
+                        </button>
+
+                        {/* Dropdown Options List */}
+                        {wbDropdownOpen && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "100%",
+                              left: 0,
+                              right: 0,
+                              marginTop: 4,
+                              background: surface,
+                              borderRadius: 10,
+                              border: `1px solid ${border}`,
+                              boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                              zIndex: 50,
+                              maxHeight: 240,
+                              overflowY: "auto",
+                            }}
+                          >
+                            {availableWbs.map((wb) => (
+                              <div
+                                key={wb.id}
+                                onClick={() => {
+                                  setSelectedWbId(wb.id);
+                                  setWbDropdownOpen(false);
+                                  if (wb.status === "OFFLINE") {
+                                    setActiveState("wb-offline");
+                                  } else {
+                                    setActiveState("default");
+                                  }
+                                }}
+                                style={{
+                                  padding: "12px 14px",
+                                  cursor: "pointer",
+                                  borderBottom: `1px solid ${divider}`,
+                                  background: wb.id === selectedWbId ? primaryOrangeSoft : "transparent",
                                   display: "flex",
                                   alignItems: "center",
-                                  gap: 4,
+                                  justifyContent: "space-between",
                                 }}
                               >
-                                ● {wb.status}
-                              </span>
-                            </div>
-                          ))}
+                                <div>
+                                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                    <span style={{ fontWeight: 700, fontSize: 13, color: wb.id === selectedWbId ? primaryOrange : primaryText }}>
+                                      {wb.id}
+                                    </span>
+                                    <span style={{ fontSize: 12, color: secondaryText }}>{wb.name}</span>
+                                    {wb.assigned && (
+                                      <span
+                                        style={{
+                                          fontSize: 10,
+                                          padding: "1px 6px",
+                                          borderRadius: 4,
+                                          background: "rgba(201,154,46,0.15)",
+                                          color: secondaryGold,
+                                          fontWeight: 600,
+                                        }}
+                                      >
+                                        Assigned
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div style={{ fontSize: 11, color: mutedText, marginTop: 2 }}>Location: {wb.location}</div>
+                                </div>
+                                <span
+                                  style={{
+                                    fontSize: 11,
+                                    fontWeight: 700,
+                                    color: wb.status === "ONLINE" ? statusOnline : statusOffline,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 4,
+                                  }}
+                                >
+                                  ● {wb.status}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      {activeState === "no-wb" && (
+                        <div style={{ fontSize: 12, color: statusOffline, marginTop: 6, fontWeight: 500 }}>
+                          ⚠️ Select a weighbridge to continue.
                         </div>
                       )}
                     </div>
-                    {activeState === "no-wb" && (
-                      <div style={{ fontSize: 12, color: statusOffline, marginTop: 6, fontWeight: 500 }}>
-                        ⚠️ Select a weighbridge to continue.
-                      </div>
-                    )}
-                  </div>
+                  )}
 
-                  {/* WEIGHBRIDGE AVAILABILITY & HARDWARE CONNECTION CARD */}
-                  {selectedWb && (
+                  {/* Status Card / Admin Access Scope Card */}
+                  {isAdminRole ? (
+                    /* ADMIN ACCESS SUMMARY CARD */
                     <div
                       style={{
                         padding: 16,
                         borderRadius: 12,
                         background: dm ? "#111827" : "#F8FAFC",
-                        border: `1.5px solid ${
-                          selectedWb.status === "OFFLINE"
-                            ? statusOffline
-                            : activeState === "device-error"
-                              ? statusWarning
-                              : primaryOrange
-                        }`,
+                        border: `1.5px solid ${secondaryGold}`,
                       }}
                     >
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <span style={{ fontWeight: 800, fontSize: 14, color: primaryText }}>{selectedWb.id}</span>
-                          <span style={{ fontSize: 13, color: secondaryText }}>{selectedWb.location}</span>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                        <span style={{ fontSize: 11, fontWeight: 800, color: secondaryGold, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                          ACCESS SCOPE
+                        </span>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: statusOnline }}>
+                          ● 5 WEIGHBRIDGES AVAILABLE
+                        </span>
+                      </div>
+
+                      <div style={{ fontSize: 14, fontWeight: 800, color: primaryText, marginBottom: 8 }}>
+                        All Weighbridges
+                      </div>
+
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                        {WEIGHBRIDGES.map((wb) => (
+                          <div
+                            key={wb.id}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              padding: "6px 10px",
+                              borderRadius: 6,
+                              background: elevatedSurface,
+                              border: `1px solid ${border}`,
+                              fontSize: 12,
+                            }}
+                          >
+                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                              <span style={{ fontWeight: 700, color: primaryText }}>{wb.id}</span>
+                              <span style={{ color: secondaryText, fontSize: 11.5 }}>— {wb.name} ({wb.location})</span>
+                            </div>
+                            <span
+                              style={{
+                                fontSize: 10.5,
+                                fontWeight: 800,
+                                color: wb.status === "ONLINE" ? statusOnline : statusOffline,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 4,
+                              }}
+                            >
+                              ● {wb.status}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    /* OPERATOR WEIGHBRIDGE STATUS CARD */
+                    selectedWb && (
+                      <div
+                        style={{
+                          padding: 16,
+                          borderRadius: 12,
+                          background: dm ? "#111827" : "#F8FAFC",
+                          border: `1.5px solid ${
+                            selectedWb.status === "OFFLINE"
+                              ? statusOffline
+                              : activeState === "device-error"
+                                ? statusWarning
+                                : primaryOrange
+                          }`,
+                        }}
+                      >
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span style={{ fontWeight: 800, fontSize: 14, color: primaryText }}>{selectedWb.id}</span>
+                            <span style={{ fontSize: 13, color: secondaryText }}>{selectedWb.location}</span>
+                          </div>
+
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 5,
+                              padding: "3px 10px",
+                              borderRadius: 999,
+                              background: selectedWb.status === "ONLINE" ? "rgba(22,163,74,0.15)" : "rgba(220,38,38,0.15)",
+                              color: selectedWb.status === "ONLINE" ? statusOnline : statusOffline,
+                              fontSize: 11,
+                              fontWeight: 700,
+                            }}
+                          >
+                            ● {selectedWb.status}
+                          </div>
+                        </div>
+
+                        {/* Device Connections list */}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, fontSize: 11.5, marginBottom: 10 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <span style={{ color: selectedWb.weightIndicator ? statusOnline : statusOffline, fontWeight: 800 }}>
+                              {selectedWb.weightIndicator ? "✓" : "✕"}
+                            </span>
+                            <span style={{ color: secondaryText }}>Indicator</span>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <span
+                              style={{
+                                color: activeState === "device-error" ? statusWarning : selectedWb.printer ? statusOnline : statusOffline,
+                                fontWeight: 800,
+                              }}
+                            >
+                              {activeState === "device-error" ? "✕" : selectedWb.printer ? "✓" : "✕"}
+                            </span>
+                            <span style={{ color: secondaryText }}>Printer</span>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <span style={{ color: selectedWb.camera ? statusOnline : statusOffline, fontWeight: 800 }}>
+                              {selectedWb.camera ? "✓" : "✕"}
+                            </span>
+                            <span style={{ color: secondaryText }}>Camera</span>
+                          </div>
                         </div>
 
                         <div
                           style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: 5,
-                            padding: "3px 10px",
-                            borderRadius: 999,
-                            background: selectedWb.status === "ONLINE" ? "rgba(22,163,74,0.15)" : "rgba(220,38,38,0.15)",
-                            color: selectedWb.status === "ONLINE" ? statusOnline : statusOffline,
-                            fontSize: 11,
+                            fontSize: 11.5,
                             fontWeight: 700,
+                            color: selectedWb.status === "ONLINE" && activeState !== "device-error" ? statusOnline : statusOffline,
+                            borderTop: `1px solid ${border}`,
+                            paddingTop: 8,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
                           }}
                         >
-                          ● {selectedWb.status}
+                          <span>
+                            Status:{" "}
+                            {selectedWb.status === "ONLINE" && activeState !== "device-error"
+                              ? "READY FOR OPERATION"
+                              : activeState === "device-error"
+                                ? "HARDWARE WARNING"
+                                : "WEIGHBRIDGE OFFLINE"}
+                          </span>
+                          <span style={{ color: mutedText, fontWeight: 400, fontSize: 10.5 }}>Sync: {selectedWb.lastSync}</span>
                         </div>
                       </div>
-
-                      {/* Device Connections list */}
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, fontSize: 11.5, marginBottom: 10 }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                          <span style={{ color: selectedWb.weightIndicator ? statusOnline : statusOffline, fontWeight: 800 }}>
-                            {selectedWb.weightIndicator ? "✓" : "✕"}
-                          </span>
-                          <span style={{ color: secondaryText }}>Indicator</span>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                          <span
-                            style={{
-                              color: activeState === "device-error" ? statusWarning : selectedWb.printer ? statusOnline : statusOffline,
-                              fontWeight: 800,
-                            }}
-                          >
-                            {activeState === "device-error" ? "✕" : selectedWb.printer ? "✓" : "✕"}
-                          </span>
-                          <span style={{ color: secondaryText }}>Printer</span>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                          <span style={{ color: selectedWb.camera ? statusOnline : statusOffline, fontWeight: 800 }}>
-                            {selectedWb.camera ? "✓" : "✕"}
-                          </span>
-                          <span style={{ color: secondaryText }}>Camera</span>
-                        </div>
-                      </div>
-
-                      <div
-                        style={{
-                          fontSize: 11.5,
-                          fontWeight: 700,
-                          color: selectedWb.status === "ONLINE" && activeState !== "device-error" ? statusOnline : statusOffline,
-                          borderTop: `1px solid ${border}`,
-                          paddingTop: 8,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <span>
-                          Status:{" "}
-                          {selectedWb.status === "ONLINE" && activeState !== "device-error"
-                            ? "READY FOR OPERATION"
-                            : activeState === "device-error"
-                              ? "HARDWARE WARNING"
-                              : "WEIGHBRIDGE OFFLINE"}
-                        </span>
-                        <span style={{ color: mutedText, fontWeight: 400, fontSize: 10.5 }}>Sync: {selectedWb.lastSync}</span>
-                      </div>
-                    </div>
+                    )
                   )}
 
                   {/* Remember Device & Forgot Password */}
@@ -1732,32 +1848,32 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                   {/* Primary Login Button */}
                   <button
                     type="submit"
-                    disabled={selectedWb?.status === "OFFLINE" || activeState === "locked" || activeState === "disabled"}
+                    disabled={isSubmitting || (!isAdminRole && selectedWb?.status === "OFFLINE") || activeState === "locked" || activeState === "disabled"}
                     style={{
                       width: "100%",
                       height: 50,
                       borderRadius: 8,
-                      background: selectedWb?.status === "OFFLINE" || activeState === "locked" || activeState === "disabled" ? "#9CA3AF" : primaryOrange,
+                      background: isSubmitting || (!isAdminRole && selectedWb?.status === "OFFLINE") || activeState === "locked" || activeState === "disabled" ? "#9CA3AF" : primaryOrange,
                       color: "#FFFFFF",
                       fontSize: 15,
                       fontWeight: 700,
                       border: "none",
-                      cursor: selectedWb?.status === "OFFLINE" || activeState === "locked" || activeState === "disabled" ? "not-allowed" : "pointer",
+                      cursor: isSubmitting || (!isAdminRole && selectedWb?.status === "OFFLINE") || activeState === "locked" || activeState === "disabled" ? "not-allowed" : "pointer",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       gap: 10,
-                      boxShadow: selectedWb?.status === "OFFLINE" ? "none" : "0 4px 14px rgba(249,115,22,0.35)",
+                      boxShadow: !isAdminRole && selectedWb?.status === "OFFLINE" ? "none" : "0 4px 14px rgba(249,115,22,0.35)",
                       transition: "all 0.15s ease-in-out",
                     }}
                     onMouseEnter={(e) => {
-                      if (selectedWb?.status !== "OFFLINE") e.currentTarget.style.background = primaryOrangeHover;
+                      if (!isSubmitting && selectedWb?.status !== "OFFLINE") e.currentTarget.style.background = primaryOrangeHover;
                     }}
                     onMouseLeave={(e) => {
-                      if (selectedWb?.status !== "OFFLINE") e.currentTarget.style.background = primaryOrange;
+                      if (!isSubmitting && selectedWb?.status !== "OFFLINE") e.currentTarget.style.background = primaryOrange;
                     }}
                   >
-                    START WEIGHBRIDGE
+                    {isSubmitting ? "Signing in..." : isAdminRole ? "ACCESS ADMIN DASHBOARD" : "START WEIGHBRIDGE"}
                     <span style={{ fontSize: 16 }}>→</span>
                   </button>
                 </form>
@@ -1779,7 +1895,15 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                 >
                   <span style={{ fontSize: 14 }}>🔒</span>
                   <div>
-                    <strong style={{ color: secondaryText }}>Secure Operator Access</strong> — Your workstation activity is recorded for operational security.
+                    {isAdminRole ? (
+                      <>
+                        <strong style={{ color: secondaryText }}>Secure Administrator Access</strong> — Management activity is protected and recorded for audit purposes.
+                      </>
+                    ) : (
+                      <>
+                        <strong style={{ color: secondaryText }}>Secure Operator Access</strong> — Your workstation activity is recorded for operational security.
+                      </>
+                    )}
                   </div>
                 </div>
 
