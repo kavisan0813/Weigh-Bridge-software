@@ -1,63 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+@import "tailwindcss";
 
 @theme inline {
   /* Primary — Soft Orange */
-  --color-wb-orange: #F97316;
-  --color-wb-orange-hover: #EA580C;
-  --color-wb-orange-pressed: #C2410C;
-  --color-wb-orange-soft: #FFF7ED;
-  --color-wb-orange-light: #FFEDD5;
+  --color-wb-orange: #f97316;
+  --color-wb-orange-hover: #ea580c;
+  --color-wb-orange-pressed: #c2410c;
+  --color-wb-orange-soft: #fff7ed;
+  --color-wb-orange-light: #ffedd5;
 
   /* Secondary — Gold */
-  --color-wb-gold: #C99A2E;
-  --color-wb-gold-dark: #8C6415;
-  --color-wb-gold-hover: #A97C1F;
-  --color-wb-gold-soft: #FFFBEB;
-  --color-wb-gold-light: #FEF3C7;
+  --color-wb-gold: #c99a2e;
+  --color-wb-gold-dark: #8c6415;
+  --color-wb-gold-hover: #a97c1f;
+  --color-wb-gold-soft: #fffbeb;
+  --color-wb-gold-light: #fef3c7;
 
   /* Light Mode Neutrals */
-  --color-wb-bg: #F8FAFC;
-  --color-wb-surface: #FFFFFF;
-  --color-wb-surface-elevated: #FFFFFF;
+  --color-wb-bg: #f8fafc;
+  --color-wb-surface: #ffffff;
+  --color-wb-surface-elevated: #ffffff;
   --color-wb-text: #111827;
-  --color-wb-text-secondary: #4B5563;
-  --color-wb-text-muted: #6B7280;
-  --color-wb-border: #E5E7EB;
-  --color-wb-divider: #F1F5F9;
-  --color-wb-input-bg: #FFFFFF;
-  --color-wb-disabled-bg: #F1F5F9;
+  --color-wb-text-secondary: #4b5563;
+  --color-wb-text-muted: #6b7280;
+  --color-wb-border: #e5e7eb;
+  --color-wb-divider: #f1f5f9;
+  --color-wb-input-bg: #ffffff;
+  --color-wb-disabled-bg: #f1f5f9;
 
   /* Sidebar Light Mode */
-  --color-wb-sidebar: #FFFFFF;
+  --color-wb-sidebar: #ffffff;
   --color-wb-sidebar-text: #111827;
 
   /* Dark Mode Neutrals */
   --color-wb-dark-bg: #111827;
-  --color-wb-dark-surface: #1F2937;
+  --color-wb-dark-surface: #1f2937;
   --color-wb-dark-elevated: #273449;
-  --color-wb-dark-text: #F9FAFB;
-  --color-wb-dark-text-secondary: #D1D5DB;
-  --color-wb-dark-text-muted: #9CA3AF;
+  --color-wb-dark-text: #f9fafb;
+  --color-wb-dark-text-secondary: #d1d5db;
+  --color-wb-dark-text-muted: #9ca3af;
   --color-wb-dark-border: #374151;
-  --color-wb-dark-orange: #FB923C;
-  --color-wb-dark-orange-hover: #F97316;
-  --color-wb-dark-gold: #D4A83A;
-  --color-wb-dark-gold-hover: #C99A2E;
-  --color-wb-dark-gold-soft: #422F0A;
-  --color-wb-dark-gold-light: #5A430E;
+  --color-wb-dark-orange: #fb923c;
+  --color-wb-dark-orange-hover: #f97316;
+  --color-wb-dark-gold: #d4a83a;
+  --color-wb-dark-gold-hover: #c99a2e;
+  --color-wb-dark-gold-soft: #422f0a;
+  --color-wb-dark-gold-light: #5a430e;
 
   /* Status Colors */
-  --color-wb-success: #16A34A;
-  --color-wb-warning: #F59E0B;
-  --color-wb-error: #DC2626;
-  --color-wb-info: #2563EB;
-  --color-wb-purple: #8B5CF6;
-  --color-wb-neutral: #64748B;
+  --color-wb-success: #16a34a;
+  --color-wb-warning: #f59e0b;
+  --color-wb-error: #dc2626;
+  --color-wb-info: #2563eb;
+  --color-wb-purple: #8b5cf6;
+  --color-wb-neutral: #64748b;
 }
 
 :root {
-  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    "Inter",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -90,9 +96,9 @@ body,
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #cbd5e1;
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #94a3b8;
 }

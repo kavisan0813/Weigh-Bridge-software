@@ -8,7 +8,14 @@ interface Props {
 }
 
 export type IndicatorStatus = "ONLINE" | "OFFLINE" | "WARNING";
-export type WeightState = "STABLE" | "ZERO" | "UNSTABLE" | "MOTION" | "OVERLOAD" | "READY" | "OFFLINE";
+export type WeightState =
+  | "STABLE"
+  | "ZERO"
+  | "UNSTABLE"
+  | "MOTION"
+  | "OVERLOAD"
+  | "READY"
+  | "OFFLINE";
 export type CalibrationStatus = "VALID" | "DUE SOON" | "OVERDUE";
 
 export interface WeightIndicatorItem {
@@ -239,7 +246,8 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
   const statusOffline = "#DC2626";
 
   // State Management
-  const [indicators, setIndicators] = useState<WeightIndicatorItem[]>(INITIAL_INDICATORS);
+  const [indicators, setIndicators] =
+    useState<WeightIndicatorItem[]>(INITIAL_INDICATORS);
   const [searchQuery, setSearchQuery] = useState("");
   const [wbFilter, setWbFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState<string>("All");
@@ -250,7 +258,8 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
   const [lastUpdatedTime, setLastUpdatedTime] = useState("10:42:18 AM");
 
   // Modals & Context Menus
-  const [selectedIndicator, setSelectedIndicator] = useState<WeightIndicatorItem | null>(null);
+  const [selectedIndicator, setSelectedIndicator] =
+    useState<WeightIndicatorItem | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showAddEditModal, setShowAddEditModal] = useState(false);
   const [editMode, setEditMode] = useState<"add" | "edit">("add");
@@ -295,9 +304,14 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
   // KPI Calculations
   const totalCount = indicators.length;
   const onlineCount = indicators.filter((i) => i.status === "ONLINE").length;
-  const liveWeighingCount = indicators.filter((i) => i.currentWeight.includes("38,") || i.currentWeight.includes("32,")).length;
+  const liveWeighingCount = indicators.filter(
+    (i) => i.currentWeight.includes("38,") || i.currentWeight.includes("32,"),
+  ).length;
   const offlineCount = indicators.filter((i) => i.status === "OFFLINE").length;
-  const calDueCount = indicators.filter((i) => i.calibrationStatus === "DUE SOON" || i.calibrationStatus === "OVERDUE").length;
+  const calDueCount = indicators.filter(
+    (i) =>
+      i.calibrationStatus === "DUE SOON" || i.calibrationStatus === "OVERDUE",
+  ).length;
 
   // Filtered Indicators List
   const filteredIndicators = useMemo(() => {
@@ -313,13 +327,31 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
         item.weighbridgeName.toLowerCase().includes(q);
 
       const matchWb = wbFilter === "All" || item.weighbridgeId === wbFilter;
-      const matchStatus = statusFilter === "All" || item.status === statusFilter;
-      const matchManufacturer = manufacturerFilter === "All" || item.manufacturer === manufacturerFilter;
-      const matchCalibration = calibrationFilter === "All" || item.calibrationStatus === calibrationFilter;
+      const matchStatus =
+        statusFilter === "All" || item.status === statusFilter;
+      const matchManufacturer =
+        manufacturerFilter === "All" ||
+        item.manufacturer === manufacturerFilter;
+      const matchCalibration =
+        calibrationFilter === "All" ||
+        item.calibrationStatus === calibrationFilter;
 
-      return matchQ && matchWb && matchStatus && matchManufacturer && matchCalibration;
+      return (
+        matchQ &&
+        matchWb &&
+        matchStatus &&
+        matchManufacturer &&
+        matchCalibration
+      );
     });
-  }, [indicators, searchQuery, wbFilter, statusFilter, manufacturerFilter, calibrationFilter]);
+  }, [
+    indicators,
+    searchQuery,
+    wbFilter,
+    statusFilter,
+    manufacturerFilter,
+    calibrationFilter,
+  ]);
 
   // Open Add Modal
   const handleOpenAdd = () => {
@@ -372,7 +404,8 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
         manufacturer: formData.manufacturer || "Avery Weigh-Tronix",
         model: formData.model || "E1205 Indicator",
         serialNumber: formData.serialNumber || "AV-IND-100200",
-        connection: (formData.connection as "Ethernet" | "Serial" | "USB") || "Ethernet",
+        connection:
+          (formData.connection as "Ethernet" | "Serial" | "USB") || "Ethernet",
         ipAddress: formData.ipAddress || "192.168.1.100",
         port: Number(formData.port) || 5000,
         status: (formData.status as IndicatorStatus) || "ONLINE",
@@ -381,7 +414,8 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
         tareWeight: "0 KG",
         netWeight: "0 KG",
         weightState: "ZERO",
-        calibrationStatus: (formData.calibrationStatus as CalibrationStatus) || "VALID",
+        calibrationStatus:
+          (formData.calibrationStatus as CalibrationStatus) || "VALID",
         lastCalibrationDate: formData.lastCalibrationDate || "20 Aug 2026",
         nextCalibrationDate: formData.nextCalibrationDate || "20 Nov 2026",
         calibratedBy: "ABC Weighbridge Service Ltd",
@@ -400,7 +434,11 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
       showToast(`✓ Registered weight indicator ${newItem.code}`);
     } else {
       setIndicators((prev) =>
-        prev.map((i) => (i.id === formData.id ? ({ ...i, ...formData } as WeightIndicatorItem) : i))
+        prev.map((i) =>
+          i.id === formData.id
+            ? ({ ...i, ...formData } as WeightIndicatorItem)
+            : i,
+        ),
       );
       showToast(`✓ Updated indicator ${formData.code}`);
     }
@@ -439,7 +477,14 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
           border: `1px solid ${color}35`,
         }}
       >
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: color }} />
+        <span
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: color,
+          }}
+        />
         {text}
       </span>
     );
@@ -478,23 +523,64 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
   };
 
   return (
-    <div style={{ flex: 1, padding: "24px 32px 48px", background: bg, color: primaryText, fontFamily: "'Inter', -apple-system, sans-serif" }}>
-
+    <div
+      style={{
+        flex: 1,
+        padding: "24px 32px 48px",
+        background: bg,
+        color: primaryText,
+        fontFamily: "'Inter', -apple-system, sans-serif",
+      }}
+    >
       {/* Toast Notification */}
       {toastMessage && (
-        <div style={{ position: "fixed", top: 84, right: 32, zIndex: 1200, background: primaryOrange, color: "#FFF", padding: "12px 20px", borderRadius: 8, fontWeight: 700, fontSize: 13, boxShadow: "0 10px 25px rgba(249,115,22,0.4)" }}>
+        <div
+          style={{
+            position: "fixed",
+            top: 84,
+            right: 32,
+            zIndex: 1200,
+            background: primaryOrange,
+            color: "#FFF",
+            padding: "12px 20px",
+            borderRadius: 8,
+            fontWeight: 700,
+            fontSize: 13,
+            boxShadow: "0 10px 25px rgba(249,115,22,0.4)",
+          }}
+        >
           {toastMessage}
         </div>
       )}
 
       {/* ── 1. PAGE HEADER ── */}
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 28 }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 16,
+          marginBottom: 28,
+        }}
+      >
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, color: primaryText, letterSpacing: "-0.02em" }}>
+          <h1
+            style={{
+              fontSize: 24,
+              fontWeight: 800,
+              margin: 0,
+              color: primaryText,
+              letterSpacing: "-0.02em",
+            }}
+          >
             Weight Indicators
           </h1>
-          <p style={{ fontSize: 13, color: secondaryText, margin: "4px 0 0 0" }}>
-            Manage digital weight indicators, live readings, connectivity, configuration and calibration status across weighbridge stations.
+          <p
+            style={{ fontSize: 13, color: secondaryText, margin: "4px 0 0 0" }}
+          >
+            Manage digital weight indicators, live readings, connectivity,
+            configuration and calibration status across weighbridge stations.
           </p>
         </div>
 
@@ -545,82 +631,281 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
       </div>
 
       {/* ── 2. SUMMARY KPI ROW (5 CARDS) ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16, marginBottom: 24 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: 16,
+          marginBottom: 24,
+        }}
+      >
         {/* Total Indicators */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ fontSize: 11, fontWeight: 800, color: mutedText, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 800,
+              color: mutedText,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            }}
+          >
             TOTAL INDICATORS
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: primaryText, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: primaryText,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {totalCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Registered indicators</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Registered indicators
+          </div>
         </div>
 
         {/* Online */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusOnline, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusOnline,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               ONLINE
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusOnline }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusOnline,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusOnline, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusOnline,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {onlineCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Connected & active</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Connected & active
+          </div>
         </div>
 
         {/* Live Weighing */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: primaryOrange, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: primaryOrange,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               LIVE WEIGHING
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: primaryOrange }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: primaryOrange,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: primaryOrange, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: primaryOrange,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {liveWeighingCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Receiving live load</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Receiving live load
+          </div>
         </div>
 
         {/* Offline */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusOffline, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusOffline,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               OFFLINE
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusOffline }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusOffline,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusOffline, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusOffline,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {offlineCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Connection unavailable</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Connection unavailable
+          </div>
         </div>
 
         {/* Calibration Due */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusWarning, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusWarning,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               CALIBRATION DUE
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusWarning }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusWarning,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusWarning, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusWarning,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {calDueCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Requires calibration</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Requires calibration
+          </div>
         </div>
       </div>
 
       {/* ── 3. LIVE WEIGHT OVERVIEW (INDICATOR PREVIEW CARDS) ── */}
       <div style={{ marginBottom: 28 }}>
-        <div style={{ fontSize: 12, fontWeight: 800, color: mutedText, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 12 }}>
+        <div
+          style={{
+            fontSize: 12,
+            fontWeight: 800,
+            color: mutedText,
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            marginBottom: 12,
+          }}
+        >
           LIVE WEIGHT INDICATORS
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: 16,
+          }}
+        >
           {indicators.map((item) => (
             <div
               key={item.id}
@@ -637,17 +922,54 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                 transition: "all 0.15s ease",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 800, color: primaryText }}>{item.weighbridgeName}</span>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: 8,
+                }}
+              >
+                <span
+                  style={{ fontSize: 12, fontWeight: 800, color: primaryText }}
+                >
+                  {item.weighbridgeName}
+                </span>
                 {getStatusPill(item.status)}
               </div>
 
-              <div style={{ fontSize: 24, fontWeight: 800, fontFamily: "monospace", color: item.status === "OFFLINE" ? mutedText : primaryOrange, margin: "8px 0 4px" }}>
+              <div
+                style={{
+                  fontSize: 24,
+                  fontWeight: 800,
+                  fontFamily: "monospace",
+                  color: item.status === "OFFLINE" ? mutedText : primaryOrange,
+                  margin: "8px 0 4px",
+                }}
+              >
                 {item.currentWeight}
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11, color: secondaryText }}>
-                <span style={{ fontWeight: 800, color: item.weightState === "STABLE" ? statusOnline : item.weightState === "ZERO" ? secondaryGold : mutedText }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  fontSize: 11,
+                  color: secondaryText,
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: 800,
+                    color:
+                      item.weightState === "STABLE"
+                        ? statusOnline
+                        : item.weightState === "ZERO"
+                          ? secondaryGold
+                          : mutedText,
+                  }}
+                >
                   ● {item.weightState}
                 </span>
                 <span>Last update: {item.lastUpdate}</span>
@@ -672,7 +994,15 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
           gap: 16,
         }}
       >
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, flex: 1 }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: 12,
+            flex: 1,
+          }}
+        >
           {/* Search Input */}
           <div style={{ position: "relative", minWidth: 260, flex: 1 }}>
             <input
@@ -791,8 +1121,24 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
 
         {/* Live Indicator Badge & Auto Refresh */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11.5, color: statusOnline, fontWeight: 700 }}>
-            <span style={{ width: 7, height: 7, borderRadius: "50%", background: statusOnline }} />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: 11.5,
+              color: statusOnline,
+              fontWeight: 700,
+            }}
+          >
+            <span
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: statusOnline,
+              }}
+            />
             LIVE ({lastUpdatedTime})
           </div>
 
@@ -803,7 +1149,11 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
               height: 38,
               padding: "0 14px",
               borderRadius: 999,
-              background: autoRefresh ? (dm ? "rgba(22,163,74,0.15)" : "#F0FDF4") : elevated,
+              background: autoRefresh
+                ? dm
+                  ? "rgba(22,163,74,0.15)"
+                  : "#F0FDF4"
+                : elevated,
               border: `1px solid ${autoRefresh ? statusOnline : border}`,
               color: autoRefresh ? statusOnline : mutedText,
               fontSize: 12,
@@ -820,24 +1170,74 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
       </div>
 
       {/* ── 5. MAIN WEIGHT INDICATOR TABLE ── */}
-      <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, overflow: "hidden" }}>
-        <div style={{ padding: "18px 24px", borderBottom: `1px solid ${border}`, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+      <div
+        style={{
+          background: surface,
+          borderRadius: 12,
+          border: `1px solid ${border}`,
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            padding: "18px 24px",
+            borderBottom: `1px solid ${border}`,
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+          }}
+        >
           <div>
-            <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0, color: primaryText }}>WEIGHT INDICATORS</h2>
-            <p style={{ fontSize: 12, color: secondaryText, margin: "2px 0 0 0" }}>
+            <h2
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                margin: 0,
+                color: primaryText,
+              }}
+            >
+              WEIGHT INDICATORS
+            </h2>
+            <p
+              style={{
+                fontSize: 12,
+                color: secondaryText,
+                margin: "2px 0 0 0",
+              }}
+            >
               {filteredIndicators.length} registered digital weight indicators
             </p>
           </div>
 
           <div style={{ fontSize: 12, color: mutedText, fontWeight: 600 }}>
-            Showing {filteredIndicators.length} of {indicators.length} indicators
+            Showing {filteredIndicators.length} of {indicators.length}{" "}
+            indicators
           </div>
         </div>
 
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              textAlign: "left",
+              fontSize: 13,
+            }}
+          >
             <thead>
-              <tr style={{ background: dm ? "#1A2332" : "#F8FAFC", borderBottom: `1px solid ${border}`, color: mutedText, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              <tr
+                style={{
+                  background: dm ? "#1A2332" : "#F8FAFC",
+                  borderBottom: `1px solid ${border}`,
+                  color: mutedText,
+                  fontSize: 11,
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
                 <th style={{ padding: "14px 20px" }}>INDICATOR</th>
                 <th style={{ padding: "14px 16px" }}>INDICATOR ID</th>
                 <th style={{ padding: "14px 16px" }}>WEIGHBRIDGE</th>
@@ -847,58 +1247,146 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                 <th style={{ padding: "14px 16px" }}>STATUS</th>
                 <th style={{ padding: "14px 16px" }}>CALIBRATION</th>
                 <th style={{ padding: "14px 16px" }}>LAST UPDATE</th>
-                <th style={{ padding: "14px 20px", textAlign: "right" }}>ACTIONS</th>
+                <th style={{ padding: "14px 20px", textAlign: "right" }}>
+                  ACTIONS
+                </th>
               </tr>
             </thead>
             <tbody>
               {filteredIndicators.length === 0 ? (
                 <tr>
-                  <td colSpan={10} style={{ padding: "48px 20px", textAlign: "center", color: mutedText }}>
+                  <td
+                    colSpan={10}
+                    style={{
+                      padding: "48px 20px",
+                      textAlign: "center",
+                      color: mutedText,
+                    }}
+                  >
                     <div style={{ fontSize: 32, marginBottom: 12 }}>⚖️</div>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: primaryText }}>No weight indicators found</div>
-                    <div style={{ fontSize: 13, marginTop: 4 }}>Try adjusting your search query or filter selection.</div>
+                    <div
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 800,
+                        color: primaryText,
+                      }}
+                    >
+                      No weight indicators found
+                    </div>
+                    <div style={{ fontSize: 13, marginTop: 4 }}>
+                      Try adjusting your search query or filter selection.
+                    </div>
                   </td>
                 </tr>
               ) : (
                 filteredIndicators.map((item) => (
                   <tr
                     key={item.id}
-                    style={{ borderBottom: `1px solid ${divider}`, transition: "background 0.15s ease" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = dm ? "rgba(255,255,255,0.03)" : "#F8FAFC")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                    style={{
+                      borderBottom: `1px solid ${divider}`,
+                      transition: "background 0.15s ease",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.background = dm
+                        ? "rgba(255,255,255,0.03)"
+                        : "#F8FAFC")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.background = "transparent")
+                    }
                   >
                     {/* Indicator Name */}
-                    <td style={{ padding: "16px 20px", fontWeight: 800, color: primaryText }}>
+                    <td
+                      style={{
+                        padding: "16px 20px",
+                        fontWeight: 800,
+                        color: primaryText,
+                      }}
+                    >
                       <div>{item.name}</div>
-                      <div style={{ fontSize: 11, color: mutedText, fontWeight: 500 }}>SN: {item.serialNumber}</div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: mutedText,
+                          fontWeight: 500,
+                        }}
+                      >
+                        SN: {item.serialNumber}
+                      </div>
                     </td>
 
                     {/* Code / ID */}
-                    <td style={{ padding: "16px 16px", fontWeight: 700, fontFamily: "monospace", color: primaryOrange }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        fontWeight: 700,
+                        fontFamily: "monospace",
+                        color: primaryOrange,
+                      }}
+                    >
                       {item.code}
                     </td>
 
                     {/* Weighbridge */}
-                    <td style={{ padding: "16px 16px", color: primaryText, fontWeight: 700 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: primaryText,
+                        fontWeight: 700,
+                      }}
+                    >
                       {item.weighbridgeName}
                     </td>
 
                     {/* Model */}
-                    <td style={{ padding: "16px 16px", color: secondaryText, fontWeight: 600 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: secondaryText,
+                        fontWeight: 600,
+                      }}
+                    >
                       {item.manufacturer} {item.model}
                     </td>
 
                     {/* Connection */}
-                    <td style={{ padding: "16px 16px", color: secondaryText, fontWeight: 600 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: secondaryText,
+                        fontWeight: 600,
+                      }}
+                    >
                       {item.connection} ({item.ipAddress})
                     </td>
 
                     {/* Current Weight */}
                     <td style={{ padding: "16px 16px" }}>
-                      <div style={{ fontFamily: "monospace", fontWeight: 800, fontSize: 14, color: item.status === "OFFLINE" ? mutedText : primaryOrange }}>
+                      <div
+                        style={{
+                          fontFamily: "monospace",
+                          fontWeight: 800,
+                          fontSize: 14,
+                          color:
+                            item.status === "OFFLINE"
+                              ? mutedText
+                              : primaryOrange,
+                        }}
+                      >
                         {item.currentWeight}
                       </div>
-                      <div style={{ fontSize: 10.5, fontWeight: 800, color: item.weightState === "STABLE" ? statusOnline : item.weightState === "ZERO" ? secondaryGold : mutedText }}>
+                      <div
+                        style={{
+                          fontSize: 10.5,
+                          fontWeight: 800,
+                          color:
+                            item.weightState === "STABLE"
+                              ? statusOnline
+                              : item.weightState === "ZERO"
+                                ? secondaryGold
+                                : mutedText,
+                        }}
+                      >
                         ● {item.weightState}
                       </div>
                     </td>
@@ -914,20 +1402,47 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                     </td>
 
                     {/* Last Update */}
-                    <td style={{ padding: "16px 16px", color: mutedText, fontSize: 12 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: mutedText,
+                        fontSize: 12,
+                      }}
+                    >
                       {item.lastUpdate}
                     </td>
 
                     {/* Actions */}
-                    <td style={{ padding: "16px 20px", textAlign: "right", position: "relative" }}>
-                      <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <td
+                      style={{
+                        padding: "16px 20px",
+                        textAlign: "right",
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 8,
+                        }}
+                      >
                         <button
                           type="button"
                           onClick={() => {
                             setSelectedIndicator(item);
                             setShowDetailModal(true);
                           }}
-                          style={{ padding: "6px 12px", borderRadius: 6, background: primaryOrange, color: "#FFF", border: "none", fontSize: 12, fontWeight: 800, cursor: "pointer" }}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            background: primaryOrange,
+                            color: "#FFF",
+                            border: "none",
+                            fontSize: 12,
+                            fontWeight: 800,
+                            cursor: "pointer",
+                          }}
                         >
                           View
                         </button>
@@ -935,15 +1450,36 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                         <button
                           type="button"
                           onClick={() => handleOpenEdit(item)}
-                          style={{ padding: "6px 12px", borderRadius: 6, background: elevated, border: `1px solid ${border}`, color: primaryText, fontSize: 12, fontWeight: 700, cursor: "pointer" }}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            background: elevated,
+                            border: `1px solid ${border}`,
+                            color: primaryText,
+                            fontSize: 12,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                          }}
                         >
                           Edit
                         </button>
 
                         <button
                           type="button"
-                          onClick={() => setActiveMenuId(activeMenuId === item.id ? null : item.id)}
-                          style={{ padding: "6px 8px", borderRadius: 6, background: elevated, border: `1px solid ${border}`, color: secondaryText, fontSize: 12, cursor: "pointer" }}
+                          onClick={() =>
+                            setActiveMenuId(
+                              activeMenuId === item.id ? null : item.id,
+                            )
+                          }
+                          style={{
+                            padding: "6px 8px",
+                            borderRadius: 6,
+                            background: elevated,
+                            border: `1px solid ${border}`,
+                            color: secondaryText,
+                            fontSize: 12,
+                            cursor: "pointer",
+                          }}
                         >
                           ⋮
                         </button>
@@ -969,7 +1505,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ Connection test ping sent to ${item.ipAddress}... Latency: 12ms`);
+                              showToast(
+                                `✓ Connection test ping sent to ${item.ipAddress}... Latency: 12ms`,
+                              );
                               setActiveMenuId(null);
                             }}
                             style={contextMenuItemStyle}
@@ -992,7 +1530,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ Calibration request logged for ${item.code}`);
+                              showToast(
+                                `✓ Calibration request logged for ${item.code}`,
+                              );
                               setActiveMenuId(null);
                             }}
                             style={contextMenuItemStyle}
@@ -1000,15 +1540,25 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                             ⚖ Open Calibration Request
                           </button>
 
-                          <div style={{ borderTop: `1px solid ${divider}`, margin: "4px 0" }} />
+                          <div
+                            style={{
+                              borderTop: `1px solid ${divider}`,
+                              margin: "4px 0",
+                            }}
+                          />
 
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ Restarting indicator stream for ${item.code}`);
+                              showToast(
+                                `✓ Restarting indicator stream for ${item.code}`,
+                              );
                               setActiveMenuId(null);
                             }}
-                            style={{ ...contextMenuItemStyle, color: primaryOrange }}
+                            style={{
+                              ...contextMenuItemStyle,
+                              color: primaryOrange,
+                            }}
                           >
                             🔄 Restart Indicator Stream
                           </button>
@@ -1025,127 +1575,562 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
 
       {/* ── 6. DETAIL PREVIEW MODAL / DRAWER ── */}
       {showDetailModal && selectedIndicator && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2px)", zIndex: 1100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-          <div style={{ width: "100%", maxWidth: 780, maxHeight: "90vh", background: surface, borderRadius: 16, border: `1px solid ${border}`, boxShadow: "0 20px 50px rgba(0,0,0,0.25)", overflowY: "auto", display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(2px)",
+            zIndex: 1100,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 780,
+              maxHeight: "90vh",
+              background: surface,
+              borderRadius: 16,
+              border: `1px solid ${border}`,
+              boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
+              overflowY: "auto",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {/* Modal Header */}
-            <div style={{ padding: "20px 24px", borderBottom: `1px solid ${border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div
+              style={{
+                padding: "20px 24px",
+                borderBottom: `1px solid ${border}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: primaryText }}>{selectedIndicator.name}</h2>
+                  <h2
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 800,
+                      margin: 0,
+                      color: primaryText,
+                    }}
+                  >
+                    {selectedIndicator.name}
+                  </h2>
                   {getStatusPill(selectedIndicator.status)}
                   {getCalibrationPill(selectedIndicator.calibrationStatus)}
                 </div>
-                <div style={{ fontSize: 12.5, color: secondaryText, marginTop: 4 }}>
-                  Code: <strong style={{ color: primaryOrange, fontFamily: "monospace" }}>{selectedIndicator.code}</strong> · Station: {selectedIndicator.weighbridgeName}
+                <div
+                  style={{ fontSize: 12.5, color: secondaryText, marginTop: 4 }}
+                >
+                  Code:{" "}
+                  <strong
+                    style={{ color: primaryOrange, fontFamily: "monospace" }}
+                  >
+                    {selectedIndicator.code}
+                  </strong>{" "}
+                  · Station: {selectedIndicator.weighbridgeName}
                 </div>
               </div>
 
               <button
                 type="button"
                 onClick={() => setShowDetailModal(false)}
-                style={{ background: "none", border: 0, color: mutedText, fontSize: 20, cursor: "pointer", fontWeight: 700 }}
+                style={{
+                  background: "none",
+                  border: 0,
+                  color: mutedText,
+                  fontSize: 20,
+                  cursor: "pointer",
+                  fontWeight: 700,
+                }}
               >
                 ✕
               </button>
             </div>
 
             {/* Modal Body */}
-            <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 24 }}>
-
+            <div
+              style={{
+                padding: 24,
+                display: "flex",
+                flexDirection: "column",
+                gap: 24,
+              }}
+            >
               {/* Live Weight Reading Banner */}
-              <div style={{ padding: "18px 22px", borderRadius: 12, background: dm ? "#1A2332" : "#FFF7ED", border: `1px solid ${primaryOrange}40`, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+              <div
+                style={{
+                  padding: "18px 22px",
+                  borderRadius: 12,
+                  background: dm ? "#1A2332" : "#FFF7ED",
+                  border: `1px solid ${primaryOrange}40`,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 16,
+                }}
+              >
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: primaryOrange, textTransform: "uppercase", letterSpacing: "0.05em" }}>LIVE WEIGHT READING</div>
-                  <div style={{ fontSize: 36, fontWeight: 800, fontFamily: "monospace", color: primaryOrange, margin: "4px 0" }}>{selectedIndicator.currentWeight}</div>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: statusOnline }}>● WEIGHT {selectedIndicator.weightState}</div>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      color: primaryOrange,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    LIVE WEIGHT READING
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 36,
+                      fontWeight: 800,
+                      fontFamily: "monospace",
+                      color: primaryOrange,
+                      margin: "4px 0",
+                    }}
+                  >
+                    {selectedIndicator.currentWeight}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: statusOnline,
+                    }}
+                  >
+                    ● WEIGHT {selectedIndicator.weightState}
+                  </div>
                 </div>
 
-                <div style={{ padding: "12px 16px", borderRadius: 8, background: elevated, border: `1px solid ${border}`, display: "flex", gap: 16, fontSize: 12 }}>
+                <div
+                  style={{
+                    padding: "12px 16px",
+                    borderRadius: 8,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                    display: "flex",
+                    gap: 16,
+                    fontSize: 12,
+                  }}
+                >
                   <div>
-                    <div style={{ fontSize: 10.5, color: mutedText, fontWeight: 600 }}>GROSS</div>
-                    <div style={{ fontWeight: 800, fontFamily: "monospace" }}>{selectedIndicator.grossWeight}</div>
+                    <div
+                      style={{
+                        fontSize: 10.5,
+                        color: mutedText,
+                        fontWeight: 600,
+                      }}
+                    >
+                      GROSS
+                    </div>
+                    <div style={{ fontWeight: 800, fontFamily: "monospace" }}>
+                      {selectedIndicator.grossWeight}
+                    </div>
                   </div>
-                  <div style={{ borderLeft: `1px solid ${border}`, paddingLeft: 16 }}>
-                    <div style={{ fontSize: 10.5, color: mutedText, fontWeight: 600 }}>TARE</div>
-                    <div style={{ fontWeight: 800, fontFamily: "monospace" }}>{selectedIndicator.tareWeight}</div>
+                  <div
+                    style={{
+                      borderLeft: `1px solid ${border}`,
+                      paddingLeft: 16,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 10.5,
+                        color: mutedText,
+                        fontWeight: 600,
+                      }}
+                    >
+                      TARE
+                    </div>
+                    <div style={{ fontWeight: 800, fontFamily: "monospace" }}>
+                      {selectedIndicator.tareWeight}
+                    </div>
                   </div>
-                  <div style={{ borderLeft: `1px solid ${border}`, paddingLeft: 16 }}>
-                    <div style={{ fontSize: 10.5, color: mutedText, fontWeight: 600 }}>NET</div>
-                    <div style={{ fontWeight: 800, fontFamily: "monospace", color: primaryOrange }}>{selectedIndicator.netWeight}</div>
+                  <div
+                    style={{
+                      borderLeft: `1px solid ${border}`,
+                      paddingLeft: 16,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 10.5,
+                        color: mutedText,
+                        fontWeight: 600,
+                      }}
+                    >
+                      NET
+                    </div>
+                    <div
+                      style={{
+                        fontWeight: 800,
+                        fontFamily: "monospace",
+                        color: primaryOrange,
+                      }}
+                    >
+                      {selectedIndicator.netWeight}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Specifications & Calibration Grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
                 {/* Specifications */}
-                <div style={{ padding: 18, borderRadius: 10, background: elevated, border: `1px solid ${border}` }}>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: primaryOrange, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>INDICATOR SPECIFICATIONS</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12.5 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Manufacturer</span><span style={{ fontWeight: 700 }}>{selectedIndicator.manufacturer}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Model</span><span style={{ fontWeight: 700 }}>{selectedIndicator.model}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Serial Number</span><span style={{ fontFamily: "monospace" }}>{selectedIndicator.serialNumber}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Firmware</span><span>{selectedIndicator.firmware}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Capacity</span><span style={{ fontWeight: 700 }}>{selectedIndicator.capacity}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Division</span><span>{selectedIndicator.division}</span></div>
+                <div
+                  style={{
+                    padding: 18,
+                    borderRadius: 10,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: primaryOrange,
+                      marginBottom: 12,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    INDICATOR SPECIFICATIONS
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      fontSize: 12.5,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Manufacturer</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedIndicator.manufacturer}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Model</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedIndicator.model}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Serial Number</span>
+                      <span style={{ fontFamily: "monospace" }}>
+                        {selectedIndicator.serialNumber}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Firmware</span>
+                      <span>{selectedIndicator.firmware}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Capacity</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedIndicator.capacity}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Division</span>
+                      <span>{selectedIndicator.division}</span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Calibration Details */}
-                <div style={{ padding: 18, borderRadius: 10, background: elevated, border: `1px solid ${border}` }}>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: primaryOrange, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>CALIBRATION STATUS</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12.5 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Status</span>{getCalibrationPill(selectedIndicator.calibrationStatus)}</div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Last Calibration</span><span>{selectedIndicator.lastCalibrationDate}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Next Calibration</span><span style={{ fontWeight: 700 }}>{selectedIndicator.nextCalibrationDate}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Calibrated By</span><span>{selectedIndicator.calibratedBy}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Certificate ID</span><span style={{ fontFamily: "monospace" }}>{selectedIndicator.certificateId}</span></div>
+                <div
+                  style={{
+                    padding: 18,
+                    borderRadius: 10,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: primaryOrange,
+                      marginBottom: 12,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    CALIBRATION STATUS
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      fontSize: 12.5,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Status</span>
+                      {getCalibrationPill(selectedIndicator.calibrationStatus)}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Last Calibration</span>
+                      <span>{selectedIndicator.lastCalibrationDate}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Next Calibration</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedIndicator.nextCalibrationDate}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Calibrated By</span>
+                      <span>{selectedIndicator.calibratedBy}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Certificate ID</span>
+                      <span style={{ fontFamily: "monospace" }}>
+                        {selectedIndicator.certificateId}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Technical Configuration */}
-              <div style={{ padding: 18, borderRadius: 10, background: elevated, border: `1px solid ${border}` }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: primaryText, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>TECHNICAL CONFIGURATION</div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, fontSize: 12 }}>
-                  <div><span style={{ color: mutedText }}>Zero Tracking:</span> <strong style={{ color: primaryText }}>{selectedIndicator.zeroTracking}</strong></div>
-                  <div><span style={{ color: mutedText }}>Motion Detection:</span> <strong style={{ color: primaryText }}>{selectedIndicator.motionDetection}</strong></div>
-                  <div><span style={{ color: mutedText }}>Overload Limit:</span> <strong style={{ color: primaryText }}>{selectedIndicator.overloadLimit}</strong></div>
-                  <div><span style={{ color: mutedText }}>IP Address:</span> <strong style={{ fontFamily: "monospace" }}>{selectedIndicator.ipAddress}</strong></div>
-                  <div><span style={{ color: mutedText }}>Port:</span> <strong>{selectedIndicator.port}</strong></div>
-                  <div><span style={{ color: mutedText }}>Interface:</span> <strong>{selectedIndicator.connection}</strong></div>
+              <div
+                style={{
+                  padding: 18,
+                  borderRadius: 10,
+                  background: elevated,
+                  border: `1px solid ${border}`,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: primaryText,
+                    marginBottom: 12,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  TECHNICAL CONFIGURATION
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr",
+                    gap: 12,
+                    fontSize: 12,
+                  }}
+                >
+                  <div>
+                    <span style={{ color: mutedText }}>Zero Tracking:</span>{" "}
+                    <strong style={{ color: primaryText }}>
+                      {selectedIndicator.zeroTracking}
+                    </strong>
+                  </div>
+                  <div>
+                    <span style={{ color: mutedText }}>Motion Detection:</span>{" "}
+                    <strong style={{ color: primaryText }}>
+                      {selectedIndicator.motionDetection}
+                    </strong>
+                  </div>
+                  <div>
+                    <span style={{ color: mutedText }}>Overload Limit:</span>{" "}
+                    <strong style={{ color: primaryText }}>
+                      {selectedIndicator.overloadLimit}
+                    </strong>
+                  </div>
+                  <div>
+                    <span style={{ color: mutedText }}>IP Address:</span>{" "}
+                    <strong style={{ fontFamily: "monospace" }}>
+                      {selectedIndicator.ipAddress}
+                    </strong>
+                  </div>
+                  <div>
+                    <span style={{ color: mutedText }}>Port:</span>{" "}
+                    <strong>{selectedIndicator.port}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: mutedText }}>Interface:</span>{" "}
+                    <strong>{selectedIndicator.connection}</strong>
+                  </div>
                 </div>
               </div>
 
               {/* Recent Activity Timeline */}
               <div>
-                <div style={{ fontSize: 12, fontWeight: 800, color: primaryText, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}>RECENT INDICATOR ACTIVITY</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 12 }}>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
-                    <span>08:42:18 AM — Weight reading updated ({selectedIndicator.currentWeight})</span>
-                    <span style={{ color: statusOnline, fontWeight: 700 }}>● {selectedIndicator.weightState}</span>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: primaryText,
+                    marginBottom: 10,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  RECENT INDICATOR ACTIVITY
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    fontSize: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      08:42:18 AM — Weight reading updated (
+                      {selectedIndicator.currentWeight})
+                    </span>
+                    <span style={{ color: statusOnline, fontWeight: 700 }}>
+                      ● {selectedIndicator.weightState}
+                    </span>
                   </div>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
-                    <span>08:40:21 AM — Weight state transition: MOTION → STABLE</span>
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      08:40:21 AM — Weight state transition: MOTION → STABLE
+                    </span>
                     <span style={{ color: mutedText }}>100ms sample</span>
                   </div>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <span>08:35:10 AM — Telemetry heartbeat acknowledged</span>
-                    <span style={{ color: mutedText }}>IP {selectedIndicator.ipAddress}</span>
+                    <span style={{ color: mutedText }}>
+                      IP {selectedIndicator.ipAddress}
+                    </span>
                   </div>
                 </div>
               </div>
-
             </div>
 
             {/* Modal Footer */}
-            <div style={{ padding: "16px 24px", borderTop: `1px solid ${border}`, display: "flex", justifyContent: "flex-end", gap: 12 }}>
+            <div
+              style={{
+                padding: "16px 24px",
+                borderTop: `1px solid ${border}`,
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 12,
+              }}
+            >
               <button
                 type="button"
                 onClick={() => {
-                  showToast(`✓ Opened Certificate ${selectedIndicator.certificateId}`);
+                  showToast(
+                    `✓ Opened Certificate ${selectedIndicator.certificateId}`,
+                  );
                 }}
-                style={{ padding: "10px 18px", borderRadius: 8, background: elevated, border: `1px solid ${border}`, color: primaryText, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                style={{
+                  padding: "10px 18px",
+                  borderRadius: 8,
+                  background: elevated,
+                  border: `1px solid ${border}`,
+                  color: primaryText,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
               >
                 📜 View Certificate
               </button>
@@ -1153,7 +2138,16 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
               <button
                 type="button"
                 onClick={() => setShowDetailModal(false)}
-                style={{ padding: "10px 20px", borderRadius: 8, background: primaryOrange, color: "#FFF", border: "none", fontSize: 13, fontWeight: 800, cursor: "pointer" }}
+                style={{
+                  padding: "10px 20px",
+                  borderRadius: 8,
+                  background: primaryOrange,
+                  color: "#FFF",
+                  border: "none",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
               >
                 Close Preview
               </button>
@@ -1164,24 +2158,85 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
 
       {/* ── 7. ADD / EDIT INDICATOR MODAL ── */}
       {showAddEditModal && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2px)", zIndex: 1100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-          <div style={{ width: "100%", maxWidth: 640, maxHeight: "90vh", background: surface, borderRadius: 16, border: `1px solid ${border}`, boxShadow: "0 20px 50px rgba(0,0,0,0.25)", overflowY: "auto" }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(2px)",
+            zIndex: 1100,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 640,
+              maxHeight: "90vh",
+              background: surface,
+              borderRadius: 16,
+              border: `1px solid ${border}`,
+              boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
+              overflowY: "auto",
+            }}
+          >
             <form onSubmit={handleSaveIndicator}>
-              <div style={{ padding: "20px 24px", borderBottom: `1px solid ${border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <h2 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: primaryText }}>
-                  {editMode === "add" ? "+ Add Weight Indicator" : `Edit Indicator ${formData.code}`}
+              <div
+                style={{
+                  padding: "20px 24px",
+                  borderBottom: `1px solid ${border}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 800,
+                    margin: 0,
+                    color: primaryText,
+                  }}
+                >
+                  {editMode === "add"
+                    ? "+ Add Weight Indicator"
+                    : `Edit Indicator ${formData.code}`}
                 </h2>
-                <button type="button" onClick={() => setShowAddEditModal(false)} style={{ background: "none", border: 0, color: mutedText, fontSize: 20, cursor: "pointer" }}>✕</button>
+                <button
+                  type="button"
+                  onClick={() => setShowAddEditModal(false)}
+                  style={{
+                    background: "none",
+                    border: 0,
+                    color: mutedText,
+                    fontSize: 20,
+                    cursor: "pointer",
+                  }}
+                >
+                  ✕
+                </button>
               </div>
 
-              <div style={{ padding: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div
+                style={{
+                  padding: 24,
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
                 <div>
                   <label style={formLabelStyle}>Indicator ID / Code *</label>
                   <input
                     type="text"
                     required
                     value={formData.code || ""}
-                    onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, code: e.target.value })
+                    }
                     placeholder="e.g. IND-WB06-001"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1193,7 +2248,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                     type="text"
                     required
                     value={formData.name || ""}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     placeholder="e.g. WB-06 Digital Indicator"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1205,8 +2262,21 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                     value={formData.weighbridgeId || "WB-01"}
                     onChange={(e) => {
                       const id = e.target.value;
-                      const name = id === "WB-01" ? "WB-01 — Main Gate" : id === "WB-02" ? "WB-02 — North Gate" : id === "WB-03" ? "WB-03 — Loading Yard" : id === "WB-04" ? "WB-04 — East Gate" : "WB-05 — West Gate";
-                      setFormData({ ...formData, weighbridgeId: id, weighbridgeName: name });
+                      const name =
+                        id === "WB-01"
+                          ? "WB-01 — Main Gate"
+                          : id === "WB-02"
+                            ? "WB-02 — North Gate"
+                            : id === "WB-03"
+                              ? "WB-03 — Loading Yard"
+                              : id === "WB-04"
+                                ? "WB-04 — East Gate"
+                                : "WB-05 — West Gate";
+                      setFormData({
+                        ...formData,
+                        weighbridgeId: id,
+                        weighbridgeName: name,
+                      });
                     }}
                     style={formInputStyle(inputBg, border, primaryText)}
                   >
@@ -1222,10 +2292,14 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <label style={formLabelStyle}>Manufacturer</label>
                   <select
                     value={formData.manufacturer || "Avery Weigh-Tronix"}
-                    onChange={(e) => setFormData({ ...formData, manufacturer: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, manufacturer: e.target.value })
+                    }
                     style={formInputStyle(inputBg, border, primaryText)}
                   >
-                    <option value="Avery Weigh-Tronix">Avery Weigh-Tronix</option>
+                    <option value="Avery Weigh-Tronix">
+                      Avery Weigh-Tronix
+                    </option>
                     <option value="Mettler Toledo">Mettler Toledo</option>
                     <option value="Rice Lake">Rice Lake</option>
                   </select>
@@ -1236,7 +2310,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <input
                     type="text"
                     value={formData.model || ""}
-                    onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, model: e.target.value })
+                    }
                     placeholder="e.g. E1205 Indicator"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1247,7 +2323,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <input
                     type="text"
                     value={formData.serialNumber || ""}
-                    onChange={(e) => setFormData({ ...formData, serialNumber: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, serialNumber: e.target.value })
+                    }
                     placeholder="AV-IND-928371"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1258,7 +2336,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <input
                     type="text"
                     value={formData.ipAddress || "192.168.1.100"}
-                    onChange={(e) => setFormData({ ...formData, ipAddress: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, ipAddress: e.target.value })
+                    }
                     placeholder="192.168.1.100"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1269,7 +2349,18 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <input
                     type="number"
                     value={formData.port || 5000}
-                    onChange={(e) => setFormData({ ...formData, port: Number(e.target.value) })}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const parsed = value === "" ? undefined : Number(value);
+
+                      setFormData({
+                        ...formData,
+                        port:
+                          parsed !== undefined && Number.isFinite(parsed)
+                            ? parsed
+                            : undefined,
+                      });
+                    }}
                     placeholder="5000"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1280,7 +2371,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <input
                     type="text"
                     value={formData.capacity || "80,000 KG"}
-                    onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, capacity: e.target.value })
+                    }
                     placeholder="80,000 KG"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1291,7 +2384,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <input
                     type="text"
                     value={formData.division || "20 KG"}
-                    onChange={(e) => setFormData({ ...formData, division: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, division: e.target.value })
+                    }
                     placeholder="20 KG"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1301,7 +2396,12 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <label style={formLabelStyle}>Status</label>
                   <select
                     value={formData.status || "ONLINE"}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value as IndicatorStatus })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        status: e.target.value as IndicatorStatus,
+                      })
+                    }
                     style={formInputStyle(inputBg, border, primaryText)}
                   >
                     <option value="ONLINE">ONLINE</option>
@@ -1313,7 +2413,12 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                   <label style={formLabelStyle}>Calibration Status</label>
                   <select
                     value={formData.calibrationStatus || "VALID"}
-                    onChange={(e) => setFormData({ ...formData, calibrationStatus: e.target.value as CalibrationStatus })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        calibrationStatus: e.target.value as CalibrationStatus,
+                      })
+                    }
                     style={formInputStyle(inputBg, border, primaryText)}
                   >
                     <option value="VALID">VALID</option>
@@ -1323,17 +2428,43 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                 </div>
               </div>
 
-              <div style={{ padding: "16px 24px", borderTop: `1px solid ${border}`, display: "flex", justifyContent: "flex-end", gap: 12 }}>
+              <div
+                style={{
+                  padding: "16px 24px",
+                  borderTop: `1px solid ${border}`,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: 12,
+                }}
+              >
                 <button
                   type="button"
                   onClick={() => setShowAddEditModal(false)}
-                  style={{ padding: "10px 18px", borderRadius: 8, background: elevated, border: `1px solid ${border}`, color: primaryText, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                  style={{
+                    padding: "10px 18px",
+                    borderRadius: 8,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                    color: primaryText,
+                    fontSize: 13,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  style={{ padding: "10px 22px", borderRadius: 8, background: primaryOrange, color: "#FFF", border: "none", fontSize: 13, fontWeight: 800, cursor: "pointer" }}
+                  style={{
+                    padding: "10px 22px",
+                    borderRadius: 8,
+                    background: primaryOrange,
+                    color: "#FFF",
+                    border: "none",
+                    fontSize: 13,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
                 >
                   Save Indicator
                 </button>
@@ -1342,7 +2473,6 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
           </div>
         </div>
       )}
-
     </div>
   );
 }
@@ -1356,7 +2486,11 @@ const formLabelStyle: React.CSSProperties = {
   letterSpacing: "0.04em",
 };
 
-const formInputStyle = (bg: string, border: string, text: string): React.CSSProperties => ({
+const formInputStyle = (
+  bg: string,
+  border: string,
+  text: string,
+): React.CSSProperties => ({
   width: "100%",
   height: 42,
   padding: "0 12px",

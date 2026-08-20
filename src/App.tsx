@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import LoginScreen from "./screens/LoginScreen";
 import DashboardScreen from "./screens/DashboardScreen";
-import AdminOperations, { type AdminView } from "./screens/AdminOperations";
+import { type AdminView } from "./screens/AdminOperations";
+import AdminOperations from "./components/admin/AdminOps";
 import OperatorScreens, { type OperatorView } from "./screens/OperatorScreens";
 import AccessDeniedScreen from "./screens/AccessDeniedScreen";
 import { authService, type UserSession } from "./services/authService";
@@ -39,9 +40,7 @@ export default function App() {
     return "login";
   });
   const [darkMode, setDarkMode] = useState(false);
-  const [userRole, setUserRole] = useState<"admin" | "operator" | "maintenance" | "manager">(
-    session?.role || "admin"
-  );
+  const [userRole, setUserRole] = useState<"admin" | "operator" | "maintenance" | "manager">("admin");
 
   // Sync state if session changes
   useEffect(() => {
@@ -133,17 +132,17 @@ export default function App() {
           view={screen as OperatorView}
           darkMode={darkMode}
           onToggleDark={() => setDarkMode((v) => !v)}
-          onLogout={handleLogout}
-          onNavigate={handleNavigate}
+          onLogout={() => setScreen("login")}
+          onNavigate={(view) => setScreen(view as Screen)}
         />
       ) : (
         <AdminOperations
-          view={screen}
+          view={screen as AdminView}
           userRole={userRole}
           darkMode={darkMode}
           onToggleDark={() => setDarkMode((v) => !v)}
-          onLogout={handleLogout}
-          onNavigate={handleNavigate}
+          onLogout={() => setScreen("login")}
+          onNavigate={(view) => setScreen(view as Screen)}
         />
       )}
     </div>

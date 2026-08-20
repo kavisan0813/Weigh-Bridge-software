@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import LiveWeighmentScreen from "./LiveWeighmentScreen";
 import PendingWeighmentsScreen from "./PendingWeighmentsScreen";
 import OperatorCompletionScreens from "./OperatorCompletionScreens";
@@ -92,4 +91,3 @@ export default function OperatorScreens(props: Props) {
     </AppShell>
   );
 }
-

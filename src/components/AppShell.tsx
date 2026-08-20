@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 
 export type Role = "admin" | "operator" | "maintenance" | "manager";
@@ -15,10 +15,18 @@ export interface AppShellProps {
   onNavigate: (view: string) => void;
 }
 
-// ── SVG Icon Helpers ────────────────────────────────────────────────────────
 function BellIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
     </svg>
@@ -27,8 +35,20 @@ function BellIcon() {
 
 function ChevronDownIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="6 9 12 15 18 9" />
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
   );
 }
@@ -37,7 +57,14 @@ export default function AppShell({
   children,
   activeView,
   userRole = "admin",
-  userName = userRole === "admin" ? "Arun Kumar" : userRole === "operator" ? "Ravi Kumar" : userRole === "maintenance" ? "Suresh Tech" : "Rajesh Supervisor",
+  userName = userRole === "admin"
+    ? "Arun Kumar"
+    : userRole === "operator"
+      ? "Ravi Kumar"
+      : userRole === "maintenance"
+        ? "Suresh Tech"
+        : "Rajesh Supervisor",
+  stationName = "WB-01 • ONLINE",
   darkMode: dm,
   onToggleDark,
   onLogout,
@@ -49,13 +76,12 @@ export default function AppShell({
   const topbarBg = dm ? "#1F2937" : "#FFFFFF";
   const elevated = dm ? "#273449" : "#FFFFFF";
   const primaryText = dm ? "#F9FAFB" : "#111827";
-  const secondaryText = dm ? "#CBD5E1" : "#334155";
   const mutedText = dm ? "#9CA3AF" : "#6B7280";
   const border = dm ? "#374151" : "#E5E7EB";
   const divider = dm ? "#374151" : "#F1F5F9";
-
   const primaryOrange = dm ? "#FB923C" : "#F97316";
   const secondaryGold = dm ? "#D4A83A" : "#C99A2E";
+  const statusSuccess = dm ? "#22C55E" : "#16A34A";
 
   // Sidebar Collapse State
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -65,64 +91,117 @@ export default function AppShell({
   const [notifPopoverOpen, setNotifPopoverOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-  // Weighbridge Selector Logic (Role-Aware)
-  const isAdmin = userRole === "admin" || userRole === "manager";
-
-  const allWeighbridgesList = [
-    { id: "all", name: "All Weighbridges", statusColor: "#16A34A", statusText: "ONLINE" },
-    { id: "WB-01", name: "WB-01 — Main Gate", statusColor: "#16A34A", statusText: "ONLINE" },
-    { id: "WB-02", name: "WB-02 — North Yard", statusColor: "#2563EB", statusText: "AVAILABLE" },
-    { id: "WB-03", name: "WB-03 — Loading Bay", statusColor: "#8B5CF6", statusText: "WEIGHING" },
-    { id: "WB-04", name: "WB-04 — Dispatch Gate", statusColor: "#DC2626", statusText: "OFFLINE" },
-    { id: "WB-05", name: "WB-05 — Raw Material Yard", statusColor: "#2563EB", statusText: "AVAILABLE" },
-  ];
-
-  // Operator only gets assigned weighbridges (e.g., WB-01)
-  const availableStations = isAdmin
-    ? allWeighbridgesList
-    : allWeighbridgesList.filter((w) => w.id === "WB-01");
-
-  const [selectedStationId, setSelectedStationId] = useState<string>(isAdmin ? "all" : "WB-01");
-  const currentStation = availableStations.find((s) => s.id === selectedStationId) || availableStations[0];
-
   // User Initials
-  const userInitials = userName.split(" ").map((n) => n[0]).join("").substring(0, 2).toUpperCase();
-  const roleLabel = isAdmin ? "Administrator" : userRole === "operator" ? "Operator" : userRole === "maintenance" ? "Maintenance" : "Manager";
+  const userInitials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .substring(0, 2)
+    .toUpperCase();
 
-  // Live Clock State (Updates every 1 second)
-  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  // Role label text
+  const roleLabel =
+    userRole === "admin"
+      ? "Administrator"
+      : userRole === "operator"
+        ? "Operator"
+        : userRole === "maintenance"
+          ? "Maintenance"
+          : "Manager";
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatDateStr = (date: Date) => {
-    const day = date.getDate().toString().padStart(2, "0");
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  };
-
-  const formatTimeStr = (date: Date) => {
-    let hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const seconds = date.getSeconds().toString().padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    const hoursStr = hours.toString().padStart(2, "0");
-    return `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+  // Breadcrumb Section Context based on activeView
+  const getBreadcrumbContext = () => {
+    switch (activeView) {
+      case "dashboard":
+      case "operator-dashboard":
+        return "Overview / Dashboard";
+      case "monitoring":
+      case "live-weighment":
+      case "detail":
+        return "Operations / Live Weighbridge";
+      case "vehicle-entry":
+        return "Operations / Vehicle Visits";
+      case "transactions":
+      case "transaction-detail":
+      case "second-weighment":
+        return "Operations / Weighments";
+      case "pending":
+      case "pending-weighments":
+        return "Operations / Pending Weighments";
+      case "tickets":
+      case "ticket-detail":
+      case "ticket-preview":
+        return "Support / Tickets";
+      case "alerts":
+        return "Support / Alerts Center";
+      case "customers":
+      case "customer-detail":
+      case "customer-add":
+      case "customer-edit":
+        return "Management / Customers";
+      case "suppliers":
+      case "supplier-detail":
+      case "supplier-add":
+      case "supplier-edit":
+        return "Management / Suppliers";
+      case "vehicles":
+      case "vehicle-detail":
+      case "vehicle-add":
+      case "vehicle-edit":
+        return "Management / Vehicles";
+      case "drivers":
+      case "driver-detail":
+      case "driver-add":
+      case "driver-edit":
+        return "Management / Drivers";
+      case "materials":
+      case "material-detail":
+      case "material-add":
+      case "material-edit":
+        return "Management / Materials";
+      case "weighbridges":
+        return "Weighbridge / Weighbridges";
+      case "device-monitoring":
+        return "Weighbridge / Device Monitoring";
+      case "indicators":
+        return "Weighbridge / Weight Indicators";
+      case "cameras":
+        return "Weighbridge / Cameras";
+      case "printers":
+        return "Weighbridge / Printers";
+      case "calibration":
+        return "Weighbridge / Calibration";
+      case "billing":
+        return "Finance / Billing & Invoices";
+      case "employees":
+        return "Administration / Employees";
+      case "reports":
+      case "weighment-report":
+      case "performance-report":
+      case "customer-report":
+        return "Reports / Report Center";
+      case "auditlogs":
+        return "Administration / Audit Logs";
+      case "settings":
+        return "Administration / System Settings";
+      default:
+        return "ABC Weighbridge / Management System";
+    }
   };
 
   const sidebarWidth = sidebarCollapsed ? 72 : 260;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh", background: bg, color: primaryText, fontFamily: "'Inter', -apple-system, sans-serif" }}>
-
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        background: bg,
+        color: primaryText,
+        fontFamily: "'Inter', -apple-system, sans-serif",
+      }}
+    >
       {/* ── 1. GLOBAL FIXED SIDEBAR (260px Expanded / 72px Collapsed) ── */}
       <Sidebar
         activeView={activeView}
@@ -134,154 +213,190 @@ export default function AppShell({
       />
 
       {/* ── 2. MAIN APPLICATION CONTENT AREA (Offset by sidebarWidth) ── */}
-      <div style={{ marginLeft: sidebarWidth, display: "flex", flexDirection: "column", minHeight: "100vh", transition: "margin-left 0.2s ease" }}>
-
-        {/* ── 72px STANDARDIZED GLOBAL TOPBAR ── */}
+      <div
+        style={{
+          marginLeft: sidebarWidth,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          transition: "margin-left 0.2s ease",
+        }}
+      >
+        {/* ── 64px STANDARDIZED GLOBAL TOPBAR ── */}
         <header
           style={{
-            height: 72,
-            minHeight: 72,
-            padding: "0 28px",
+            height: 64,
+            minHeight: 64,
+            padding: "0 24px",
             background: topbarBg,
             borderBottom: `1px solid ${border}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             flexShrink: 0,
-            zIndex: 300,
+            zIndex: 50,
             position: "sticky",
             top: 0,
           }}
         >
-          {/* TOPBAR LEFT: LIVE DATE & TIME CLOCK (SHARED FOR ADMIN & OPERATOR) */}
+          {/* TOPBAR LEFT: BREADCRUMB / SECTION CONTEXT */}
           <div
-            style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13.5, fontWeight: 600, color: primaryText }}
-            aria-label="Current date and time"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              fontSize: 13.5,
+              fontWeight: 700,
+              color: primaryText,
+            }}
           >
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: primaryOrange, display: "inline-block" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ color: primaryText, fontWeight: 1400, fontSize: 24, fontFamily: "monospace", letterSpacing: "0.02em" }}>
-                {formatTimeStr(currentTime)}
-              </span>
-              <span style={{ color: mutedText, fontSize: 12 }}>|</span>
-              <span style={{ color: secondaryText, fontWeight: 1000, fontSize: 20 }}>
-                {formatDateStr(currentTime)}
-              </span>
-            </div>
+            <span style={{ color: primaryOrange, fontSize: 16 }}>📍</span>
+            <span>{getBreadcrumbContext()}</span>
           </div>
 
-          {/* TOPBAR RIGHT: WEIGHBRIDGE SELECTOR, NOTIFICATIONS & USER PROFILE */}
-          <div style={{ display: "flex", alignItems: "center", gap: 14, position: "relative" }}>
-
-            {/* Role-Aware Weighbridge Selector */}
+          {/* TOPBAR RIGHT: STATION STATUS, NOTIFICATIONS & USER PROFILE */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+              position: "relative",
+            }}
+          >
+            {/* Station Status Badge + Compact Popover */}
             <div style={{ position: "relative" }}>
-              {isAdmin ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => setStationPopoverOpen(!stationPopoverOpen)}
-                    style={{
-                      height: 40,
-                      padding: "0 14px",
-                      borderRadius: 8,
-                      background: elevated,
-                      border: `1px solid ${border}`,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      cursor: "pointer",
-                      fontSize: 12.5,
-                      fontWeight: 700,
-                      color: primaryText,
-                      transition: "border-color 0.15s ease",
-                    }}
-                  >
-                    <span style={{ width: 8, height: 8, borderRadius: "50%", background: currentStation.statusColor }} />
-                    <span>{currentStation.name}</span>
-                    <ChevronDownIcon />
-                  </button>
+              <button
+                type="button"
+                onClick={() => setStationPopoverOpen(!stationPopoverOpen)}
+                style={{
+                  height: 38,
+                  padding: "0 12px",
+                  borderRadius: 8,
+                  background: elevated,
+                  border: `1px solid ${border}`,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  cursor: "pointer",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: primaryText,
+                }}
+              >
+                <span
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: statusSuccess,
+                  }}
+                />
+                <span>{stationName}</span>
+              </button>
 
-                  {/* Station Selection Popover (Admin Only) */}
-                  {stationPopoverOpen && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 48,
-                        right: 0,
-                        width: 270,
-                        background: surface,
-                        borderRadius: 12,
-                        border: `1px solid ${border}`,
-                        boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
-                        zIndex: 100,
-                        padding: "8px 0",
-                      }}
-                    >
-                      <div style={{ padding: "8px 16px 6px", fontSize: 10.5, fontWeight: 800, color: mutedText, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                        Select Global Station Context
-                      </div>
-
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        {availableStations.map((station) => {
-                          const selected = station.id === selectedStationId;
-                          return (
-                            <button
-                              key={station.id}
-                              type="button"
-                              onClick={() => {
-                                setSelectedStationId(station.id);
-                                setStationPopoverOpen(false);
-                              }}
-                              style={{
-                                width: "100%",
-                                padding: "10px 16px",
-                                border: "none",
-                                background: selected ? (dm ? "rgba(249,115,22,0.15)" : "#FFFBEB") : "transparent",
-                                color: selected ? primaryOrange : primaryText,
-                                fontSize: 12.5,
-                                fontWeight: selected ? 700 : 500,
-                                textAlign: "left",
-                                cursor: "pointer",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                                <span style={{ width: 7, height: 7, borderRadius: "50%", background: station.statusColor }} />
-                                <span>{station.name}</span>
-                              </div>
-                              <span style={{ fontSize: 10, fontWeight: 700, color: station.statusColor }}>
-                                {station.statusText}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </>
-              ) : (
-                /* Operator Assigned Station Pill (Static, Non-Interactive) */
+              {/* Station Status Popover */}
+              {stationPopoverOpen && (
                 <div
                   style={{
-                    height: 40,
-                    padding: "0 14px",
-                    borderRadius: 8,
-                    background: elevated,
+                    position: "absolute",
+                    top: 46,
+                    right: 0,
+                    width: 260,
+                    background: surface,
+                    borderRadius: 12,
                     border: `1px solid ${border}`,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    fontSize: 12.5,
-                    fontWeight: 700,
-                    color: primaryText,
+                    boxShadow: "0 12px 30px rgba(0,0,0,0.2)",
+                    zIndex: 100,
+                    padding: 16,
                   }}
-                  title="Assigned Weighbridge Workstation"
                 >
-                  <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#16A34A" }} />
-                  <span>WB-01 — Main Gate</span>
-                  <span style={{ color: "#16A34A", fontSize: 11, fontWeight: 800 }}>• ONLINE</span>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      color: mutedText,
+                      letterSpacing: "0.05em",
+                      marginBottom: 8,
+                    }}
+                  >
+                    CURRENT STATION
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 800,
+                      color: primaryText,
+                      marginBottom: 2,
+                    }}
+                  >
+                    WB-01 — Main Gate
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: statusSuccess,
+                      marginBottom: 12,
+                    }}
+                  >
+                    ● Online & Operational
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 6,
+                      fontSize: 12,
+                      borderTop: `1px solid ${divider}`,
+                      paddingTop: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>Indicator</span>
+                      <span style={{ color: statusSuccess, fontWeight: 700 }}>
+                        ✓ Online
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>Camera</span>
+                      <span style={{ color: statusSuccess, fontWeight: 700 }}>
+                        ✓ Online
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>Printer</span>
+                      <span style={{ color: statusSuccess, fontWeight: 700 }}>
+                        ✓ Online
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>Network</span>
+                      <span style={{ color: statusSuccess, fontWeight: 700 }}>
+                        ✓ Online
+                      </span>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -292,8 +407,8 @@ export default function AppShell({
                 type="button"
                 onClick={() => setNotifPopoverOpen(!notifPopoverOpen)}
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 38,
+                  height: 38,
                   borderRadius: 8,
                   background: elevated,
                   border: `1px solid ${border}`,
@@ -334,27 +449,72 @@ export default function AppShell({
                 <div
                   style={{
                     position: "absolute",
-                    top: 48,
+                    top: 46,
                     right: 0,
                     width: 300,
                     background: surface,
                     borderRadius: 12,
                     border: `1px solid ${border}`,
-                    boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
+                    boxShadow: "0 12px 30px rgba(0,0,0,0.2)",
                     zIndex: 100,
                     padding: 14,
                   }}
                 >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: 10, borderBottom: `1px solid ${divider}` }}>
-                    <span style={{ fontSize: 13, fontWeight: 800, color: primaryText }}>Notifications</span>
-                    <span style={{ fontSize: 11, color: primaryOrange, fontWeight: 700 }}>3 Unread</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingBottom: 10,
+                      borderBottom: `1px solid ${divider}`,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 800,
+                        color: primaryText,
+                      }}
+                    >
+                      Recent Alerts
+                    </span>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        color: primaryOrange,
+                        fontWeight: 700,
+                      }}
+                    >
+                      3 Unread
+                    </span>
                   </div>
-                  <div style={{ padding: "10px 0", display: "flex", flexDirection: "column", gap: 8, fontSize: 12 }}>
-                    <div style={{ padding: 8, borderRadius: 6, background: elevated }}>
-                      <strong>WB-04 Status</strong>: Hardware indicator connection issue
+                  <div
+                    style={{
+                      padding: "10px 0",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      fontSize: 12,
+                    }}
+                  >
+                    <div
+                      style={{
+                        padding: 8,
+                        borderRadius: 6,
+                        background: elevated,
+                      }}
+                    >
+                      <strong>WB-04 Status</strong>: Degraded response speed
                     </div>
-                    <div style={{ padding: 8, borderRadius: 6, background: elevated }}>
-                      <strong>Ticket TKT-10248</strong>: High Priority SLA update
+                    <div
+                      style={{
+                        padding: 8,
+                        borderRadius: 6,
+                        background: elevated,
+                      }}
+                    >
+                      <strong>Ticket TKT-10248</strong>: High Priority SLA
+                      update
                     </div>
                   </div>
                   <button
@@ -388,8 +548,7 @@ export default function AppShell({
                 type="button"
                 onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
                 style={{
-                  padding: "4px 12px 4px 6px",
-                  height: 40,
+                  padding: "4px 10px 4px 6px",
                   borderRadius: 10,
                   background: elevated,
                   border: `1px solid ${border}`,
@@ -401,13 +560,13 @@ export default function AppShell({
               >
                 <div
                   style={{
-                    width: 30,
-                    height: 30,
-                    borderRadius: 7,
+                    width: 32,
+                    height: 32,
+                    borderRadius: 8,
                     background: primaryOrange,
                     color: "#FFF",
                     fontWeight: 900,
-                    fontSize: 12.5,
+                    fontSize: 13,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -416,8 +575,25 @@ export default function AppShell({
                   {userInitials}
                 </div>
                 <div style={{ textAlign: "left" }}>
-                  <div style={{ fontSize: 12.5, fontWeight: 800, color: primaryText, lineHeight: 1.2 }}>{userName}</div>
-                  <div style={{ fontSize: 10.5, color: secondaryGold, fontWeight: 700 }}>{roleLabel}</div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: primaryText,
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {userName}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      color: secondaryGold,
+                      fontWeight: 700,
+                    }}
+                  >
+                    {roleLabel}
+                  </div>
                 </div>
                 <ChevronDownIcon />
               </button>
@@ -433,41 +609,101 @@ export default function AppShell({
                     background: surface,
                     borderRadius: 12,
                     border: `1px solid ${border}`,
-                    boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
+                    boxShadow: "0 12px 30px rgba(0,0,0,0.2)",
                     zIndex: 100,
                     padding: "6px 0",
                   }}
                 >
-                  <div style={{ padding: "10px 14px", borderBottom: `1px solid ${divider}` }}>
-                    <div style={{ fontSize: 13, fontWeight: 800, color: primaryText }}>{userName}</div>
-                    <div style={{ fontSize: 11, color: mutedText }}>{roleLabel} · ABC Industries</div>
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderBottom: `1px solid ${divider}`,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 800,
+                        color: primaryText,
+                      }}
+                    >
+                      {userName}
+                    </div>
+                    <div style={{ fontSize: 11, color: mutedText }}>
+                      {roleLabel} · ABC Industries
+                    </div>
                   </div>
-                  <button type="button" onClick={() => { setProfileDropdownOpen(false); onNavigate("settings"); }} style={menuBtnStyle}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      onNavigate("settings");
+                    }}
+                    style={menuBtnStyle}
+                  >
                     👤 My Profile
                   </button>
-                  <button type="button" onClick={() => { setProfileDropdownOpen(false); onNavigate("settings"); }} style={menuBtnStyle}>
-                    ⚙ Preferences
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      onNavigate("settings");
+                    }}
+                    style={menuBtnStyle}
+                  >
+                    ⚙ Account Settings
                   </button>
-                  <button type="button" onClick={() => { setProfileDropdownOpen(false); onToggleDark(); }} style={menuBtnStyle}>
-                    {dm ? "☀️ Light Mode" : "🌙 Dark Mode"}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      onToggleDark();
+                    }}
+                    style={menuBtnStyle}
+                  >
+                    {dm ? "☀️ Switch to Light Mode" : "🌙 Switch to Dark Mode"}
                   </button>
-                  <div style={{ borderTop: `1px solid ${divider}`, margin: "4px 0" }} />
-                  <button type="button" onClick={onLogout} style={{ ...menuBtnStyle, color: "#DC2626" }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setProfileDropdownOpen(false);
+                      onNavigate("auditlogs");
+                    }}
+                    style={menuBtnStyle}
+                  >
+                    🛡 Activity
+                  </button>
+                  <div
+                    style={{
+                      borderTop: `1px solid ${divider}`,
+                      margin: "4px 0",
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={onLogout}
+                    style={{ ...menuBtnStyle, color: "#DC2626" }}
+                  >
                     🚪 Sign Out
                   </button>
                 </div>
               )}
             </div>
-
           </div>
         </header>
 
         {/* ── PAGE CONTENT CANVAS ── */}
-        <main style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+        <main
+          style={{
+            flex: 1,
+            minWidth: 0,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           {children}
         </main>
       </div>
-
     </div>
   );
 }
@@ -477,7 +713,7 @@ const menuBtnStyle: React.CSSProperties = {
   padding: "10px 16px",
   border: "none",
   background: "transparent",
-  fontSize: 12.5,
+  fontSize: 13,
   fontWeight: 600,
   color: "inherit",
   textAlign: "left",

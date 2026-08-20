@@ -77,7 +77,11 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.10",
     result: "SUCCESS",
     severity: "CRITICAL",
-    deviceInfo: { os: "Windows 11 Enterprise", browser: "Chrome 127.0", sessionId: "SES-8F42K92L" },
+    deviceInfo: {
+      os: "Windows 11 Enterprise",
+      browser: "Chrome 127.0",
+      sessionId: "SES-8F42K92L",
+    },
     details: {
       reason: "Duplicate ticket generated due to operator re-entry request.",
       previousStatus: "COMPLETED",
@@ -86,15 +90,23 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
         { field: "Status", before: "COMPLETED", after: "VOID" },
         { field: "Ticket State", before: "ACTIVE", after: "VOIDED" },
         { field: "Void Reason", before: "N/A", after: "Duplicate ticket" },
-        { field: "Authorized By", before: "N/A", after: "Admin (EMP-001)" }
-      ]
+        { field: "Authorized By", before: "N/A", after: "Admin (EMP-001)" },
+      ],
     },
     timeline: [
       { time: "09:15 AM", event: "Ticket Created", actor: "Arun Kumar" },
-      { time: "09:16 AM", event: "First Weighing Recorded (38,300 KG)", actor: "WB-01 Scale" },
-      { time: "09:20 AM", event: "Second Weighing Recorded (13,500 KG)", actor: "WB-01 Scale" },
+      {
+        time: "09:16 AM",
+        event: "First Weighing Recorded (38,300 KG)",
+        actor: "WB-01 Scale",
+      },
+      {
+        time: "09:20 AM",
+        event: "Second Weighing Recorded (13,500 KG)",
+        actor: "WB-01 Scale",
+      },
       { time: "09:21 AM", event: "Ticket Printed", actor: "Arun Kumar" },
-      { time: "11:20 AM", event: "Ticket Voided", actor: "Admin" }
+      { time: "11:20 AM", event: "Ticket Voided", actor: "Admin" },
     ],
     relatedRecords: {
       ticket: "WB-2026-00451",
@@ -102,8 +114,8 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
       material: "Gravel 20mm",
       customer: "Metro Builders",
       supplier: "Metro Aggregates",
-      operator: "Arun Kumar"
-    }
+      operator: "Arun Kumar",
+    },
   },
   {
     id: "AUD-2026-001841",
@@ -117,17 +129,29 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.24",
     result: "SUCCESS",
     severity: "INFO",
-    deviceInfo: { os: "Windows 10 IoT", browser: "Edge 125.0", sessionId: "SES-33A190KK" },
+    deviceInfo: {
+      os: "Windows 10 IoT",
+      browser: "Edge 125.0",
+      sessionId: "SES-33A190KK",
+    },
     details: {
       reason: "Standard ticket print request following completed net weighing.",
       previousStatus: "READY",
       newStatus: "PRINTED",
-      delta: [{ field: "Copies Printed", before: "0", after: "1" }]
+      delta: [{ field: "Copies Printed", before: "0", after: "1" }],
     },
     timeline: [
-      { time: "10:45 AM", event: "Vehicle Positioned on Scale", actor: "WB-01 Sensor" },
-      { time: "10:48 AM", event: "Net Weight Stabilized (25,000 KG)", actor: "Indicator #1" },
-      { time: "10:51 AM", event: "Ticket Printed", actor: "Arun Kumar" }
+      {
+        time: "10:45 AM",
+        event: "Vehicle Positioned on Scale",
+        actor: "WB-01 Sensor",
+      },
+      {
+        time: "10:48 AM",
+        event: "Net Weight Stabilized (25,000 KG)",
+        actor: "Indicator #1",
+      },
+      { time: "10:51 AM", event: "Ticket Printed", actor: "Arun Kumar" },
     ],
     relatedRecords: {
       ticket: "WB-2026-00458",
@@ -135,8 +159,8 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
       material: "Gravel",
       customer: "ABC Construction",
       supplier: "Alpha Quarries",
-      operator: "Arun Kumar"
-    }
+      operator: "Arun Kumar",
+    },
   },
   {
     id: "AUD-2026-001840",
@@ -150,28 +174,37 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.24",
     result: "SUCCESS",
     severity: "INFO",
-    deviceInfo: { os: "Windows 10 IoT", browser: "Edge 125.0", sessionId: "SES-33A190KK" },
+    deviceInfo: {
+      os: "Windows 10 IoT",
+      browser: "Edge 125.0",
+      sessionId: "SES-33A190KK",
+    },
     details: {
-      reason: "Net weight calculated automatically from Gross (38,500 KG) and Tare (13,500 KG).",
+      reason:
+        "Net weight calculated automatically from Gross (38,500 KG) and Tare (13,500 KG).",
       previousStatus: "WEIGHING",
       newStatus: "COMPLETED",
       delta: [
         { field: "Gross Weight", before: "Pending", after: "38,500 KG" },
         { field: "Tare Weight", before: "13,500 KG", after: "13,500 KG" },
-        { field: "Net Weight", before: "0 KG", after: "25,000 KG" }
-      ]
+        { field: "Net Weight", before: "0 KG", after: "25,000 KG" },
+      ],
     },
     timeline: [
-      { time: "10:42 AM", event: "Vehicle Arrived at WB-01", actor: "ANPR Camera" },
-      { time: "10:48 AM", event: "Weighment Completed", actor: "Arun Kumar" }
+      {
+        time: "10:42 AM",
+        event: "Vehicle Arrived at WB-01",
+        actor: "ANPR Camera",
+      },
+      { time: "10:48 AM", event: "Weighment Completed", actor: "Arun Kumar" },
     ],
     relatedRecords: {
       ticket: "WB-2026-00458",
       vehicle: "TN20AB1234",
       material: "Gravel",
       customer: "ABC Construction",
-      operator: "Arun Kumar"
-    }
+      operator: "Arun Kumar",
+    },
   },
   {
     id: "AUD-2026-001839",
@@ -185,23 +218,31 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.10",
     result: "SUCCESS",
     severity: "CRITICAL",
-    deviceInfo: { os: "Windows 11 Enterprise", browser: "Chrome 127.0", sessionId: "SES-8F42K92L" },
+    deviceInfo: {
+      os: "Windows 11 Enterprise",
+      browser: "Chrome 127.0",
+      sessionId: "SES-8F42K92L",
+    },
     details: {
       reason: "Granted Tare Manual Override access for night shift supervisor.",
       previousStatus: "STANDARD_OPERATOR",
       newStatus: "SENIOR_OPERATOR",
       delta: [
         { field: "Manual Tare Override", before: "Disabled", after: "Enabled" },
-        { field: "Max Manual Tolerance", before: "0 KG", after: "500 KG" }
-      ]
+        { field: "Max Manual Tolerance", before: "0 KG", after: "500 KG" },
+      ],
     },
     timeline: [
-      { time: "10:12 AM", event: "Permission Change Requested", actor: "Priya Sharma" },
-      { time: "10:15 AM", event: "Permission Granted & Saved", actor: "Admin" }
+      {
+        time: "10:12 AM",
+        event: "Permission Change Requested",
+        actor: "Priya Sharma",
+      },
+      { time: "10:15 AM", event: "Permission Granted & Saved", actor: "Admin" },
     ],
     relatedRecords: {
-      operator: "Ravi Kumar (EMP-0012)"
-    }
+      operator: "Ravi Kumar (EMP-0012)",
+    },
   },
   {
     id: "AUD-2026-001838",
@@ -215,20 +256,24 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.35",
     result: "FAILED",
     severity: "WARNING",
-    deviceInfo: { os: "Windows 10 Pro", browser: "Chrome 126.0", sessionId: "SES-FAILED-01" },
+    deviceInfo: {
+      os: "Windows 10 Pro",
+      browser: "Chrome 126.0",
+      sessionId: "SES-FAILED-01",
+    },
     details: {
       reason: "Incorrect password attempt (2nd consecutive failed attempt).",
       previousStatus: "UNAUTHENTICATED",
       newStatus: "UNAUTHENTICATED",
-      delta: [{ field: "Failed Attempt Count", before: "1", after: "2" }]
+      delta: [{ field: "Failed Attempt Count", before: "1", after: "2" }],
     },
     timeline: [
       { time: "09:31 AM", event: "Attempt 1 Failed", actor: "Auth Gateway" },
-      { time: "09:32 AM", event: "Attempt 2 Failed", actor: "Auth Gateway" }
+      { time: "09:32 AM", event: "Attempt 2 Failed", actor: "Auth Gateway" },
     ],
     relatedRecords: {
-      operator: "Suresh Kumar"
-    }
+      operator: "Suresh Kumar",
+    },
   },
   {
     id: "AUD-2026-001837",
@@ -242,23 +287,40 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.10",
     result: "SUCCESS",
     severity: "CRITICAL",
-    deviceInfo: { os: "Windows 11 Enterprise", browser: "Chrome 127.0", sessionId: "SES-8F42K92L" },
+    deviceInfo: {
+      os: "Windows 11 Enterprise",
+      browser: "Chrome 127.0",
+      sessionId: "SES-8F42K92L",
+    },
     details: {
-      reason: "Updated per-ton rate for Blast Furnace Slag as per Q3 pricing contract.",
+      reason:
+        "Updated per-ton rate for Blast Furnace Slag as per Q3 pricing contract.",
       previousStatus: "₹450 / MT",
       newStatus: "₹480 / MT",
       delta: [
-        { field: "Base Tariff Rate", before: "₹450.00 / MT", after: "₹480.00 / MT" },
-        { field: "Effective Date", before: "01 Jul 2026", after: "19 Aug 2026" }
-      ]
+        {
+          field: "Base Tariff Rate",
+          before: "₹450.00 / MT",
+          after: "₹480.00 / MT",
+        },
+        {
+          field: "Effective Date",
+          before: "01 Jul 2026",
+          after: "19 Aug 2026",
+        },
+      ],
     },
     timeline: [
       { time: "09:10 AM", event: "Tariff Revision Inputted", actor: "Admin" },
-      { time: "09:15 AM", event: "Tariff Rate Saved & Published", actor: "Admin" }
+      {
+        time: "09:15 AM",
+        event: "Tariff Rate Saved & Published",
+        actor: "Admin",
+      },
     ],
     relatedRecords: {
-      material: "Blast Furnace Slag (MAT-SLAG-01)"
-    }
+      material: "Blast Furnace Slag (MAT-SLAG-01)",
+    },
   },
   {
     id: "AUD-2026-001836",
@@ -272,24 +334,37 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.18",
     result: "SUCCESS",
     severity: "CRITICAL",
-    deviceInfo: { os: "Windows 10 IoT", browser: "Chrome 126.0", sessionId: "SES-WB03-CONFIG" },
+    deviceInfo: {
+      os: "Windows 10 IoT",
+      browser: "Chrome 126.0",
+      sessionId: "SES-WB03-CONFIG",
+    },
     details: {
-      reason: "Zero point re-calibration performed prior to morning shift start.",
+      reason:
+        "Zero point re-calibration performed prior to morning shift start.",
       previousStatus: "CALIB_ZERO_+15KG",
       newStatus: "CALIB_ZERO_0KG",
       delta: [
         { field: "Zero Calibration Offset", before: "+15 KG", after: "0 KG" },
-        { field: "Calibration Certificate", before: "CERT-2025-88", after: "CERT-2026-04" }
-      ]
+        {
+          field: "Calibration Certificate",
+          before: "CERT-2025-88",
+          after: "CERT-2026-04",
+        },
+      ],
     },
     timeline: [
-      { time: "08:45 AM", event: "Calibration Weight Placed (10,000 KG)", actor: "Technician Team" },
-      { time: "08:50 AM", event: "Zero Calibrated & Saved", actor: "Ravi" }
+      {
+        time: "08:45 AM",
+        event: "Calibration Weight Placed (10,000 KG)",
+        actor: "Technician Team",
+      },
+      { time: "08:50 AM", event: "Zero Calibrated & Saved", actor: "Ravi" },
     ],
     relatedRecords: {
       operator: "Ravi",
-      ticket: "WB-03 System Log"
-    }
+      ticket: "WB-03 System Log",
+    },
   },
   {
     id: "AUD-2026-001835",
@@ -303,20 +378,34 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.24",
     result: "SUCCESS",
     severity: "INFO",
-    deviceInfo: { os: "Windows 10 IoT", browser: "Edge 125.0", sessionId: "SES-33A190KK" },
+    deviceInfo: {
+      os: "Windows 10 IoT",
+      browser: "Edge 125.0",
+      sessionId: "SES-33A190KK",
+    },
     details: {
       reason: "Operator authenticated via 2FA security challenge.",
       previousStatus: "UNAUTHENTICATED",
       newStatus: "AUTHENTICATED",
-      delta: [{ field: "Session Token", before: "None", after: "Active (SES-33A190KK)" }]
+      delta: [
+        {
+          field: "Session Token",
+          before: "None",
+          after: "Active (SES-33A190KK)",
+        },
+      ],
     },
     timeline: [
       { time: "08:41 AM", event: "Credentials Entered", actor: "Arun Kumar" },
-      { time: "08:42 AM", event: "OTP Verified & Session Started", actor: "Auth Gateway" }
+      {
+        time: "08:42 AM",
+        event: "OTP Verified & Session Started",
+        actor: "Auth Gateway",
+      },
     ],
     relatedRecords: {
-      operator: "Arun Kumar"
-    }
+      operator: "Arun Kumar",
+    },
   },
   {
     id: "AUD-2026-001834",
@@ -330,24 +419,33 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.12",
     result: "SUCCESS",
     severity: "CRITICAL",
-    deviceInfo: { os: "Windows 11 Pro", browser: "Firefox 128.0", sessionId: "SES-PRIYA-99" },
+    deviceInfo: {
+      os: "Windows 11 Pro",
+      browser: "Firefox 128.0",
+      sessionId: "SES-PRIYA-99",
+    },
     details: {
-      reason: "Incorrect billing slab applied to customer invoice. Re-issuing correct tax invoice.",
+      reason:
+        "Incorrect billing slab applied to customer invoice. Re-issuing correct tax invoice.",
       previousStatus: "ISSUED",
       newStatus: "CANCELLED",
       delta: [
         { field: "Invoice Status", before: "ISSUED", after: "CANCELLED" },
-        { field: "Tax Amount", before: "₹18,400", after: "₹0.00" }
-      ]
+        { field: "Tax Amount", before: "₹18,400", after: "₹0.00" },
+      ],
     },
     timeline: [
-      { time: "08:10 AM", event: "Customer Dispute Logged", actor: "Accounts Dept" },
-      { time: "08:15 AM", event: "Invoice Cancelled", actor: "Priya Sharma" }
+      {
+        time: "08:10 AM",
+        event: "Customer Dispute Logged",
+        actor: "Accounts Dept",
+      },
+      { time: "08:15 AM", event: "Invoice Cancelled", actor: "Priya Sharma" },
     ],
     relatedRecords: {
       customer: "Metro Infra",
-      ticket: "INV-2026-089"
-    }
+      ticket: "INV-2026-089",
+    },
   },
   {
     id: "AUD-2026-001833",
@@ -361,25 +459,38 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.29",
     result: "SUCCESS",
     severity: "CRITICAL",
-    deviceInfo: { os: "Windows 10 IoT", browser: "Chrome 126.0", sessionId: "SES-KUMAR-02" },
+    deviceInfo: {
+      os: "Windows 10 IoT",
+      browser: "Chrome 126.0",
+      sessionId: "SES-KUMAR-02",
+    },
     details: {
-      reason: "Corrected customer GSTIN number upon physical challan verification.",
+      reason:
+        "Corrected customer GSTIN number upon physical challan verification.",
       previousStatus: "POSTED",
       newStatus: "POSTED_UPDATED",
       delta: [
-        { field: "Customer GSTIN", before: "33AAAAB0000A1Z5", after: "33AAACK9988B1Z2" },
-        { field: "Challan Ref", before: "CH-9002", after: "CH-9002-REV" }
-      ]
+        {
+          field: "Customer GSTIN",
+          before: "33AAAAB0000A1Z5",
+          after: "33AAACK9988B1Z2",
+        },
+        { field: "Challan Ref", before: "CH-9002", after: "CH-9002-REV" },
+      ],
     },
     timeline: [
-      { time: "07:50 AM", event: "Challan Variance Identified", actor: "Kumar" },
-      { time: "07:55 AM", event: "GSTIN Corrected & Saved", actor: "Kumar" }
+      {
+        time: "07:50 AM",
+        event: "Challan Variance Identified",
+        actor: "Kumar",
+      },
+      { time: "07:55 AM", event: "GSTIN Corrected & Saved", actor: "Kumar" },
     ],
     relatedRecords: {
       ticket: "WB-2026-00445",
       customer: "Kumar Traders",
-      vehicle: "TN10EF9012"
-    }
+      vehicle: "TN10EF9012",
+    },
   },
   {
     id: "AUD-2026-001832",
@@ -393,23 +504,31 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     ipAddress: "192.168.1.10",
     result: "SUCCESS",
     severity: "INFO",
-    deviceInfo: { os: "Windows 11 Enterprise", browser: "Chrome 127.0", sessionId: "SES-8F42K92L" },
+    deviceInfo: {
+      os: "Windows 11 Enterprise",
+      browser: "Chrome 127.0",
+      sessionId: "SES-8F42K92L",
+    },
     details: {
       reason: "Routine daily shift audit log export for compliance archive.",
       previousStatus: "NONE",
       newStatus: "EXPORTED",
       delta: [
         { field: "Records Exported", before: "0", after: "1,248" },
-        { field: "Export Format", before: "N/A", after: "PDF & CSV" }
-      ]
+        { field: "Export Format", before: "N/A", after: "PDF & CSV" },
+      ],
     },
     timeline: [
       { time: "07:29 AM", event: "Export Requested", actor: "Admin" },
-      { time: "07:30 AM", event: "Archive Generated & Downloaded", actor: "System Security Gateway" }
+      {
+        time: "07:30 AM",
+        event: "Archive Generated & Downloaded",
+        actor: "System Security Gateway",
+      },
     ],
     relatedRecords: {
-      operator: "Admin"
-    }
+      operator: "Admin",
+    },
   },
   {
     id: "AUD-2026-001831",
@@ -425,19 +544,34 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
     severity: "WARNING",
     deviceInfo: { os: "Unknown OS", browser: "Curl/7.68.0", sessionId: "NONE" },
     details: {
-      reason: "IP Address outside corporate whitelist attempted direct port scan on Weighbridge #4 gateway.",
+      reason:
+        "IP Address outside corporate whitelist attempted direct port scan on Weighbridge #4 gateway.",
       previousStatus: "PROBED",
       newStatus: "BLOCKED",
-      delta: [{ field: "Firewall Action", before: "MONITOR", after: "DROP_AND_BLOCK" }]
+      delta: [
+        {
+          field: "Firewall Action",
+          before: "MONITOR",
+          after: "DROP_AND_BLOCK",
+        },
+      ],
     },
     timeline: [
-      { time: "07:04 AM", event: "Port 8443 Probe Detected", actor: "Hardware Firewall" },
-      { time: "07:05 AM", event: "IP 192.168.4.102 Blacklisted", actor: "SecOps Daemon" }
+      {
+        time: "07:04 AM",
+        event: "Port 8443 Probe Detected",
+        actor: "Hardware Firewall",
+      },
+      {
+        time: "07:05 AM",
+        event: "IP 192.168.4.102 Blacklisted",
+        actor: "SecOps Daemon",
+      },
     ],
     relatedRecords: {
-      ticket: "WB-04 Security Event"
-    }
-  }
+      ticket: "WB-04 Security Event",
+    },
+  },
 ];
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -447,8 +581,6 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
 export default function AuditLogsScreen({
   darkMode,
   onToggleDark,
-  onLogout,
-  onNavigate,
 }: AuditLogsProps) {
   // Theme Tokens
   const dm = darkMode;
@@ -491,7 +623,14 @@ export default function AuditLogsScreen({
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Filter Options
-  const dateOptions = ["Today", "Yesterday", "Last 7 Days", "Last 30 Days", "This Month", "Custom Range"];
+  const dateOptions = [
+    "Today",
+    "Yesterday",
+    "Last 7 Days",
+    "Last 30 Days",
+    "This Month",
+    "Custom Range",
+  ];
   const roleOptions = ["All", "Admin", "Employee / Operator"];
   const moduleOptions = [
     "All",
@@ -512,7 +651,14 @@ export default function AuditLogsScreen({
   ];
   const severityOptions = ["All", "INFO", "WARNING", "CRITICAL"];
   const resultOptions = ["All", "SUCCESS", "FAILED", "BLOCKED"];
-  const weighbridgeOptions = ["All", "WB-01", "WB-02", "WB-03", "WB-04", "WB-05"];
+  const weighbridgeOptions = [
+    "All",
+    "WB-01",
+    "WB-02",
+    "WB-03",
+    "WB-04",
+    "WB-05",
+  ];
   const userOptions = [
     "All",
     "Admin",
@@ -590,18 +736,29 @@ export default function AuditLogsScreen({
       // Role
       if (selectedRole !== "All" && ev.role !== selectedRole) return false;
       // User
-      if (selectedUser !== "All" && !ev.user.toLowerCase().includes(selectedUser.toLowerCase()))
+      if (
+        selectedUser !== "All" &&
+        !ev.user.toLowerCase().includes(selectedUser.toLowerCase())
+      )
         return false;
       // Module
-      if (selectedModule !== "All" && ev.module !== selectedModule) return false;
+      if (selectedModule !== "All" && ev.module !== selectedModule)
+        return false;
       // Action
-      if (selectedAction !== "All" && ev.action !== selectedAction) return false;
+      if (selectedAction !== "All" && ev.action !== selectedAction)
+        return false;
       // Weighbridge
-      if (selectedWeighbridge !== "All" && ev.weighbridge !== selectedWeighbridge) return false;
+      if (
+        selectedWeighbridge !== "All" &&
+        ev.weighbridge !== selectedWeighbridge
+      )
+        return false;
       // Severity
-      if (selectedSeverity !== "All" && ev.severity !== selectedSeverity) return false;
+      if (selectedSeverity !== "All" && ev.severity !== selectedSeverity)
+        return false;
       // Result
-      if (selectedResult !== "All" && ev.result !== selectedResult) return false;
+      if (selectedResult !== "All" && ev.result !== selectedResult)
+        return false;
 
       return true;
     });
@@ -616,24 +773,6 @@ export default function AuditLogsScreen({
     selectedSeverity,
     selectedResult,
   ]);
-
-  // Sidebar Links
-  const sidebarLinks = [
-    { key: "dashboard", label: "Dashboard", icon: "▦" },
-    { key: "monitoring", label: "Weighbridges", icon: "⚖" },
-    { key: "transactions", label: "Transactions", icon: "▤" },
-    { key: "vehicles", label: "Vehicles", icon: "▱" },
-    { key: "drivers", label: "Drivers", icon: "◉" },
-    { key: "customers", label: "Customers", icon: "⌂" },
-    { key: "suppliers", label: "Suppliers", icon: "⊞" },
-    { key: "materials", label: "Materials", icon: "◇" },
-    { key: "employees", label: "Employees", icon: "♙" },
-    { key: "tickets", label: "Tickets", icon: "▭" },
-    { key: "billing", label: "Billing", icon: "◎" },
-    { key: "reports", label: "Reports", icon: "▥" },
-    { key: "auditlogs", label: "Audit Logs", icon: "≡" },
-    { key: "settings", label: "Settings", icon: "⚙" },
-  ];
 
   // Refresh handler (simulates real-time telemetry pulse)
   const handleRefresh = () => {
@@ -660,30 +799,64 @@ export default function AuditLogsScreen({
       ipAddress: "192.168.1.10",
       result: "SUCCESS",
       severity: "INFO",
-      deviceInfo: { os: "Windows 11 Enterprise", browser: "Chrome 127.0", sessionId: "SES-8F42K92L" },
+      deviceInfo: {
+        os: "Windows 11 Enterprise",
+        browser: "Chrome 127.0",
+        sessionId: "SES-8F42K92L",
+      },
       details: {
         reason: `Exported ${filteredLogs.length} audit records in ${format.toUpperCase()} format.`,
         previousStatus: "READY",
         newStatus: "EXPORTED",
-        delta: [{ field: "Export Format", before: "None", after: format.toUpperCase() }],
+        delta: [
+          {
+            field: "Export Format",
+            before: "None",
+            after: format.toUpperCase(),
+          },
+        ],
       },
       timeline: [
-        { time: "11:30 AM", event: `Audit Logs Export Initiated (${format})`, actor: "Admin" },
-        { time: "11:30 AM", event: "File Generated & Security Signed", actor: "Audit Logger System" },
+        {
+          time: "11:30 AM",
+          event: `Audit Logs Export Initiated (${format})`,
+          actor: "Admin",
+        },
+        {
+          time: "11:30 AM",
+          event: "File Generated & Security Signed",
+          actor: "Audit Logger System",
+        },
       ],
       relatedRecords: { operator: "Admin" },
     };
 
     setLogs((prev) => [newExportEvent, ...prev]);
-    showToast(`Audit log successfully exported in ${format.toUpperCase()} format. Security record added.`);
+    showToast(
+      `Audit log successfully exported in ${format.toUpperCase()} format. Security record added.`,
+    );
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: p.bg, color: p.text, fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: p.bg,
+        color: p.text,
+        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+      }}
+    >
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           MAIN CONTENT AREA
          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          minWidth: 0,
+        }}
+      >
         {/* TOP HEADER BAR */}
         <header
           style={{
@@ -701,7 +874,16 @@ export default function AuditLogsScreen({
         >
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <h1 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: p.text }}>Audit Logs</h1>
+              <h1
+                style={{
+                  margin: 0,
+                  fontSize: 20,
+                  fontWeight: 800,
+                  color: p.text,
+                }}
+              >
+                Audit Logs
+              </h1>
               <span
                 style={{
                   display: "inline-flex",
@@ -719,8 +901,11 @@ export default function AuditLogsScreen({
                 🔒 IMMUTABLE SYSTEM LOGS
               </span>
             </div>
-            <p style={{ margin: 0, fontSize: 12, color: p.muted, marginTop: 2 }}>
-              Track system activity, user actions and critical changes across 5 weighbridges.
+            <p
+              style={{ margin: 0, fontSize: 12, color: p.muted, marginTop: 2 }}
+            >
+              Track system activity, user actions and critical changes across 5
+              weighbridges.
             </p>
           </div>
 
@@ -850,8 +1035,12 @@ export default function AuditLogsScreen({
                 AD
               </div>
               <div className="hidden sm:block">
-                <div style={{ fontSize: 12.5, fontWeight: 700, color: p.text }}>Admin User</div>
-                <div style={{ fontSize: 10.5, color: p.muted }}>Super Administrator</div>
+                <div style={{ fontSize: 12.5, fontWeight: 700, color: p.text }}>
+                  Admin User
+                </div>
+                <div style={{ fontSize: 10.5, color: p.muted }}>
+                  Super Administrator
+                </div>
               </div>
             </div>
           </div>
@@ -917,11 +1106,19 @@ export default function AuditLogsScreen({
               >
                 ⚠
               </div>
-              <h2 style={{ fontSize: 18, fontWeight: 800, margin: "0 0 8px", color: p.text }}>
+              <h2
+                style={{
+                  fontSize: 18,
+                  fontWeight: 800,
+                  margin: "0 0 8px",
+                  color: p.text,
+                }}
+              >
                 Unable to load audit logs
               </h2>
               <p style={{ fontSize: 13, color: p.muted, margin: "0 0 24px" }}>
-                Check your network connection or system authority credentials and try again.
+                Check your network connection or system authority credentials
+                and try again.
               </p>
               <button
                 onClick={() => setHasError(false)}
@@ -1011,12 +1208,29 @@ export default function AuditLogsScreen({
                       }}
                     />
                   ) : (
-                    <div style={{ fontSize: 32, fontWeight: 800, color: p.text, fontVariantNumeric: "tabular-nums" }}>
+                    <div
+                      style={{
+                        fontSize: 32,
+                        fontWeight: 800,
+                        color: p.text,
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
                       1,248
                     </div>
                   )}
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, fontSize: 12 }}>
-                    <span style={{ color: "#16A34A", fontWeight: 700 }}>+14.2%</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      marginTop: 6,
+                      fontSize: 12,
+                    }}
+                  >
+                    <span style={{ color: "#16A34A", fontWeight: 700 }}>
+                      +14.2%
+                    </span>
                     <span style={{ color: p.muted }}>vs yesterday</span>
                   </div>
                 </div>
@@ -1077,12 +1291,29 @@ export default function AuditLogsScreen({
                       }}
                     />
                   ) : (
-                    <div style={{ fontSize: 32, fontWeight: 800, color: p.text, fontVariantNumeric: "tabular-nums" }}>
+                    <div
+                      style={{
+                        fontSize: 32,
+                        fontWeight: 800,
+                        color: p.text,
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
                       184
                     </div>
                   )}
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, fontSize: 12 }}>
-                    <span style={{ color: p.gold, fontWeight: 700 }}>14.7%</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      marginTop: 6,
+                      fontSize: 12,
+                    }}
+                  >
+                    <span style={{ color: p.gold, fontWeight: 700 }}>
+                      14.7%
+                    </span>
                     <span style={{ color: p.muted }}>of total activity</span>
                   </div>
                 </div>
@@ -1143,12 +1374,29 @@ export default function AuditLogsScreen({
                       }}
                     />
                   ) : (
-                    <div style={{ fontSize: 32, fontWeight: 800, color: p.text, fontVariantNumeric: "tabular-nums" }}>
+                    <div
+                      style={{
+                        fontSize: 32,
+                        fontWeight: 800,
+                        color: p.text,
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
                       1,064
                     </div>
                   )}
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, fontSize: 12 }}>
-                    <span style={{ color: "#2563EB", fontWeight: 700 }}>85.3%</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      marginTop: 6,
+                      fontSize: 12,
+                    }}
+                  >
+                    <span style={{ color: "#2563EB", fontWeight: 700 }}>
+                      85.3%
+                    </span>
                     <span style={{ color: p.muted }}>scale operations</span>
                   </div>
                 </div>
@@ -1209,12 +1457,29 @@ export default function AuditLogsScreen({
                       }}
                     />
                   ) : (
-                    <div style={{ fontSize: 32, fontWeight: 800, color: "#DC2626", fontVariantNumeric: "tabular-nums" }}>
+                    <div
+                      style={{
+                        fontSize: 32,
+                        fontWeight: 800,
+                        color: "#DC2626",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
                       12
                     </div>
                   )}
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, fontSize: 12 }}>
-                    <span style={{ color: "#DC2626", fontWeight: 700 }}>● Requires Review</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      marginTop: 6,
+                      fontSize: 12,
+                    }}
+                  >
+                    <span style={{ color: "#DC2626", fontWeight: 700 }}>
+                      ● Requires Review
+                    </span>
                     <span style={{ color: p.muted }}>0 unresolved</span>
                   </div>
                 </div>
@@ -1357,7 +1622,14 @@ export default function AuditLogsScreen({
                 </div>
 
                 {/* Secondary Filters Row */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 10,
+                    alignItems: "center",
+                  }}
+                >
                   {/* Severity Select */}
                   <select
                     value={selectedSeverity}
@@ -1500,28 +1772,60 @@ export default function AuditLogsScreen({
                     }}
                   >
                     {searchQuery && (
-                      <Chip label={`Search: "${searchQuery}"`} onRemove={() => setSearchQuery("")} p={p} />
+                      <Chip
+                        label={`Search: "${searchQuery}"`}
+                        onRemove={() => setSearchQuery("")}
+                        p={p}
+                      />
                     )}
                     {selectedDate !== "Today" && (
-                      <Chip label={`Date: ${selectedDate}`} onRemove={() => setSelectedDate("Today")} p={p} />
+                      <Chip
+                        label={`Date: ${selectedDate}`}
+                        onRemove={() => setSelectedDate("Today")}
+                        p={p}
+                      />
                     )}
                     {selectedRole !== "All" && (
-                      <Chip label={`Role: ${selectedRole}`} onRemove={() => setSelectedRole("All")} p={p} />
+                      <Chip
+                        label={`Role: ${selectedRole}`}
+                        onRemove={() => setSelectedRole("All")}
+                        p={p}
+                      />
                     )}
                     {selectedModule !== "All" && (
-                      <Chip label={`Module: ${selectedModule}`} onRemove={() => setSelectedModule("All")} p={p} />
+                      <Chip
+                        label={`Module: ${selectedModule}`}
+                        onRemove={() => setSelectedModule("All")}
+                        p={p}
+                      />
                     )}
                     {selectedSeverity !== "All" && (
-                      <Chip label={`Severity: ${selectedSeverity}`} onRemove={() => setSelectedSeverity("All")} p={p} />
+                      <Chip
+                        label={`Severity: ${selectedSeverity}`}
+                        onRemove={() => setSelectedSeverity("All")}
+                        p={p}
+                      />
                     )}
                     {selectedResult !== "All" && (
-                      <Chip label={`Result: ${selectedResult}`} onRemove={() => setSelectedResult("All")} p={p} />
+                      <Chip
+                        label={`Result: ${selectedResult}`}
+                        onRemove={() => setSelectedResult("All")}
+                        p={p}
+                      />
                     )}
                     {selectedWeighbridge !== "All" && (
-                      <Chip label={`WB: ${selectedWeighbridge}`} onRemove={() => setSelectedWeighbridge("All")} p={p} />
+                      <Chip
+                        label={`WB: ${selectedWeighbridge}`}
+                        onRemove={() => setSelectedWeighbridge("All")}
+                        p={p}
+                      />
                     )}
                     {selectedAction !== "All" && (
-                      <Chip label={`Action: ${selectedAction}`} onRemove={() => setSelectedAction("All")} p={p} />
+                      <Chip
+                        label={`Action: ${selectedAction}`}
+                        onRemove={() => setSelectedAction("All")}
+                        p={p}
+                      />
                     )}
                   </div>
                 )}
@@ -1551,12 +1855,31 @@ export default function AuditLogsScreen({
                   }}
                 >
                   <div>
-                    <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: p.text }}>System Activity</h2>
-                    <p style={{ margin: 0, fontSize: 12, color: p.muted, marginTop: 2 }}>
-                      Showing {filteredLogs.length} events logged under current search parameters
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: 16,
+                        fontWeight: 700,
+                        color: p.text,
+                      }}
+                    >
+                      System Activity
+                    </h2>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: 12,
+                        color: p.muted,
+                        marginTop: 2,
+                      }}
+                    >
+                      Showing {filteredLogs.length} events logged under current
+                      search parameters
                     </p>
                   </div>
-                  <div style={{ fontSize: 11, color: p.muted, fontWeight: 600 }}>
+                  <div
+                    style={{ fontSize: 11, color: p.muted, fontWeight: 600 }}
+                  >
                     🔒 Read-Only Log Stream
                   </div>
                 </div>
@@ -1580,11 +1903,25 @@ export default function AuditLogsScreen({
                     >
                       📋
                     </div>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 6px", color: p.text }}>
+                    <h3
+                      style={{
+                        fontSize: 16,
+                        fontWeight: 700,
+                        margin: "0 0 6px",
+                        color: p.text,
+                      }}
+                    >
                       No audit events found
                     </h3>
-                    <p style={{ fontSize: 12.5, color: p.muted, margin: "0 0 16px" }}>
-                      No activity matches your current search filters or date criteria.
+                    <p
+                      style={{
+                        fontSize: 12.5,
+                        color: p.muted,
+                        margin: "0 0 16px",
+                      }}
+                    >
+                      No activity matches your current search filters or date
+                      criteria.
                     </p>
                     <button
                       onClick={handleClearFilters}
@@ -1604,7 +1941,13 @@ export default function AuditLogsScreen({
                   </div>
                 ) : (
                   <div style={{ overflowX: "auto" }}>
-                    <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+                    <table
+                      style={{
+                        width: "100%",
+                        borderCollapse: "collapse",
+                        textAlign: "left",
+                      }}
+                    >
                       <thead>
                         <tr
                           style={{
@@ -1627,7 +1970,11 @@ export default function AuditLogsScreen({
                           <th style={{ padding: "12px 16px" }}>IP Address</th>
                           <th style={{ padding: "12px 16px" }}>Result</th>
                           <th style={{ padding: "12px 16px" }}>Severity</th>
-                          <th style={{ padding: "12px 16px", textAlign: "right" }}>Actions</th>
+                          <th
+                            style={{ padding: "12px 16px", textAlign: "right" }}
+                          >
+                            Actions
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1662,7 +2009,14 @@ export default function AuditLogsScreen({
                               </td>
 
                               {/* User */}
-                              <td style={{ padding: "14px 16px", fontSize: 12.5, fontWeight: 700, color: p.text }}>
+                              <td
+                                style={{
+                                  padding: "14px 16px",
+                                  fontSize: 12.5,
+                                  fontWeight: 700,
+                                  color: p.text,
+                                }}
+                              >
                                 {row.user}
                               </td>
 
@@ -1679,9 +2033,12 @@ export default function AuditLogsScreen({
                                       row.role === "Admin"
                                         ? p.goldSoft
                                         : dm
-                                        ? "#1E293B"
-                                        : "#F1F5F9",
-                                    color: row.role === "Admin" ? p.gold : p.secondary,
+                                          ? "#1E293B"
+                                          : "#F1F5F9",
+                                    color:
+                                      row.role === "Admin"
+                                        ? p.gold
+                                        : p.secondary,
                                     border: `1px solid ${row.role === "Admin" ? p.gold + "30" : p.border}`,
                                   }}
                                 >
@@ -1690,7 +2047,14 @@ export default function AuditLogsScreen({
                               </td>
 
                               {/* Action */}
-                              <td style={{ padding: "14px 16px", fontSize: 12.5, fontWeight: 700, color: p.text }}>
+                              <td
+                                style={{
+                                  padding: "14px 16px",
+                                  fontSize: 12.5,
+                                  fontWeight: 700,
+                                  color: p.text,
+                                }}
+                              >
                                 {row.action}
                               </td>
 
@@ -1717,7 +2081,8 @@ export default function AuditLogsScreen({
                                   padding: "14px 16px",
                                   fontSize: 12,
                                   fontWeight: 700,
-                                  color: row.reference !== "--" ? p.orange : p.muted,
+                                  color:
+                                    row.reference !== "--" ? p.orange : p.muted,
                                   fontVariantNumeric: "tabular-nums",
                                 }}
                               >
@@ -1725,7 +2090,14 @@ export default function AuditLogsScreen({
                               </td>
 
                               {/* Weighbridge */}
-                              <td style={{ padding: "14px 16px", fontSize: 12, fontWeight: 600, color: p.secondary }}>
+                              <td
+                                style={{
+                                  padding: "14px 16px",
+                                  fontSize: 12,
+                                  fontWeight: 600,
+                                  color: p.secondary,
+                                }}
+                              >
                                 {row.weighbridge}
                               </td>
 
@@ -1749,11 +2121,19 @@ export default function AuditLogsScreen({
 
                               {/* Severity Badge */}
                               <td style={{ padding: "14px 16px" }}>
-                                <SeverityBadge severity={row.severity} dm={dm} />
+                                <SeverityBadge
+                                  severity={row.severity}
+                                  dm={dm}
+                                />
                               </td>
 
                               {/* Row Action */}
-                              <td style={{ padding: "14px 16px", textAlign: "right" }}>
+                              <td
+                                style={{
+                                  padding: "14px 16px",
+                                  textAlign: "right",
+                                }}
+                              >
                                 <button
                                   onClick={() => setSelectedEvent(row)}
                                   style={{
@@ -1792,7 +2172,8 @@ export default function AuditLogsScreen({
                   }}
                 >
                   <div>
-                    Showing <strong>{filteredLogs.length}</strong> of <strong>1,248</strong> total records
+                    Showing <strong>{filteredLogs.length}</strong> of{" "}
+                    <strong>1,248</strong> total records
                   </div>
                   <div style={{ display: "flex", gap: 6 }}>
                     <button
@@ -1903,14 +2284,24 @@ export default function AuditLogsScreen({
             >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: p.text }}>
+                  <h2
+                    style={{
+                      margin: 0,
+                      fontSize: 18,
+                      fontWeight: 800,
+                      color: p.text,
+                    }}
+                  >
                     {selectedEvent.action}
                   </h2>
                   <SeverityBadge severity={selectedEvent.severity} dm={dm} />
                   <ResultBadge result={selectedEvent.result} dm={dm} />
                 </div>
                 <div style={{ fontSize: 12, color: p.muted, marginTop: 4 }}>
-                  Event Reference: <strong style={{ color: p.orange }}>{selectedEvent.id}</strong>
+                  Event Reference:{" "}
+                  <strong style={{ color: p.orange }}>
+                    {selectedEvent.id}
+                  </strong>
                 </div>
               </div>
               <button
@@ -1932,7 +2323,15 @@ export default function AuditLogsScreen({
             </div>
 
             {/* Drawer Body Content */}
-            <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column", gap: 24 }}>
+            <div
+              style={{
+                padding: "24px",
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: 24,
+              }}
+            >
               {/* Event Metadata Card */}
               <div
                 style={{
@@ -1953,10 +2352,19 @@ export default function AuditLogsScreen({
                 >
                   EVENT IDENTIFICATION
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, fontSize: 12.5 }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 12,
+                    fontSize: 12.5,
+                  }}
+                >
                   <div>
                     <span style={{ color: p.muted }}>Timestamp:</span>
-                    <div style={{ fontWeight: 700, color: p.text }}>{selectedEvent.timestamp}</div>
+                    <div style={{ fontWeight: 700, color: p.text }}>
+                      {selectedEvent.timestamp}
+                    </div>
                   </div>
                   <div>
                     <span style={{ color: p.muted }}>User & Role:</span>
@@ -1966,45 +2374,91 @@ export default function AuditLogsScreen({
                   </div>
                   <div>
                     <span style={{ color: p.muted }}>Module:</span>
-                    <div style={{ fontWeight: 700, color: p.text }}>{selectedEvent.module}</div>
+                    <div style={{ fontWeight: 700, color: p.text }}>
+                      {selectedEvent.module}
+                    </div>
                   </div>
                   <div>
                     <span style={{ color: p.muted }}>Reference Entity:</span>
-                    <div style={{ fontWeight: 700, color: p.orange }}>{selectedEvent.reference}</div>
+                    <div style={{ fontWeight: 700, color: p.orange }}>
+                      {selectedEvent.reference}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Weighbridge & Device Details */}
               <div>
-                <h3 style={{ fontSize: 13, fontWeight: 700, color: p.muted, textTransform: "uppercase", margin: "0 0 10px" }}>
+                <h3
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: p.muted,
+                    textTransform: "uppercase",
+                    margin: "0 0 10px",
+                  }}
+                >
                   WEIGHBRIDGE & DEVICE TELEMETRY
                 </h3>
-                <div style={{ background: p.surface, border: `1px solid ${p.border}`, borderRadius: 10, padding: "16px" }}>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, fontSize: 12.5 }}>
+                <div
+                  style={{
+                    background: p.surface,
+                    border: `1px solid ${p.border}`,
+                    borderRadius: 10,
+                    padding: "16px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 12,
+                      fontSize: 12.5,
+                    }}
+                  >
                     <div>
                       <span style={{ color: p.muted }}>Weighbridge:</span>
                       <div style={{ fontWeight: 700, color: p.text }}>
-                        {selectedEvent.weighbridge === "--" ? "N/A (System Level)" : selectedEvent.weighbridge}
+                        {selectedEvent.weighbridge === "--"
+                          ? "N/A (System Level)"
+                          : selectedEvent.weighbridge}
                       </div>
                     </div>
                     <div>
                       <span style={{ color: p.muted }}>IP Address:</span>
-                      <div style={{ fontWeight: 700, fontFamily: "monospace", color: p.text }}>
+                      <div
+                        style={{
+                          fontWeight: 700,
+                          fontFamily: "monospace",
+                          color: p.text,
+                        }}
+                      >
                         {selectedEvent.ipAddress}
                       </div>
                     </div>
                     <div>
                       <span style={{ color: p.muted }}>Operating System:</span>
-                      <div style={{ fontWeight: 600, color: p.text }}>{selectedEvent.deviceInfo.os}</div>
+                      <div style={{ fontWeight: 600, color: p.text }}>
+                        {selectedEvent.deviceInfo.os}
+                      </div>
                     </div>
                     <div>
                       <span style={{ color: p.muted }}>Browser Agent:</span>
-                      <div style={{ fontWeight: 600, color: p.text }}>{selectedEvent.deviceInfo.browser}</div>
+                      <div style={{ fontWeight: 600, color: p.text }}>
+                        {selectedEvent.deviceInfo.browser}
+                      </div>
                     </div>
                     <div style={{ gridColumn: "span 2" }}>
-                      <span style={{ color: p.muted }}>Session Identifier:</span>
-                      <div style={{ fontWeight: 600, fontFamily: "monospace", color: p.gold }}>
+                      <span style={{ color: p.muted }}>
+                        Session Identifier:
+                      </span>
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          fontFamily: "monospace",
+                          color: p.gold,
+                        }}
+                      >
                         {selectedEvent.deviceInfo.sessionId}
                       </div>
                     </div>
@@ -2015,7 +2469,15 @@ export default function AuditLogsScreen({
               {/* Action Description & Reason */}
               {selectedEvent.details.reason && (
                 <div>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, color: p.muted, textTransform: "uppercase", margin: "0 0 10px" }}>
+                  <h3
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: p.muted,
+                      textTransform: "uppercase",
+                      margin: "0 0 10px",
+                    }}
+                  >
                     ACTION RATIONALE & DETAILS
                   </h3>
                   <div
@@ -2029,67 +2491,136 @@ export default function AuditLogsScreen({
                       lineHeight: 1.5,
                     }}
                   >
-                    <strong>Reason specified:</strong> {selectedEvent.details.reason}
+                    <strong>Reason specified:</strong>{" "}
+                    {selectedEvent.details.reason}
                   </div>
                 </div>
               )}
 
               {/* BEFORE / AFTER COMPARISON SECTION */}
-              {selectedEvent.details.delta && selectedEvent.details.delta.length > 0 && (
-                <div>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, color: p.muted, textTransform: "uppercase", margin: "0 0 10px" }}>
-                    BEFORE / AFTER VALUE DELTA
-                  </h3>
-                  <div style={{ border: `1px solid ${p.border}`, borderRadius: 10, overflow: "hidden" }}>
-                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12.5, textAlign: "left" }}>
-                      <thead>
-                        <tr style={{ background: p.sub, color: p.muted, fontSize: 11, fontWeight: 700 }}>
-                          <th style={{ padding: "10px 14px" }}>FIELD MODIFIED</th>
-                          <th style={{ padding: "10px 14px" }}>BEFORE VALUE</th>
-                          <th style={{ padding: "10px 14px" }}>AFTER VALUE</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedEvent.details.delta.map((d, i) => (
-                          <tr key={i} style={{ borderTop: `1px solid ${p.divider}` }}>
-                            <td style={{ padding: "12px 14px", fontWeight: 700, color: p.text }}>{d.field}</td>
-                            <td
-                              style={{
-                                padding: "12px 14px",
-                                color: "#DC2626",
-                                background: dm ? "#450A0A20" : "#FEF2F2",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {d.before}
-                            </td>
-                            <td
-                              style={{
-                                padding: "12px 14px",
-                                color: "#16A34A",
-                                background: dm ? "#064E3B20" : "#F0FDF4",
-                                fontWeight: 700,
-                              }}
-                            >
-                              {d.after}
-                            </td>
+              {selectedEvent.details.delta &&
+                selectedEvent.details.delta.length > 0 && (
+                  <div>
+                    <h3
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 700,
+                        color: p.muted,
+                        textTransform: "uppercase",
+                        margin: "0 0 10px",
+                      }}
+                    >
+                      BEFORE / AFTER VALUE DELTA
+                    </h3>
+                    <div
+                      style={{
+                        border: `1px solid ${p.border}`,
+                        borderRadius: 10,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <table
+                        style={{
+                          width: "100%",
+                          borderCollapse: "collapse",
+                          fontSize: 12.5,
+                          textAlign: "left",
+                        }}
+                      >
+                        <thead>
+                          <tr
+                            style={{
+                              background: p.sub,
+                              color: p.muted,
+                              fontSize: 11,
+                              fontWeight: 700,
+                            }}
+                          >
+                            <th style={{ padding: "10px 14px" }}>
+                              FIELD MODIFIED
+                            </th>
+                            <th style={{ padding: "10px 14px" }}>
+                              BEFORE VALUE
+                            </th>
+                            <th style={{ padding: "10px 14px" }}>
+                              AFTER VALUE
+                            </th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {selectedEvent.details.delta.map((d, i) => (
+                            <tr
+                              key={i}
+                              style={{ borderTop: `1px solid ${p.divider}` }}
+                            >
+                              <td
+                                style={{
+                                  padding: "12px 14px",
+                                  fontWeight: 700,
+                                  color: p.text,
+                                }}
+                              >
+                                {d.field}
+                              </td>
+                              <td
+                                style={{
+                                  padding: "12px 14px",
+                                  color: "#DC2626",
+                                  background: dm ? "#450A0A20" : "#FEF2F2",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {d.before}
+                              </td>
+                              <td
+                                style={{
+                                  padding: "12px 14px",
+                                  color: "#16A34A",
+                                  background: dm ? "#064E3B20" : "#F0FDF4",
+                                  fontWeight: 700,
+                                }}
+                              >
+                                {d.after}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* AUDIT TIMELINE */}
               {selectedEvent.timeline && selectedEvent.timeline.length > 0 && (
                 <div>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, color: p.muted, textTransform: "uppercase", margin: "0 0 12px" }}>
+                  <h3
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: p.muted,
+                      textTransform: "uppercase",
+                      margin: "0 0 12px",
+                    }}
+                  >
                     EVENT CHRONOLOGY TIMELINE
                   </h3>
-                  <div style={{ paddingLeft: 8, display: "flex", flexDirection: "column", gap: 16 }}>
+                  <div
+                    style={{
+                      paddingLeft: 8,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 16,
+                    }}
+                  >
                     {selectedEvent.timeline.map((item, idx) => (
-                      <div key={idx} style={{ display: "flex", gap: 14, position: "relative" }}>
+                      <div
+                        key={idx}
+                        style={{
+                          display: "flex",
+                          gap: 14,
+                          position: "relative",
+                        }}
+                      >
                         {/* Timeline Connector Line */}
                         {idx < selectedEvent.timeline.length - 1 && (
                           <div
@@ -2108,15 +2639,33 @@ export default function AuditLogsScreen({
                             width: 12,
                             height: 12,
                             borderRadius: 999,
-                            background: idx === selectedEvent.timeline.length - 1 ? p.orange : "#16A34A",
+                            background:
+                              idx === selectedEvent.timeline.length - 1
+                                ? p.orange
+                                : "#16A34A",
                             marginTop: 3,
                             flexShrink: 0,
                           }}
                         />
                         <div>
-                          <div style={{ fontSize: 13, fontWeight: 700, color: p.text }}>{item.event}</div>
-                          <div style={{ fontSize: 11, color: p.muted, marginTop: 2 }}>
-                            {item.time} • Performed by <strong>{item.actor}</strong>
+                          <div
+                            style={{
+                              fontSize: 13,
+                              fontWeight: 700,
+                              color: p.text,
+                            }}
+                          >
+                            {item.event}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: 11,
+                              color: p.muted,
+                              marginTop: 2,
+                            }}
+                          >
+                            {item.time} • Performed by{" "}
+                            <strong>{item.actor}</strong>
                           </div>
                         </div>
                       </div>
@@ -2128,7 +2677,15 @@ export default function AuditLogsScreen({
               {/* RELATED RECORDS */}
               {selectedEvent.relatedRecords && (
                 <div>
-                  <h3 style={{ fontSize: 13, fontWeight: 700, color: p.muted, textTransform: "uppercase", margin: "0 0 10px" }}>
+                  <h3
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: p.muted,
+                      textTransform: "uppercase",
+                      margin: "0 0 10px",
+                    }}
+                  >
                     LINKED DOMAIN ENTITIES
                   </h3>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -2143,7 +2700,10 @@ export default function AuditLogsScreen({
                           fontWeight: 600,
                         }}
                       >
-                        Ticket: <strong style={{ color: p.orange }}>{selectedEvent.relatedRecords.ticket}</strong>
+                        Ticket:{" "}
+                        <strong style={{ color: p.orange }}>
+                          {selectedEvent.relatedRecords.ticket}
+                        </strong>
                       </span>
                     )}
                     {selectedEvent.relatedRecords.vehicle && (
@@ -2157,7 +2717,8 @@ export default function AuditLogsScreen({
                           fontWeight: 600,
                         }}
                       >
-                        Vehicle: <strong>{selectedEvent.relatedRecords.vehicle}</strong>
+                        Vehicle:{" "}
+                        <strong>{selectedEvent.relatedRecords.vehicle}</strong>
                       </span>
                     )}
                     {selectedEvent.relatedRecords.material && (
@@ -2171,7 +2732,8 @@ export default function AuditLogsScreen({
                           fontWeight: 600,
                         }}
                       >
-                        Material: <strong>{selectedEvent.relatedRecords.material}</strong>
+                        Material:{" "}
+                        <strong>{selectedEvent.relatedRecords.material}</strong>
                       </span>
                     )}
                     {selectedEvent.relatedRecords.customer && (
@@ -2185,7 +2747,8 @@ export default function AuditLogsScreen({
                           fontWeight: 600,
                         }}
                       >
-                        Customer: <strong>{selectedEvent.relatedRecords.customer}</strong>
+                        Customer:{" "}
+                        <strong>{selectedEvent.relatedRecords.customer}</strong>
                       </span>
                     )}
                   </div>
@@ -2207,7 +2770,9 @@ export default function AuditLogsScreen({
             >
               <button
                 onClick={() => {
-                  showToast(`Event detail JSON copied to clipboard (${selectedEvent.id}).`);
+                  showToast(
+                    `Event detail JSON copied to clipboard (${selectedEvent.id}).`,
+                  );
                 }}
                 style={{
                   flex: 1,
@@ -2285,8 +2850,24 @@ export default function AuditLogsScreen({
               }}
             >
               <div>
-                <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: p.text }}>Export Audit Logs</h3>
-                <p style={{ margin: 0, fontSize: 12, color: p.muted, marginTop: 2 }}>
+                <h3
+                  style={{
+                    margin: 0,
+                    fontSize: 18,
+                    fontWeight: 800,
+                    color: p.text,
+                  }}
+                >
+                  Export Audit Logs
+                </h3>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: 12,
+                    color: p.muted,
+                    marginTop: 2,
+                  }}
+                >
                   Generate an authenticated audit archive report
                 </p>
               </div>
@@ -2307,10 +2888,25 @@ export default function AuditLogsScreen({
             </div>
 
             {/* Modal Form Body */}
-            <div style={{ padding: "24px", display: "flex", flexDirection: "column", gap: 16 }}>
+            <div
+              style={{
+                padding: "24px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 16,
+              }}
+            >
               {/* Date Range Selection */}
               <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: p.text, display: "block", marginBottom: 6 }}>
+                <label
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: p.text,
+                    display: "block",
+                    marginBottom: 6,
+                  }}
+                >
                   Date Range Target
                 </label>
                 <select
@@ -2335,10 +2931,24 @@ export default function AuditLogsScreen({
 
               {/* Format Option */}
               <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: p.text, display: "block", marginBottom: 6 }}>
+                <label
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: p.text,
+                    display: "block",
+                    marginBottom: 6,
+                  }}
+                >
                   Export File Format
                 </label>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr",
+                    gap: 10,
+                  }}
+                >
                   {["CSV", "Excel", "PDF Report"].map((fmt) => (
                     <label
                       key={fmt}
@@ -2355,7 +2965,11 @@ export default function AuditLogsScreen({
                         fontWeight: 600,
                       }}
                     >
-                      <input type="radio" name="exportFmt" defaultChecked={fmt === "CSV"} />
+                      <input
+                        type="radio"
+                        name="exportFmt"
+                        defaultChecked={fmt === "CSV"}
+                      />
                       {fmt}
                     </label>
                   ))}
@@ -2364,10 +2978,25 @@ export default function AuditLogsScreen({
 
               {/* Data Fields Checklist */}
               <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: p.text, display: "block", marginBottom: 6 }}>
+                <label
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: p.text,
+                    display: "block",
+                    marginBottom: 6,
+                  }}
+                >
                   Data Fields to Include
                 </label>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, fontSize: 12 }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 8,
+                    fontSize: 12,
+                  }}
+                >
                   {[
                     "Timestamp & UTC ISO",
                     "User Identity & Role",
@@ -2378,7 +3007,15 @@ export default function AuditLogsScreen({
                     "Result & Severity Status",
                     "Before/After Delta",
                   ].map((field) => (
-                    <label key={field} style={{ display: "flex", alignItems: "center", gap: 6, color: p.secondary }}>
+                    <label
+                      key={field}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        color: p.secondary,
+                      }}
+                    >
                       <input type="checkbox" defaultChecked />
                       {field}
                     </label>
@@ -2398,9 +3035,10 @@ export default function AuditLogsScreen({
                   lineHeight: 1.4,
                 }}
               >
-                🛡️ <strong>SECURITY COMPLIANCE AUDIT:</strong> Exporting audit logs generates a permanent audit trail
-                entry. Export action initiated by <strong>Admin (192.168.1.10)</strong> will be appended to the log
-                stream.
+                🛡️ <strong>SECURITY COMPLIANCE AUDIT:</strong> Exporting audit
+                logs generates a permanent audit trail entry. Export action
+                initiated by <strong>Admin (192.168.1.10)</strong> will be
+                appended to the log stream.
               </div>
             </div>
 
@@ -2460,7 +3098,13 @@ export default function AuditLogsScreen({
 // HELPER COMPONENTS (BADGES & CHIPS)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-function SeverityBadge({ severity, dm }: { severity: SeverityType; dm: boolean }) {
+function SeverityBadge({
+  severity,
+  dm,
+}: {
+  severity: SeverityType;
+  dm: boolean;
+}) {
   const isCritical = severity === "CRITICAL";
   const isWarning = severity === "WARNING";
 
@@ -2469,12 +3113,12 @@ function SeverityBadge({ severity, dm }: { severity: SeverityType; dm: boolean }
       ? "#450A0A"
       : "#FEF2F2"
     : isWarning
-    ? dm
-      ? "#451A03"
-      : "#FFFBEB"
-    : dm
-    ? "#1E293B"
-    : "#EFF6FF";
+      ? dm
+        ? "#451A03"
+        : "#FFFBEB"
+      : dm
+        ? "#1E293B"
+        : "#EFF6FF";
 
   const color = isCritical ? "#DC2626" : isWarning ? "#D97706" : "#2563EB";
   const border = isCritical ? "#FCA5A5" : isWarning ? "#FDE68A" : "#BFDBFE";
@@ -2510,12 +3154,12 @@ function ResultBadge({ result, dm }: { result: ResultType; dm: boolean }) {
       ? "#064E3B"
       : "#F0FDF4"
     : isFailed
-    ? dm
-      ? "#450A0A"
-      : "#FEF2F2"
-    : dm
-    ? "#382A0B"
-    : "#FFFBEB";
+      ? dm
+        ? "#450A0A"
+        : "#FEF2F2"
+      : dm
+        ? "#382A0B"
+        : "#FFFBEB";
 
   const color = isSuccess ? "#16A34A" : isFailed ? "#DC2626" : "#D97706";
   const border = isSuccess ? "#86EFAC" : isFailed ? "#FCA5A5" : "#FDE68A";

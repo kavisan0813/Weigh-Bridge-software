@@ -9,7 +9,12 @@ interface Props {
 
 export type CameraStatus = "ONLINE" | "OFFLINE" | "WARNING";
 export type RecordingStatus = "RECORDING" | "NOT RECORDING" | "STORAGE WARNING";
-export type CameraType = "IP Camera" | "ANPR Camera" | "Gate Camera" | "Platform Camera" | "Overview Camera";
+export type CameraType =
+  | "IP Camera"
+  | "ANPR Camera"
+  | "Gate Camera"
+  | "Platform Camera"
+  | "Overview Camera";
 
 export interface CameraItem {
   id: string;
@@ -330,9 +335,13 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
   // KPI Calculations
   const totalCount = cameras.length;
   const onlineCount = cameras.filter((c) => c.status === "ONLINE").length;
-  const streamingCount = cameras.filter((c) => c.status === "ONLINE" && c.fps > 0).length;
+  const streamingCount = cameras.filter(
+    (c) => c.status === "ONLINE" && c.fps > 0,
+  ).length;
   const offlineCount = cameras.filter((c) => c.status === "OFFLINE").length;
-  const recordingCount = cameras.filter((c) => c.recordingStatus === "RECORDING").length;
+  const recordingCount = cameras.filter(
+    (c) => c.recordingStatus === "RECORDING",
+  ).length;
 
   // Filtered Cameras List
   const filteredCameras = useMemo(() => {
@@ -347,13 +356,22 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
         item.weighbridgeName.toLowerCase().includes(q);
 
       const matchWb = wbFilter === "All" || item.weighbridgeId === wbFilter;
-      const matchStatus = statusFilter === "All" || item.status === statusFilter;
+      const matchStatus =
+        statusFilter === "All" || item.status === statusFilter;
       const matchType = typeFilter === "All" || item.type === typeFilter;
-      const matchRecording = recordingFilter === "All" || item.recordingStatus === recordingFilter;
+      const matchRecording =
+        recordingFilter === "All" || item.recordingStatus === recordingFilter;
 
       return matchQ && matchWb && matchStatus && matchType && matchRecording;
     });
-  }, [cameras, searchQuery, wbFilter, statusFilter, typeFilter, recordingFilter]);
+  }, [
+    cameras,
+    searchQuery,
+    wbFilter,
+    statusFilter,
+    typeFilter,
+    recordingFilter,
+  ]);
 
   // Open Add Modal
   const handleOpenAdd = () => {
@@ -412,7 +430,8 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
         resolution: formData.resolution || "3840 × 2160 (4K)",
         fps: Number(formData.fps) || 25,
         status: (formData.status as CameraStatus) || "ONLINE",
-        recordingStatus: (formData.recordingStatus as RecordingStatus) || "RECORDING",
+        recordingStatus:
+          (formData.recordingStatus as RecordingStatus) || "RECORDING",
         lastFrameTime: "Just now",
         storageUsedPercent: 50,
         retentionDays: 30,
@@ -424,7 +443,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
       showToast(`✓ Created camera ${newItem.code}`);
     } else {
       setCameras((prev) =>
-        prev.map((c) => (c.id === formData.id ? ({ ...c, ...formData } as CameraItem) : c))
+        prev.map((c) =>
+          c.id === formData.id ? ({ ...c, ...formData } as CameraItem) : c,
+        ),
       );
       showToast(`✓ Updated camera ${formData.code}`);
     }
@@ -463,7 +484,14 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
           border: `1px solid ${color}35`,
         }}
       >
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: color }} />
+        <span
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: color,
+          }}
+        />
         {text}
       </span>
     );
@@ -500,30 +528,78 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
           border: `1px solid ${color}30`,
         }}
       >
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: color }} />
+        <span
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: color,
+          }}
+        />
         {text}
       </span>
     );
   };
 
   return (
-    <div style={{ flex: 1, padding: "24px 32px 48px", background: bg, color: primaryText, fontFamily: "'Inter', -apple-system, sans-serif" }}>
-
+    <div
+      style={{
+        flex: 1,
+        padding: "24px 32px 48px",
+        background: bg,
+        color: primaryText,
+        fontFamily: "'Inter', -apple-system, sans-serif",
+      }}
+    >
       {/* Toast Notification */}
       {toastMessage && (
-        <div style={{ position: "fixed", top: 84, right: 32, zIndex: 1200, background: primaryOrange, color: "#FFF", padding: "12px 20px", borderRadius: 8, fontWeight: 700, fontSize: 13, boxShadow: "0 10px 25px rgba(249,115,22,0.4)" }}>
+        <div
+          style={{
+            position: "fixed",
+            top: 84,
+            right: 32,
+            zIndex: 1200,
+            background: primaryOrange,
+            color: "#FFF",
+            padding: "12px 20px",
+            borderRadius: 8,
+            fontWeight: 700,
+            fontSize: 13,
+            boxShadow: "0 10px 25px rgba(249,115,22,0.4)",
+          }}
+        >
           {toastMessage}
         </div>
       )}
 
       {/* ── 1. PAGE HEADER ── */}
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 28 }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 16,
+          marginBottom: 28,
+        }}
+      >
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, color: primaryText, letterSpacing: "-0.02em" }}>
+          <h1
+            style={{
+              fontSize: 24,
+              fontWeight: 800,
+              margin: 0,
+              color: primaryText,
+              letterSpacing: "-0.02em",
+            }}
+          >
             Cameras
           </h1>
-          <p style={{ fontSize: 13, color: secondaryText, margin: "4px 0 0 0" }}>
-            Manage weighbridge cameras, live streams, recording status, connectivity and camera assignments.
+          <p
+            style={{ fontSize: 13, color: secondaryText, margin: "4px 0 0 0" }}
+          >
+            Manage weighbridge cameras, live streams, recording status,
+            connectivity and camera assignments.
           </p>
         </div>
 
@@ -574,85 +650,292 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
       </div>
 
       {/* ── 2. SUMMARY KPI ROW (5 CARDS) ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16, marginBottom: 28 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: 16,
+          marginBottom: 28,
+        }}
+      >
         {/* Total Cameras */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ fontSize: 11, fontWeight: 800, color: mutedText, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 800,
+              color: mutedText,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            }}
+          >
             TOTAL CAMERAS
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: primaryText, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: primaryText,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {totalCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Registered cameras</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Registered cameras
+          </div>
         </div>
 
         {/* Online */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusOnline, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusOnline,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               ONLINE
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusOnline }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusOnline,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusOnline, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusOnline,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {onlineCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Connected & healthy</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Connected & healthy
+          </div>
         </div>
 
         {/* Streaming */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: primaryOrange, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: primaryOrange,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               STREAMING
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: primaryOrange }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: primaryOrange,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: primaryOrange, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: primaryOrange,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {streamingCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Live video streams active</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Live video streams active
+          </div>
         </div>
 
         {/* Offline */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusOffline, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusOffline,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               OFFLINE
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusOffline }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusOffline,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusOffline, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusOffline,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {offlineCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Connection unavailable</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Connection unavailable
+          </div>
         </div>
 
         {/* Recording */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusOnline, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusOnline,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               RECORDING
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusOnline }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusOnline,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusOnline, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusOnline,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {recordingCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Active 24/7 DVR storage</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Active 24/7 DVR storage
+          </div>
         </div>
       </div>
 
       {/* ── 3. LIVE CAMERA PREVIEW GRID (3 COLUMNS DESKTOP) ── */}
       <div style={{ marginBottom: 28 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-          <div style={{ fontSize: 12, fontWeight: 800, color: mutedText, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 14,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 12,
+              fontWeight: 800,
+              color: mutedText,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            }}
+          >
             LIVE CAMERA PREVIEW
           </div>
-          <span style={{ fontSize: 12, color: secondaryText }}>Showing live RTSP video feeds across 5 weighbridges</span>
+          <span style={{ fontSize: 12, color: secondaryText }}>
+            Showing live RTSP video feeds across 5 weighbridges
+          </span>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: 16,
+          }}
+        >
           {cameras.slice(0, 6).map((cam) => (
             <div
               key={cam.id}
@@ -665,40 +948,125 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
               }}
             >
               {/* Camera Video Area Placeholder */}
-              <div style={{ height: 190, background: "#0F172A", position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 12, color: "#FFF" }}>
+              <div
+                style={{
+                  height: 190,
+                  background: "#0F172A",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  padding: 12,
+                  color: "#FFF",
+                }}
+              >
                 {/* Overlay Top Bar */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ background: "rgba(0,0,0,0.6)", padding: "3px 8px", borderRadius: 4, fontSize: 11, fontWeight: 800, fontFamily: "monospace" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      background: "rgba(0,0,0,0.6)",
+                      padding: "3px 8px",
+                      borderRadius: 4,
+                      fontSize: 11,
+                      fontWeight: 800,
+                      fontFamily: "monospace",
+                    }}
+                  >
                     {cam.code}
                   </span>
 
-                  <span style={{ background: cam.status === "OFFLINE" ? "rgba(220,38,38,0.8)" : "rgba(22,163,74,0.8)", padding: "3px 8px", borderRadius: 4, fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", gap: 4 }}>
-                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#FFF" }} />
-                    {cam.status === "OFFLINE" ? "OFFLINE" : `LIVE (${cam.fps} FPS)`}
+                  <span
+                    style={{
+                      background:
+                        cam.status === "OFFLINE"
+                          ? "rgba(220,38,38,0.8)"
+                          : "rgba(22,163,74,0.8)",
+                      padding: "3px 8px",
+                      borderRadius: 4,
+                      fontSize: 11,
+                      fontWeight: 800,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: "50%",
+                        background: "#FFF",
+                      }}
+                    />
+                    {cam.status === "OFFLINE"
+                      ? "OFFLINE"
+                      : `LIVE (${cam.fps} FPS)`}
                   </span>
                 </div>
 
                 {/* Video Feed Placeholder graphic */}
                 <div style={{ textAlign: "center", color: "#64748B" }}>
                   <div style={{ fontSize: 28 }}>📹</div>
-                  <div style={{ fontSize: 12, fontWeight: 700, marginTop: 4, color: "#94A3B8" }}>
-                    {cam.status === "OFFLINE" ? "Stream Unavailable" : "CAMERA PREVIEW FEED"}
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      marginTop: 4,
+                      color: "#94A3B8",
+                    }}
+                  >
+                    {cam.status === "OFFLINE"
+                      ? "Stream Unavailable"
+                      : "CAMERA PREVIEW FEED"}
                   </div>
-                  <div style={{ fontSize: 10.5, color: "#64748B" }}>{cam.resolution} · {cam.protocol}</div>
+                  <div style={{ fontSize: 10.5, color: "#64748B" }}>
+                    {cam.resolution} · {cam.protocol}
+                  </div>
                 </div>
 
                 {/* Overlay Bottom Bar */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11, color: "#CBD5E1" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontSize: 11,
+                    color: "#CBD5E1",
+                  }}
+                >
                   <span>{cam.location}</span>
                   <span>Frame: {cam.lastFrameTime}</span>
                 </div>
               </div>
 
               {/* Card Meta Footer */}
-              <div style={{ padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div
+                style={{
+                  padding: "14px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: primaryText }}>{cam.name}</div>
-                  <div style={{ fontSize: 11.5, color: secondaryText }}>{cam.weighbridgeName}</div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: primaryText,
+                    }}
+                  >
+                    {cam.name}
+                  </div>
+                  <div style={{ fontSize: 11.5, color: secondaryText }}>
+                    {cam.weighbridgeName}
+                  </div>
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -710,7 +1078,16 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                       setSelectedCamera(cam);
                       setShowDetailModal(true);
                     }}
-                    style={{ padding: "6px 12px", borderRadius: 6, background: primaryOrange, color: "#FFF", border: "none", fontSize: 12, fontWeight: 800, cursor: "pointer" }}
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: 6,
+                      background: primaryOrange,
+                      color: "#FFF",
+                      border: "none",
+                      fontSize: 12,
+                      fontWeight: 800,
+                      cursor: "pointer",
+                    }}
                   >
                     Live Preview
                   </button>
@@ -736,7 +1113,15 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
           gap: 16,
         }}
       >
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, flex: 1 }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: 12,
+            flex: 1,
+          }}
+        >
           {/* Search Input */}
           <div style={{ position: "relative", minWidth: 260, flex: 1 }}>
             <input
@@ -857,8 +1242,24 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
 
         {/* Live Stream Timestamp & Auto Refresh */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11.5, color: statusOnline, fontWeight: 700 }}>
-            <span style={{ width: 7, height: 7, borderRadius: "50%", background: statusOnline }} />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: 11.5,
+              color: statusOnline,
+              fontWeight: 700,
+            }}
+          >
+            <span
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: statusOnline,
+              }}
+            />
             LIVE STREAMING ({lastUpdatedTime})
           </div>
 
@@ -869,7 +1270,11 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
               height: 38,
               padding: "0 14px",
               borderRadius: 999,
-              background: autoRefresh ? (dm ? "rgba(22,163,74,0.15)" : "#F0FDF4") : elevated,
+              background: autoRefresh
+                ? dm
+                  ? "rgba(22,163,74,0.15)"
+                  : "#F0FDF4"
+                : elevated,
               border: `1px solid ${autoRefresh ? statusOnline : border}`,
               color: autoRefresh ? statusOnline : mutedText,
               fontSize: 12,
@@ -886,11 +1291,43 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
       </div>
 
       {/* ── 5. MAIN CAMERA INVENTORY DATA TABLE ── */}
-      <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, overflow: "hidden" }}>
-        <div style={{ padding: "18px 24px", borderBottom: `1px solid ${border}`, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+      <div
+        style={{
+          background: surface,
+          borderRadius: 12,
+          border: `1px solid ${border}`,
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            padding: "18px 24px",
+            borderBottom: `1px solid ${border}`,
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+          }}
+        >
           <div>
-            <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0, color: primaryText }}>CAMERA INVENTORY</h2>
-            <p style={{ fontSize: 12, color: secondaryText, margin: "2px 0 0 0" }}>
+            <h2
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                margin: 0,
+                color: primaryText,
+              }}
+            >
+              CAMERA INVENTORY
+            </h2>
+            <p
+              style={{
+                fontSize: 12,
+                color: secondaryText,
+                margin: "2px 0 0 0",
+              }}
+            >
               {filteredCameras.length} registered CCTV & ANPR cameras
             </p>
           </div>
@@ -901,9 +1338,26 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
         </div>
 
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              textAlign: "left",
+              fontSize: 13,
+            }}
+          >
             <thead>
-              <tr style={{ background: dm ? "#1A2332" : "#F8FAFC", borderBottom: `1px solid ${border}`, color: mutedText, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              <tr
+                style={{
+                  background: dm ? "#1A2332" : "#F8FAFC",
+                  borderBottom: `1px solid ${border}`,
+                  color: mutedText,
+                  fontSize: 11,
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
                 <th style={{ padding: "14px 20px" }}>CAMERA</th>
                 <th style={{ padding: "14px 16px" }}>CAMERA ID</th>
                 <th style={{ padding: "14px 16px" }}>TYPE</th>
@@ -912,49 +1366,116 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                 <th style={{ padding: "14px 16px" }}>STATUS</th>
                 <th style={{ padding: "14px 16px" }}>RECORDING</th>
                 <th style={{ padding: "14px 16px" }}>LAST FRAME</th>
-                <th style={{ padding: "14px 20px", textAlign: "right" }}>ACTIONS</th>
+                <th style={{ padding: "14px 20px", textAlign: "right" }}>
+                  ACTIONS
+                </th>
               </tr>
             </thead>
             <tbody>
               {filteredCameras.length === 0 ? (
                 <tr>
-                  <td colSpan={9} style={{ padding: "48px 20px", textAlign: "center", color: mutedText }}>
+                  <td
+                    colSpan={9}
+                    style={{
+                      padding: "48px 20px",
+                      textAlign: "center",
+                      color: mutedText,
+                    }}
+                  >
                     <div style={{ fontSize: 32, marginBottom: 12 }}>📹</div>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: primaryText }}>No cameras found</div>
-                    <div style={{ fontSize: 13, marginTop: 4 }}>Try adjusting your search query or filter selection.</div>
+                    <div
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 800,
+                        color: primaryText,
+                      }}
+                    >
+                      No cameras found
+                    </div>
+                    <div style={{ fontSize: 13, marginTop: 4 }}>
+                      Try adjusting your search query or filter selection.
+                    </div>
                   </td>
                 </tr>
               ) : (
                 filteredCameras.map((item) => (
                   <tr
                     key={item.id}
-                    style={{ borderBottom: `1px solid ${divider}`, transition: "background 0.15s ease" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = dm ? "rgba(255,255,255,0.03)" : "#F8FAFC")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                    style={{
+                      borderBottom: `1px solid ${divider}`,
+                      transition: "background 0.15s ease",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.background = dm
+                        ? "rgba(255,255,255,0.03)"
+                        : "#F8FAFC")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.background = "transparent")
+                    }
                   >
                     {/* Camera Name & Model */}
-                    <td style={{ padding: "16px 20px", fontWeight: 800, color: primaryText }}>
+                    <td
+                      style={{
+                        padding: "16px 20px",
+                        fontWeight: 800,
+                        color: primaryText,
+                      }}
+                    >
                       <div>{item.name}</div>
-                      <div style={{ fontSize: 11, color: mutedText, fontWeight: 500 }}>{item.manufacturer} {item.model}</div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: mutedText,
+                          fontWeight: 500,
+                        }}
+                      >
+                        {item.manufacturer} {item.model}
+                      </div>
                     </td>
 
                     {/* Code / ID */}
-                    <td style={{ padding: "16px 16px", fontWeight: 700, fontFamily: "monospace", color: primaryOrange }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        fontWeight: 700,
+                        fontFamily: "monospace",
+                        color: primaryOrange,
+                      }}
+                    >
                       {item.code}
                     </td>
 
                     {/* Type */}
-                    <td style={{ padding: "16px 16px", color: secondaryText, fontWeight: 600 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: secondaryText,
+                        fontWeight: 600,
+                      }}
+                    >
                       {item.type}
                     </td>
 
                     {/* Weighbridge */}
-                    <td style={{ padding: "16px 16px", color: primaryText, fontWeight: 700 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: primaryText,
+                        fontWeight: 700,
+                      }}
+                    >
                       {item.weighbridgeName}
                     </td>
 
                     {/* Location */}
-                    <td style={{ padding: "16px 16px", color: secondaryText, fontWeight: 600 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: secondaryText,
+                        fontWeight: 600,
+                      }}
+                    >
                       {item.location}
                     </td>
 
@@ -969,20 +1490,47 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                     </td>
 
                     {/* Last Frame */}
-                    <td style={{ padding: "16px 16px", color: mutedText, fontSize: 12 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: mutedText,
+                        fontSize: 12,
+                      }}
+                    >
                       {item.lastFrameTime}
                     </td>
 
                     {/* Actions */}
-                    <td style={{ padding: "16px 20px", textAlign: "right", position: "relative" }}>
-                      <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <td
+                      style={{
+                        padding: "16px 20px",
+                        textAlign: "right",
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 8,
+                        }}
+                      >
                         <button
                           type="button"
                           onClick={() => {
                             setSelectedCamera(item);
                             setShowDetailModal(true);
                           }}
-                          style={{ padding: "6px 12px", borderRadius: 6, background: primaryOrange, color: "#FFF", border: "none", fontSize: 12, fontWeight: 800, cursor: "pointer" }}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            background: primaryOrange,
+                            color: "#FFF",
+                            border: "none",
+                            fontSize: 12,
+                            fontWeight: 800,
+                            cursor: "pointer",
+                          }}
                         >
                           View
                         </button>
@@ -990,15 +1538,36 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                         <button
                           type="button"
                           onClick={() => handleOpenEdit(item)}
-                          style={{ padding: "6px 12px", borderRadius: 6, background: elevated, border: `1px solid ${border}`, color: primaryText, fontSize: 12, fontWeight: 700, cursor: "pointer" }}
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: 6,
+                            background: elevated,
+                            border: `1px solid ${border}`,
+                            color: primaryText,
+                            fontSize: 12,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                          }}
                         >
                           Edit
                         </button>
 
                         <button
                           type="button"
-                          onClick={() => setActiveMenuId(activeMenuId === item.id ? null : item.id)}
-                          style={{ padding: "6px 8px", borderRadius: 6, background: elevated, border: `1px solid ${border}`, color: secondaryText, fontSize: 12, cursor: "pointer" }}
+                          onClick={() =>
+                            setActiveMenuId(
+                              activeMenuId === item.id ? null : item.id,
+                            )
+                          }
+                          style={{
+                            padding: "6px 8px",
+                            borderRadius: 6,
+                            background: elevated,
+                            border: `1px solid ${border}`,
+                            color: secondaryText,
+                            fontSize: 12,
+                            cursor: "pointer",
+                          }}
                         >
                           ⋮
                         </button>
@@ -1036,7 +1605,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ Captured snapshot image for ${item.code}`);
+                              showToast(
+                                `✓ Captured snapshot image for ${item.code}`,
+                              );
                               setActiveMenuId(null);
                             }}
                             style={contextMenuItemStyle}
@@ -1047,7 +1618,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ RTSP socket ping test to ${item.ipAddress}:554 success (18ms)`);
+                              showToast(
+                                `✓ RTSP socket ping test to ${item.ipAddress}:554 success (18ms)`,
+                              );
                               setActiveMenuId(null);
                             }}
                             style={contextMenuItemStyle}
@@ -1055,15 +1628,25 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                             📡 Test Camera Connection
                           </button>
 
-                          <div style={{ borderTop: `1px solid ${divider}`, margin: "4px 0" }} />
+                          <div
+                            style={{
+                              borderTop: `1px solid ${divider}`,
+                              margin: "4px 0",
+                            }}
+                          />
 
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ Restarted video stream for ${item.code}`);
+                              showToast(
+                                `✓ Restarted video stream for ${item.code}`,
+                              );
                               setActiveMenuId(null);
                             }}
-                            style={{ ...contextMenuItemStyle, color: primaryOrange }}
+                            style={{
+                              ...contextMenuItemStyle,
+                              color: primaryOrange,
+                            }}
                           >
                             🔄 Restart Stream
                           </button>
@@ -1080,69 +1663,218 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
 
       {/* ── 6. DETAIL PREVIEW MODAL / DRAWER ── */}
       {showDetailModal && selectedCamera && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2px)", zIndex: 1100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-          <div style={{ width: "100%", maxWidth: 840, maxHeight: "92vh", background: surface, borderRadius: 16, border: `1px solid ${border}`, boxShadow: "0 20px 50px rgba(0,0,0,0.25)", overflowY: "auto", display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(2px)",
+            zIndex: 1100,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 840,
+              maxHeight: "92vh",
+              background: surface,
+              borderRadius: 16,
+              border: `1px solid ${border}`,
+              boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
+              overflowY: "auto",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {/* Modal Header */}
-            <div style={{ padding: "20px 24px", borderBottom: `1px solid ${border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div
+              style={{
+                padding: "20px 24px",
+                borderBottom: `1px solid ${border}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: primaryText }}>{selectedCamera.name}</h2>
+                  <h2
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 800,
+                      margin: 0,
+                      color: primaryText,
+                    }}
+                  >
+                    {selectedCamera.name}
+                  </h2>
                   {getStatusPill(selectedCamera.status)}
                   {getRecordingPill(selectedCamera.recordingStatus)}
                 </div>
-                <div style={{ fontSize: 12.5, color: secondaryText, marginTop: 4 }}>
-                  Code: <strong style={{ color: primaryOrange, fontFamily: "monospace" }}>{selectedCamera.code}</strong> · Station: {selectedCamera.weighbridgeName}
+                <div
+                  style={{ fontSize: 12.5, color: secondaryText, marginTop: 4 }}
+                >
+                  Code:{" "}
+                  <strong
+                    style={{ color: primaryOrange, fontFamily: "monospace" }}
+                  >
+                    {selectedCamera.code}
+                  </strong>{" "}
+                  · Station: {selectedCamera.weighbridgeName}
                 </div>
               </div>
 
               <button
                 type="button"
                 onClick={() => setShowDetailModal(false)}
-                style={{ background: "none", border: 0, color: mutedText, fontSize: 20, cursor: "pointer", fontWeight: 700 }}
+                style={{
+                  background: "none",
+                  border: 0,
+                  color: mutedText,
+                  fontSize: 20,
+                  cursor: "pointer",
+                  fontWeight: 700,
+                }}
               >
                 ✕
               </button>
             </div>
 
             {/* Modal Body */}
-            <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 24 }}>
-
+            <div
+              style={{
+                padding: 24,
+                display: "flex",
+                flexDirection: "column",
+                gap: 24,
+              }}
+            >
               {/* Large Live View Video Container */}
-              <div style={{ height: 280, background: "#0F172A", borderRadius: 12, border: `1px solid ${border}`, padding: 16, display: "flex", flexDirection: "column", justifyContent: "space-between", color: "#FFF", position: "relative" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ background: "rgba(0,0,0,0.6)", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 800 }}>LIVE VIEW</span>
-                    <span style={{ background: selectedCamera.status === "OFFLINE" ? "rgba(220,38,38,0.8)" : "rgba(22,163,74,0.8)", padding: "4px 10px", borderRadius: 6, fontSize: 12, fontWeight: 800 }}>
-                      ● {selectedCamera.status === "OFFLINE" ? "STREAM OFFLINE" : `25 FPS (${selectedCamera.resolution})`}
+              <div
+                style={{
+                  height: 280,
+                  background: "#0F172A",
+                  borderRadius: 12,
+                  border: `1px solid ${border}`,
+                  padding: 16,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  color: "#FFF",
+                  position: "relative",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
+                    <span
+                      style={{
+                        background: "rgba(0,0,0,0.6)",
+                        padding: "4px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        fontWeight: 800,
+                      }}
+                    >
+                      LIVE VIEW
+                    </span>
+                    <span
+                      style={{
+                        background:
+                          selectedCamera.status === "OFFLINE"
+                            ? "rgba(220,38,38,0.8)"
+                            : "rgba(22,163,74,0.8)",
+                        padding: "4px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        fontWeight: 800,
+                      }}
+                    >
+                      ●{" "}
+                      {selectedCamera.status === "OFFLINE"
+                        ? "STREAM OFFLINE"
+                        : `25 FPS (${selectedCamera.resolution})`}
                     </span>
                   </div>
 
-                  <span style={{ fontSize: 12, fontFamily: "monospace", color: "#94A3B8" }}>{selectedCamera.rtspUrl}</span>
+                  <span
+                    style={{
+                      fontSize: 12,
+                      fontFamily: "monospace",
+                      color: "#94A3B8",
+                    }}
+                  >
+                    {selectedCamera.rtspUrl}
+                  </span>
                 </div>
 
                 <div style={{ textAlign: "center", color: "#64748B" }}>
                   <div style={{ fontSize: 44, marginBottom: 8 }}>📹</div>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: "#E2E8F0" }}>
-                    {selectedCamera.status === "OFFLINE" ? "Camera Stream Offline" : `${selectedCamera.name} Live Feed`}
+                  <div
+                    style={{ fontSize: 15, fontWeight: 800, color: "#E2E8F0" }}
+                  >
+                    {selectedCamera.status === "OFFLINE"
+                      ? "Camera Stream Offline"
+                      : `${selectedCamera.name} Live Feed`}
                   </div>
-                  <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 2 }}>{selectedCamera.protocol} RTSP stream endpoint ready for native player</div>
+                  <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 2 }}>
+                    {selectedCamera.protocol} RTSP stream endpoint ready for
+                    native player
+                  </div>
                 </div>
 
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontSize: 12, color: "#CBD5E1" }}>Location: {selectedCamera.location}</span>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <span style={{ fontSize: 12, color: "#CBD5E1" }}>
+                    Location: {selectedCamera.location}
+                  </span>
 
                   <div style={{ display: "flex", gap: 8 }}>
                     <button
                       type="button"
                       onClick={() => showToast("✓ Captured high-res snapshot")}
-                      style={{ padding: "6px 12px", borderRadius: 6, background: "rgba(255,255,255,0.15)", color: "#FFF", border: "1px solid rgba(255,255,255,0.2)", fontSize: 11.5, fontWeight: 700, cursor: "pointer" }}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: 6,
+                        background: "rgba(255,255,255,0.15)",
+                        color: "#FFF",
+                        border: "1px solid rgba(255,255,255,0.2)",
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
                     >
                       📷 Take Snapshot
                     </button>
                     <button
                       type="button"
                       onClick={() => showToast("✓ Fullscreen expanded")}
-                      style={{ padding: "6px 12px", borderRadius: 6, background: primaryOrange, color: "#FFF", border: "none", fontSize: 11.5, fontWeight: 800, cursor: "pointer" }}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: 6,
+                        background: primaryOrange,
+                        color: "#FFF",
+                        border: "none",
+                        fontSize: 11.5,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                      }}
                     >
                       ⛶ Fullscreen
                     </button>
@@ -1151,77 +1883,359 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
               </div>
 
               {/* Specifications & Connection Grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
                 {/* Specifications */}
-                <div style={{ padding: 18, borderRadius: 10, background: elevated, border: `1px solid ${border}` }}>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: primaryOrange, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>CAMERA SPECIFICATIONS</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12.5 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Camera Type</span><span style={{ fontWeight: 700 }}>{selectedCamera.type}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Manufacturer</span><span style={{ fontWeight: 700 }}>{selectedCamera.manufacturer}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Model</span><span style={{ fontWeight: 700 }}>{selectedCamera.model}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Serial Number</span><span style={{ fontFamily: "monospace" }}>{selectedCamera.serialNumber}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Resolution</span><span>{selectedCamera.resolution}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Frame Rate</span><span>{selectedCamera.fps} FPS</span></div>
+                <div
+                  style={{
+                    padding: 18,
+                    borderRadius: 10,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: primaryOrange,
+                      marginBottom: 12,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    CAMERA SPECIFICATIONS
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      fontSize: 12.5,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Camera Type</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedCamera.type}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Manufacturer</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedCamera.manufacturer}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Model</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedCamera.model}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Serial Number</span>
+                      <span style={{ fontFamily: "monospace" }}>
+                        {selectedCamera.serialNumber}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Resolution</span>
+                      <span>{selectedCamera.resolution}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Frame Rate</span>
+                      <span>{selectedCamera.fps} FPS</span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Connection & Network */}
-                <div style={{ padding: 18, borderRadius: 10, background: elevated, border: `1px solid ${border}` }}>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: primaryOrange, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>NETWORK & CREDENTIALS</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12.5 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>IP Address</span><span style={{ fontFamily: "monospace" }}>{selectedCamera.ipAddress}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Port</span><span>{selectedCamera.port}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Protocol</span><span>{selectedCamera.protocol}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Username</span><span style={{ fontFamily: "monospace" }}>{selectedCamera.username}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Password</span><span style={{ fontFamily: "monospace" }}>••••••••</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Latency</span><span style={{ fontWeight: 800, color: statusOnline }}>18 ms</span></div>
+                <div
+                  style={{
+                    padding: 18,
+                    borderRadius: 10,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: primaryOrange,
+                      marginBottom: 12,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    NETWORK & CREDENTIALS
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      fontSize: 12.5,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>IP Address</span>
+                      <span style={{ fontFamily: "monospace" }}>
+                        {selectedCamera.ipAddress}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Port</span>
+                      <span>{selectedCamera.port}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Protocol</span>
+                      <span>{selectedCamera.protocol}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Username</span>
+                      <span style={{ fontFamily: "monospace" }}>
+                        {selectedCamera.username}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Password</span>
+                      <span style={{ fontFamily: "monospace" }}>••••••••</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Latency</span>
+                      <span style={{ fontWeight: 800, color: statusOnline }}>
+                        18 ms
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Storage & Recording Health */}
-              <div style={{ padding: 18, borderRadius: 10, background: elevated, border: `1px solid ${border}` }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: primaryText, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}>STORAGE & 24/7 DVR RECORDING HEALTH</div>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, marginBottom: 8 }}>
-                  <span>DVR Storage Utilization: <strong>{selectedCamera.storageUsedPercent}% Used</strong></span>
-                  <span style={{ color: secondaryText }}>Retention Period: <strong>{selectedCamera.retentionDays} Days</strong></span>
+              <div
+                style={{
+                  padding: 18,
+                  borderRadius: 10,
+                  background: elevated,
+                  border: `1px solid ${border}`,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: primaryText,
+                    marginBottom: 10,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  STORAGE & 24/7 DVR RECORDING HEALTH
                 </div>
-                <div style={{ height: 8, width: "100%", background: inputBg, borderRadius: 999, overflow: "hidden", marginBottom: 8 }}>
-                  <div style={{ width: `${selectedCamera.storageUsedPercent}%`, height: "100%", background: selectedCamera.storageUsedPercent > 90 ? statusWarning : statusOnline }} />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: 12.5,
+                    marginBottom: 8,
+                  }}
+                >
+                  <span>
+                    DVR Storage Utilization:{" "}
+                    <strong>{selectedCamera.storageUsedPercent}% Used</strong>
+                  </span>
+                  <span style={{ color: secondaryText }}>
+                    Retention Period:{" "}
+                    <strong>{selectedCamera.retentionDays} Days</strong>
+                  </span>
                 </div>
-                <div style={{ fontSize: 11.5, color: mutedText }}>Mode: Continuous 24/7 DVR Loop Recording · Next auto-purge in 3 days</div>
+                <div
+                  style={{
+                    height: 8,
+                    width: "100%",
+                    background: inputBg,
+                    borderRadius: 999,
+                    overflow: "hidden",
+                    marginBottom: 8,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${selectedCamera.storageUsedPercent}%`,
+                      height: "100%",
+                      background:
+                        selectedCamera.storageUsedPercent > 90
+                          ? statusWarning
+                          : statusOnline,
+                    }}
+                  />
+                </div>
+                <div style={{ fontSize: 11.5, color: mutedText }}>
+                  Mode: Continuous 24/7 DVR Loop Recording · Next auto-purge in
+                  3 days
+                </div>
               </div>
 
               {/* Recent Activity Timeline */}
               <div>
-                <div style={{ fontSize: 12, fontWeight: 800, color: primaryText, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}>RECENT CAMERA EVENTS</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 12 }}>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
-                    <span>10:42:18 AM — Live RTSP video stream re-synchronized</span>
-                    <span style={{ color: statusOnline, fontWeight: 700 }}>● Active 25 FPS</span>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: primaryText,
+                    marginBottom: 10,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  RECENT CAMERA EVENTS
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    fontSize: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      10:42:18 AM — Live RTSP video stream re-synchronized
+                    </span>
+                    <span style={{ color: statusOnline, fontWeight: 700 }}>
+                      ● Active 25 FPS
+                    </span>
                   </div>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
-                    <span>10:40:22 AM — Auto snapshot captured on vehicle entry</span>
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      10:40:22 AM — Auto snapshot captured on vehicle entry
+                    </span>
                     <span style={{ color: mutedText }}>Plate ANPR logged</span>
                   </div>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <span>10:35:11 AM — DVR recording segment written</span>
                     <span style={{ color: mutedText }}>Block #4902</span>
                   </div>
                 </div>
               </div>
-
             </div>
 
             {/* Modal Footer */}
-            <div style={{ padding: "16px 24px", borderTop: `1px solid ${border}`, display: "flex", justifyContent: "flex-end", gap: 12 }}>
+            <div
+              style={{
+                padding: "16px 24px",
+                borderTop: `1px solid ${border}`,
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 12,
+              }}
+            >
               <button
                 type="button"
                 onClick={() => {
                   setShowDetailModal(false);
                   handleOpenEdit(selectedCamera);
                 }}
-                style={{ padding: "10px 18px", borderRadius: 8, background: elevated, border: `1px solid ${border}`, color: primaryText, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                style={{
+                  padding: "10px 18px",
+                  borderRadius: 8,
+                  background: elevated,
+                  border: `1px solid ${border}`,
+                  color: primaryText,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
               >
                 Edit Camera Configuration
               </button>
@@ -1229,7 +2243,16 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
               <button
                 type="button"
                 onClick={() => setShowDetailModal(false)}
-                style={{ padding: "10px 20px", borderRadius: 8, background: primaryOrange, color: "#FFF", border: "none", fontSize: 13, fontWeight: 800, cursor: "pointer" }}
+                style={{
+                  padding: "10px 20px",
+                  borderRadius: 8,
+                  background: primaryOrange,
+                  color: "#FFF",
+                  border: "none",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
               >
                 Close Preview
               </button>
@@ -1240,24 +2263,85 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
 
       {/* ── 7. ADD / EDIT CAMERA MODAL ── */}
       {showAddEditModal && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2px)", zIndex: 1100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-          <div style={{ width: "100%", maxWidth: 660, maxHeight: "90vh", background: surface, borderRadius: 16, border: `1px solid ${border}`, boxShadow: "0 20px 50px rgba(0,0,0,0.25)", overflowY: "auto" }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(2px)",
+            zIndex: 1100,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 660,
+              maxHeight: "90vh",
+              background: surface,
+              borderRadius: 16,
+              border: `1px solid ${border}`,
+              boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
+              overflowY: "auto",
+            }}
+          >
             <form onSubmit={handleSaveCamera}>
-              <div style={{ padding: "20px 24px", borderBottom: `1px solid ${border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <h2 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: primaryText }}>
-                  {editMode === "add" ? "+ Add Weighbridge Camera" : `Edit Camera ${formData.code}`}
+              <div
+                style={{
+                  padding: "20px 24px",
+                  borderBottom: `1px solid ${border}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 800,
+                    margin: 0,
+                    color: primaryText,
+                  }}
+                >
+                  {editMode === "add"
+                    ? "+ Add Weighbridge Camera"
+                    : `Edit Camera ${formData.code}`}
                 </h2>
-                <button type="button" onClick={() => setShowAddEditModal(false)} style={{ background: "none", border: 0, color: mutedText, fontSize: 20, cursor: "pointer" }}>✕</button>
+                <button
+                  type="button"
+                  onClick={() => setShowAddEditModal(false)}
+                  style={{
+                    background: "none",
+                    border: 0,
+                    color: mutedText,
+                    fontSize: 20,
+                    cursor: "pointer",
+                  }}
+                >
+                  ✕
+                </button>
               </div>
 
-              <div style={{ padding: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div
+                style={{
+                  padding: 24,
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
                 <div>
                   <label style={formLabelStyle}>Camera Code / ID *</label>
                   <input
                     type="text"
                     required
                     value={formData.code || ""}
-                    onChange={(e) => setFormData({ ...formData, code: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, code: e.target.value })
+                    }
                     placeholder="e.g. CAM-WB06-001"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1269,7 +2353,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                     type="text"
                     required
                     value={formData.name || ""}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     placeholder="e.g. Main Gate Entry Camera"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1279,7 +2365,12 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                   <label style={formLabelStyle}>Camera Type *</label>
                   <select
                     value={formData.type || "IP Camera"}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value as CameraType })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        type: e.target.value as CameraType,
+                      })
+                    }
                     style={formInputStyle(inputBg, border, primaryText)}
                   >
                     <option value="IP Camera">IP Camera</option>
@@ -1296,8 +2387,21 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                     value={formData.weighbridgeId || "WB-01"}
                     onChange={(e) => {
                       const id = e.target.value;
-                      const name = id === "WB-01" ? "WB-01 — Main Gate" : id === "WB-02" ? "WB-02 — North Gate" : id === "WB-03" ? "WB-03 — Loading Yard" : id === "WB-04" ? "WB-04 — East Gate" : "WB-05 — West Gate";
-                      setFormData({ ...formData, weighbridgeId: id, weighbridgeName: name });
+                      const name =
+                        id === "WB-01"
+                          ? "WB-01 — Main Gate"
+                          : id === "WB-02"
+                            ? "WB-02 — North Gate"
+                            : id === "WB-03"
+                              ? "WB-03 — Loading Yard"
+                              : id === "WB-04"
+                                ? "WB-04 — East Gate"
+                                : "WB-05 — West Gate";
+                      setFormData({
+                        ...formData,
+                        weighbridgeId: id,
+                        weighbridgeName: name,
+                      });
                     }}
                     style={formInputStyle(inputBg, border, primaryText)}
                   >
@@ -1314,7 +2418,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                   <input
                     type="text"
                     value={formData.location || ""}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, location: e.target.value })
+                    }
                     placeholder="Entry Lane"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1325,7 +2431,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                   <input
                     type="text"
                     value={formData.manufacturer || "Hikvision"}
-                    onChange={(e) => setFormData({ ...formData, manufacturer: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, manufacturer: e.target.value })
+                    }
                     placeholder="Hikvision"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1337,7 +2445,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                     type="text"
                     required
                     value={formData.ipAddress || "192.168.1.160"}
-                    onChange={(e) => setFormData({ ...formData, ipAddress: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, ipAddress: e.target.value })
+                    }
                     placeholder="192.168.1.160"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1348,7 +2458,18 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                   <input
                     type="number"
                     value={formData.port || 554}
-                    onChange={(e) => setFormData({ ...formData, port: Number(e.target.value) })}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const parsed = value === "" ? undefined : Number(value);
+
+                      setFormData({
+                        ...formData,
+                        port:
+                          parsed !== undefined && Number.isFinite(parsed)
+                            ? parsed
+                            : undefined,
+                      });
+                    }}
                     placeholder="554"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1359,7 +2480,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                   <input
                     type="text"
                     value={formData.username || "admin"}
-                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, username: e.target.value })
+                    }
                     placeholder="admin"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
@@ -1379,7 +2502,9 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                   <label style={formLabelStyle}>Resolution</label>
                   <select
                     value={formData.resolution || "3840 × 2160 (4K)"}
-                    onChange={(e) => setFormData({ ...formData, resolution: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, resolution: e.target.value })
+                    }
                     style={formInputStyle(inputBg, border, primaryText)}
                   >
                     <option value="3840 × 2160 (4K)">3840 × 2160 (4K)</option>
@@ -1392,7 +2517,12 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                   <label style={formLabelStyle}>Status</label>
                   <select
                     value={formData.status || "ONLINE"}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value as CameraStatus })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        status: e.target.value as CameraStatus,
+                      })
+                    }
                     style={formInputStyle(inputBg, border, primaryText)}
                   >
                     <option value="ONLINE">ONLINE</option>
@@ -1401,17 +2531,43 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
                 </div>
               </div>
 
-              <div style={{ padding: "16px 24px", borderTop: `1px solid ${border}`, display: "flex", justifyContent: "flex-end", gap: 12 }}>
+              <div
+                style={{
+                  padding: "16px 24px",
+                  borderTop: `1px solid ${border}`,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: 12,
+                }}
+              >
                 <button
                   type="button"
                   onClick={() => setShowAddEditModal(false)}
-                  style={{ padding: "10px 18px", borderRadius: 8, background: elevated, border: `1px solid ${border}`, color: primaryText, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                  style={{
+                    padding: "10px 18px",
+                    borderRadius: 8,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                    color: primaryText,
+                    fontSize: 13,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  style={{ padding: "10px 22px", borderRadius: 8, background: primaryOrange, color: "#FFF", border: "none", fontSize: 13, fontWeight: 800, cursor: "pointer" }}
+                  style={{
+                    padding: "10px 22px",
+                    borderRadius: 8,
+                    background: primaryOrange,
+                    color: "#FFF",
+                    border: "none",
+                    fontSize: 13,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
                 >
                   Save Camera
                 </button>
@@ -1420,7 +2576,6 @@ export default function CamerasScreen({ darkMode: dm }: Props) {
           </div>
         </div>
       )}
-
     </div>
   );
 }
@@ -1434,7 +2589,11 @@ const formLabelStyle: React.CSSProperties = {
   letterSpacing: "0.04em",
 };
 
-const formInputStyle = (bg: string, border: string, text: string): React.CSSProperties => ({
+const formInputStyle = (
+  bg: string,
+  border: string,
+  text: string,
+): React.CSSProperties => ({
   width: "100%",
   height: 42,
   padding: "0 12px",

@@ -8,7 +8,13 @@ interface Props {
 }
 
 export type DeviceStatus = "ONLINE" | "WARNING" | "OFFLINE";
-export type DeviceType = "Weight Indicator" | "Camera" | "Printer" | "Controller" | "Sensor" | "Display";
+export type DeviceType =
+  | "Weight Indicator"
+  | "Camera"
+  | "Printer"
+  | "Controller"
+  | "Sensor"
+  | "Display";
 
 export interface DeviceItem {
   id: string;
@@ -611,7 +617,7 @@ const INITIAL_DEVICES: DeviceItem[] = [
   },
 ];
 
-export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Props) {
+export default function DeviceMonitoringScreen({ darkMode: dm }: Props) {
   // Theme Color Tokens
   const bg = dm ? "#111827" : "#F8FAFC";
   const surface = dm ? "#1F2937" : "#FFFFFF";
@@ -681,12 +687,21 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
 
       const matchWb = wbFilter === "All" || item.weighbridgeId === wbFilter;
       const matchType = typeFilter === "All" || item.type === typeFilter;
-      const matchStatus = statusFilter === "All" || item.status === statusFilter;
-      const matchConnection = connectionFilter === "All" || item.connection === connectionFilter;
+      const matchStatus =
+        statusFilter === "All" || item.status === statusFilter;
+      const matchConnection =
+        connectionFilter === "All" || item.connection === connectionFilter;
 
       return matchQ && matchWb && matchType && matchStatus && matchConnection;
     });
-  }, [devices, searchQuery, wbFilter, typeFilter, statusFilter, connectionFilter]);
+  }, [
+    devices,
+    searchQuery,
+    wbFilter,
+    typeFilter,
+    statusFilter,
+    connectionFilter,
+  ]);
 
   // Helper for Status Badge styling
   const getStatusPill = (status: DeviceStatus) => {
@@ -720,30 +735,78 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
           border: `1px solid ${color}35`,
         }}
       >
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: color }} />
+        <span
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: color,
+          }}
+        />
         {text}
       </span>
     );
   };
 
   return (
-    <div style={{ flex: 1, padding: "24px 32px 48px", background: bg, color: primaryText, fontFamily: "'Inter', -apple-system, sans-serif" }}>
-
+    <div
+      style={{
+        flex: 1,
+        padding: "24px 32px 48px",
+        background: bg,
+        color: primaryText,
+        fontFamily: "'Inter', -apple-system, sans-serif",
+      }}
+    >
       {/* Toast Notification */}
       {toastMessage && (
-        <div style={{ position: "fixed", top: 84, right: 32, zIndex: 1200, background: primaryOrange, color: "#FFF", padding: "12px 20px", borderRadius: 8, fontWeight: 700, fontSize: 13, boxShadow: "0 10px 25px rgba(249,115,22,0.4)" }}>
+        <div
+          style={{
+            position: "fixed",
+            top: 84,
+            right: 32,
+            zIndex: 1200,
+            background: primaryOrange,
+            color: "#FFF",
+            padding: "12px 20px",
+            borderRadius: 8,
+            fontWeight: 700,
+            fontSize: 13,
+            boxShadow: "0 10px 25px rgba(249,115,22,0.4)",
+          }}
+        >
           {toastMessage}
         </div>
       )}
 
       {/* ── 1. PAGE HEADER ── */}
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 28 }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 16,
+          marginBottom: 28,
+        }}
+      >
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, color: primaryText, letterSpacing: "-0.02em" }}>
+          <h1
+            style={{
+              fontSize: 24,
+              fontWeight: 800,
+              margin: 0,
+              color: primaryText,
+              letterSpacing: "-0.02em",
+            }}
+          >
             Device Monitoring
           </h1>
-          <p style={{ fontSize: 13, color: secondaryText, margin: "4px 0 0 0" }}>
-            Monitor connectivity, health and operational status of devices connected to all weighbridge stations.
+          <p
+            style={{ fontSize: 13, color: secondaryText, margin: "4px 0 0 0" }}
+          >
+            Monitor connectivity, health and operational status of devices
+            connected to all weighbridge stations.
           </p>
         </div>
 
@@ -794,70 +857,249 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
       </div>
 
       {/* ── 2. SUMMARY KPI ROW (4 CARDS) ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 20 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: 16,
+          marginBottom: 20,
+        }}
+      >
         {/* Total Devices */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ fontSize: 11, fontWeight: 800, color: mutedText, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 800,
+              color: mutedText,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            }}
+          >
             TOTAL DEVICES
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: primaryText, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: primaryText,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {totalCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Across all weighbridges</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Across all weighbridges
+          </div>
         </div>
 
         {/* Online */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusOnline, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusOnline,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               ONLINE
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusOnline }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusOnline,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusOnline, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusOnline,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {onlineCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Connected and operational</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Connected and operational
+          </div>
         </div>
 
         {/* Warning */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusWarning, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusWarning,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               WARNING
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusWarning }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusWarning,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusWarning, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusWarning,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {warningCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Requires attention</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Requires attention
+          </div>
         </div>
 
         {/* Offline */}
-        <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "20px 22px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: statusOffline, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+        <div
+          style={{
+            background: surface,
+            borderRadius: 12,
+            border: `1px solid ${border}`,
+            padding: "20px 22px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: statusOffline,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               OFFLINE
             </span>
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: statusOffline }} />
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: statusOffline,
+              }}
+            />
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: statusOffline, margin: "6px 0 2px", fontFamily: "monospace" }}>
+          <div
+            style={{
+              fontSize: 32,
+              fontWeight: 800,
+              color: statusOffline,
+              margin: "6px 0 2px",
+              fontFamily: "monospace",
+            }}
+          >
             {offlineCount}
           </div>
-          <div style={{ fontSize: 12, color: secondaryText }}>Connection unavailable</div>
+          <div style={{ fontSize: 12, color: secondaryText }}>
+            Connection unavailable
+          </div>
         </div>
       </div>
 
       {/* ── 3. DEVICE HEALTH DISTRIBUTION & QUICK DEVICE TYPE FILTERS ── */}
-      <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, padding: "18px 22px", marginBottom: 24 }}>
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 14 }}>
+      <div
+        style={{
+          background: surface,
+          borderRadius: 12,
+          border: `1px solid ${border}`,
+          padding: "18px 22px",
+          marginBottom: 24,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            marginBottom: 14,
+          }}
+        >
           <div>
-            <span style={{ fontSize: 11, fontWeight: 800, color: mutedText, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                color: mutedText,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               DEVICE HEALTH DISTRIBUTION
             </span>
-            <div style={{ fontSize: 13, fontWeight: 700, color: primaryText, marginTop: 2 }}>
-              84% Healthy ({onlineCount}/{totalCount}) · {warningCount} Warning · {offlineCount} Offline
+            <div
+              style={{
+                fontSize: 13,
+                fontWeight: 700,
+                color: primaryText,
+                marginTop: 2,
+              }}
+            >
+              84% Healthy ({onlineCount}/{totalCount}) · {warningCount} Warning
+              · {offlineCount} Offline
             </div>
           </div>
 
@@ -881,7 +1123,11 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
                     padding: "5px 12px",
                     borderRadius: 6,
                     border: `1px solid ${active ? primaryOrange : border}`,
-                    background: active ? (dm ? "rgba(249,115,22,0.15)" : "#FFF7ED") : elevated,
+                    background: active
+                      ? dm
+                        ? "rgba(249,115,22,0.15)"
+                        : "#FFF7ED"
+                      : elevated,
                     color: active ? primaryOrange : secondaryText,
                     fontSize: 11.5,
                     fontWeight: active ? 800 : 600,
@@ -896,10 +1142,37 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
         </div>
 
         {/* Visual Progress Distribution Bar */}
-        <div style={{ height: 8, width: "100%", background: elevated, borderRadius: 999, overflow: "hidden", display: "flex" }}>
-          <div style={{ width: `${(onlineCount / totalCount) * 100}%`, background: statusOnline }} title={`Online: ${onlineCount}`} />
-          <div style={{ width: `${(warningCount / totalCount) * 100}%`, background: statusWarning }} title={`Warning: ${warningCount}`} />
-          <div style={{ width: `${(offlineCount / totalCount) * 100}%`, background: statusOffline }} title={`Offline: ${offlineCount}`} />
+        <div
+          style={{
+            height: 8,
+            width: "100%",
+            background: elevated,
+            borderRadius: 999,
+            overflow: "hidden",
+            display: "flex",
+          }}
+        >
+          <div
+            style={{
+              width: `${(onlineCount / totalCount) * 100}%`,
+              background: statusOnline,
+            }}
+            title={`Online: ${onlineCount}`}
+          />
+          <div
+            style={{
+              width: `${(warningCount / totalCount) * 100}%`,
+              background: statusWarning,
+            }}
+            title={`Warning: ${warningCount}`}
+          />
+          <div
+            style={{
+              width: `${(offlineCount / totalCount) * 100}%`,
+              background: statusOffline,
+            }}
+            title={`Offline: ${offlineCount}`}
+          />
         </div>
       </div>
 
@@ -918,7 +1191,15 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
           gap: 16,
         }}
       >
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, flex: 1 }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: 12,
+            flex: 1,
+          }}
+        >
           {/* Search Input */}
           <div style={{ position: "relative", minWidth: 260, flex: 1 }}>
             <input
@@ -1042,8 +1323,24 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
 
         {/* Auto Refresh & Live Timestamp */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11.5, color: statusOnline, fontWeight: 700 }}>
-            <span style={{ width: 7, height: 7, borderRadius: "50%", background: statusOnline }} />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: 11.5,
+              color: statusOnline,
+              fontWeight: 700,
+            }}
+          >
+            <span
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: statusOnline,
+              }}
+            />
             LIVE STATUS ({lastUpdatedTime})
           </div>
 
@@ -1054,7 +1351,11 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
               height: 38,
               padding: "0 14px",
               borderRadius: 999,
-              background: autoRefresh ? (dm ? "rgba(22,163,74,0.15)" : "#F0FDF4") : elevated,
+              background: autoRefresh
+                ? dm
+                  ? "rgba(22,163,74,0.15)"
+                  : "#F0FDF4"
+                : elevated,
               border: `1px solid ${autoRefresh ? statusOnline : border}`,
               color: autoRefresh ? statusOnline : mutedText,
               fontSize: 12,
@@ -1071,12 +1372,44 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
       </div>
 
       {/* ── 5. MAIN DEVICE DATA TABLE ── */}
-      <div style={{ background: surface, borderRadius: 12, border: `1px solid ${border}`, overflow: "hidden" }}>
+      <div
+        style={{
+          background: surface,
+          borderRadius: 12,
+          border: `1px solid ${border}`,
+          overflow: "hidden",
+        }}
+      >
         {/* Table Header Controls */}
-        <div style={{ padding: "18px 24px", borderBottom: `1px solid ${border}`, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+        <div
+          style={{
+            padding: "18px 24px",
+            borderBottom: `1px solid ${border}`,
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+          }}
+        >
           <div>
-            <h2 style={{ fontSize: 16, fontWeight: 800, margin: 0, color: primaryText }}>DEVICES</h2>
-            <p style={{ fontSize: 12, color: secondaryText, margin: "2px 0 0 0" }}>
+            <h2
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                margin: 0,
+                color: primaryText,
+              }}
+            >
+              DEVICES
+            </h2>
+            <p
+              style={{
+                fontSize: 12,
+                color: secondaryText,
+                margin: "2px 0 0 0",
+              }}
+            >
               {filteredDevices.length} connected hardware devices
             </p>
           </div>
@@ -1088,9 +1421,26 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
 
         {/* Table Content */}
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: 13 }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              textAlign: "left",
+              fontSize: 13,
+            }}
+          >
             <thead>
-              <tr style={{ background: dm ? "#1A2332" : "#F8FAFC", borderBottom: `1px solid ${border}`, color: mutedText, fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              <tr
+                style={{
+                  background: dm ? "#1A2332" : "#F8FAFC",
+                  borderBottom: `1px solid ${border}`,
+                  color: mutedText,
+                  fontSize: 11,
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
                 <th style={{ padding: "14px 20px" }}>DEVICE</th>
                 <th style={{ padding: "14px 16px" }}>DEVICE ID</th>
                 <th style={{ padding: "14px 16px" }}>TYPE</th>
@@ -1099,49 +1449,117 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
                 <th style={{ padding: "14px 16px" }}>STATUS</th>
                 <th style={{ padding: "14px 16px" }}>LAST HEARTBEAT</th>
                 <th style={{ padding: "14px 16px" }}>HEALTH</th>
-                <th style={{ padding: "14px 20px", textAlign: "right" }}>ACTIONS</th>
+                <th style={{ padding: "14px 20px", textAlign: "right" }}>
+                  ACTIONS
+                </th>
               </tr>
             </thead>
             <tbody>
               {filteredDevices.length === 0 ? (
                 <tr>
-                  <td colSpan={9} style={{ padding: "48px 20px", textAlign: "center", color: mutedText }}>
+                  <td
+                    colSpan={9}
+                    style={{
+                      padding: "48px 20px",
+                      textAlign: "center",
+                      color: mutedText,
+                    }}
+                  >
                     <div style={{ fontSize: 32, marginBottom: 12 }}>🔌</div>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: primaryText }}>No devices configured</div>
-                    <div style={{ fontSize: 13, marginTop: 4 }}>No monitoring devices match your active filters.</div>
+                    <div
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 800,
+                        color: primaryText,
+                      }}
+                    >
+                      No devices configured
+                    </div>
+                    <div style={{ fontSize: 13, marginTop: 4 }}>
+                      No monitoring devices match your active filters.
+                    </div>
                   </td>
                 </tr>
               ) : (
                 filteredDevices.map((item) => (
                   <tr
                     key={item.id}
-                    style={{ borderBottom: `1px solid ${divider}`, transition: "background 0.15s ease" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = dm ? "rgba(255,255,255,0.03)" : "#F8FAFC")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                    style={{
+                      borderBottom: `1px solid ${divider}`,
+                      transition: "background 0.15s ease",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.background = dm
+                        ? "rgba(255,255,255,0.03)"
+                        : "#F8FAFC")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.background = "transparent")
+                    }
                   >
                     {/* Device Name & IP */}
-                    <td style={{ padding: "16px 20px", fontWeight: 800, color: primaryText }}>
+                    <td
+                      style={{
+                        padding: "16px 20px",
+                        fontWeight: 800,
+                        color: primaryText,
+                      }}
+                    >
                       <div>{item.name}</div>
-                      <div style={{ fontSize: 11, color: mutedText, fontFamily: "monospace", fontWeight: 500 }}>{item.ipAddress}:{item.port}</div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: mutedText,
+                          fontFamily: "monospace",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {item.ipAddress}:{item.port}
+                      </div>
                     </td>
 
                     {/* Device ID */}
-                    <td style={{ padding: "16px 16px", fontWeight: 700, fontFamily: "monospace", color: primaryOrange }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        fontWeight: 700,
+                        fontFamily: "monospace",
+                        color: primaryOrange,
+                      }}
+                    >
                       {item.id}
                     </td>
 
                     {/* Type */}
-                    <td style={{ padding: "16px 16px", color: secondaryText, fontWeight: 600 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: secondaryText,
+                        fontWeight: 600,
+                      }}
+                    >
                       {item.type}
                     </td>
 
                     {/* Weighbridge */}
-                    <td style={{ padding: "16px 16px", color: primaryText, fontWeight: 700 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: primaryText,
+                        fontWeight: 700,
+                      }}
+                    >
                       {item.weighbridgeName}
                     </td>
 
                     {/* Connection */}
-                    <td style={{ padding: "16px 16px", color: secondaryText, fontWeight: 600 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: secondaryText,
+                        fontWeight: 600,
+                      }}
+                    >
                       {item.connection}
                     </td>
 
@@ -1151,33 +1569,83 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
                     </td>
 
                     {/* Last Heartbeat */}
-                    <td style={{ padding: "16px 16px", color: mutedText, fontSize: 12 }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        color: mutedText,
+                        fontSize: 12,
+                      }}
+                    >
                       {item.lastHeartbeat}
                     </td>
 
                     {/* Health */}
-                    <td style={{ padding: "16px 16px", fontWeight: 700, color: item.status === "OFFLINE" ? statusOffline : item.status === "WARNING" ? statusWarning : statusOnline }}>
+                    <td
+                      style={{
+                        padding: "16px 16px",
+                        fontWeight: 700,
+                        color:
+                          item.status === "OFFLINE"
+                            ? statusOffline
+                            : item.status === "WARNING"
+                              ? statusWarning
+                              : statusOnline,
+                      }}
+                    >
                       {item.health}
                     </td>
 
                     {/* Actions */}
-                    <td style={{ padding: "16px 20px", textAlign: "right", position: "relative" }}>
-                      <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <td
+                      style={{
+                        padding: "16px 20px",
+                        textAlign: "right",
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 8,
+                        }}
+                      >
                         <button
                           type="button"
                           onClick={() => {
                             setSelectedDevice(item);
                             setShowDetailModal(true);
                           }}
-                          style={{ padding: "6px 14px", borderRadius: 6, background: primaryOrange, color: "#FFF", border: "none", fontSize: 12, fontWeight: 800, cursor: "pointer" }}
+                          style={{
+                            padding: "6px 14px",
+                            borderRadius: 6,
+                            background: primaryOrange,
+                            color: "#FFF",
+                            border: "none",
+                            fontSize: 12,
+                            fontWeight: 800,
+                            cursor: "pointer",
+                          }}
                         >
                           View
                         </button>
 
                         <button
                           type="button"
-                          onClick={() => setActiveMenuId(activeMenuId === item.id ? null : item.id)}
-                          style={{ padding: "6px 10px", borderRadius: 6, background: elevated, border: `1px solid ${border}`, color: secondaryText, fontSize: 12, cursor: "pointer" }}
+                          onClick={() =>
+                            setActiveMenuId(
+                              activeMenuId === item.id ? null : item.id,
+                            )
+                          }
+                          style={{
+                            padding: "6px 10px",
+                            borderRadius: 6,
+                            background: elevated,
+                            border: `1px solid ${border}`,
+                            color: secondaryText,
+                            fontSize: 12,
+                            cursor: "pointer",
+                          }}
                         >
                           ⋮
                         </button>
@@ -1203,7 +1671,9 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ Restarting connection for ${item.id}...`);
+                              showToast(
+                                `✓ Restarting connection for ${item.id}...`,
+                              );
                               setActiveMenuId(null);
                             }}
                             style={contextMenuItemStyle}
@@ -1226,7 +1696,9 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ Signal test ping sent to ${item.ipAddress}`);
+                              showToast(
+                                `✓ Signal test ping sent to ${item.ipAddress}`,
+                              );
                               setActiveMenuId(null);
                             }}
                             style={contextMenuItemStyle}
@@ -1234,15 +1706,25 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
                             📡 Test Device Signal
                           </button>
 
-                          <div style={{ borderTop: `1px solid ${divider}`, margin: "4px 0" }} />
+                          <div
+                            style={{
+                              borderTop: `1px solid ${divider}`,
+                              margin: "4px 0",
+                            }}
+                          />
 
                           <button
                             type="button"
                             onClick={() => {
-                              showToast(`✓ Maintenance ticket logged for ${item.id}`);
+                              showToast(
+                                `✓ Maintenance ticket logged for ${item.id}`,
+                              );
                               setActiveMenuId(null);
                             }}
-                            style={{ ...contextMenuItemStyle, color: secondaryGold }}
+                            style={{
+                              ...contextMenuItemStyle,
+                              color: secondaryGold,
+                            }}
                           >
                             ⚙ Open Maintenance Ticket
                           </button>
@@ -1259,126 +1741,526 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
 
       {/* ── 6. DEVICE DETAIL MODAL / PREVIEW ── */}
       {showDetailModal && selectedDevice && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2px)", zIndex: 1100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-          <div style={{ width: "100%", maxWidth: 760, maxHeight: "90vh", background: surface, borderRadius: 16, border: `1px solid ${border}`, boxShadow: "0 20px 50px rgba(0,0,0,0.25)", overflowY: "auto", display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(2px)",
+            zIndex: 1100,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 760,
+              maxHeight: "90vh",
+              background: surface,
+              borderRadius: 16,
+              border: `1px solid ${border}`,
+              boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
+              overflowY: "auto",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {/* Modal Header */}
-            <div style={{ padding: "20px 24px", borderBottom: `1px solid ${border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div
+              style={{
+                padding: "20px 24px",
+                borderBottom: `1px solid ${border}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: primaryText }}>{selectedDevice.name}</h2>
+                  <h2
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 800,
+                      margin: 0,
+                      color: primaryText,
+                    }}
+                  >
+                    {selectedDevice.name}
+                  </h2>
                   {getStatusPill(selectedDevice.status)}
                 </div>
-                <div style={{ fontSize: 12.5, color: secondaryText, marginTop: 4 }}>
-                  Device ID: <strong style={{ color: primaryOrange, fontFamily: "monospace" }}>{selectedDevice.id}</strong> · Station: {selectedDevice.weighbridgeName}
+                <div
+                  style={{ fontSize: 12.5, color: secondaryText, marginTop: 4 }}
+                >
+                  Device ID:{" "}
+                  <strong
+                    style={{ color: primaryOrange, fontFamily: "monospace" }}
+                  >
+                    {selectedDevice.id}
+                  </strong>{" "}
+                  · Station: {selectedDevice.weighbridgeName}
                 </div>
               </div>
 
               <button
                 type="button"
                 onClick={() => setShowDetailModal(false)}
-                style={{ background: "none", border: 0, color: mutedText, fontSize: 20, cursor: "pointer", fontWeight: 700 }}
+                style={{
+                  background: "none",
+                  border: 0,
+                  color: mutedText,
+                  fontSize: 20,
+                  cursor: "pointer",
+                  fontWeight: 700,
+                }}
               >
                 ✕
               </button>
             </div>
 
             {/* Modal Body */}
-            <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 24 }}>
-
+            <div
+              style={{
+                padding: 24,
+                display: "flex",
+                flexDirection: "column",
+                gap: 24,
+              }}
+            >
               {/* Adaptive Current State Section */}
-              <div style={{ padding: "16px 20px", borderRadius: 12, background: dm ? "#1A2332" : "#FFF7ED", border: `1px solid ${primaryOrange}40`, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+              <div
+                style={{
+                  padding: "16px 20px",
+                  borderRadius: 12,
+                  background: dm ? "#1A2332" : "#FFF7ED",
+                  border: `1px solid ${primaryOrange}40`,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 16,
+                }}
+              >
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: primaryOrange, textTransform: "uppercase", letterSpacing: "0.05em" }}>LIVE DEVICE STATE</div>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: primaryText, marginTop: 2 }}>{selectedDevice.name} ({selectedDevice.type})</div>
-                  <div style={{ fontSize: 12, color: secondaryText, marginTop: 2 }}>Last Heartbeat: {selectedDevice.lastHeartbeat} · Health: {selectedDevice.health}</div>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 800,
+                      color: primaryOrange,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    LIVE DEVICE STATE
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 800,
+                      color: primaryText,
+                      marginTop: 2,
+                    }}
+                  >
+                    {selectedDevice.name} ({selectedDevice.type})
+                  </div>
+                  <div
+                    style={{ fontSize: 12, color: secondaryText, marginTop: 2 }}
+                  >
+                    Last Heartbeat: {selectedDevice.lastHeartbeat} · Health:{" "}
+                    {selectedDevice.health}
+                  </div>
                 </div>
 
                 <div style={{ textAlign: "right" }}>
                   {selectedDevice.type === "Weight Indicator" && (
                     <>
-                      <div style={{ fontSize: 28, fontWeight: 800, fontFamily: "monospace", color: primaryOrange }}>{selectedDevice.weightReading}</div>
-                      <div style={{ fontSize: 11, fontWeight: 800, color: statusOnline }}>● Signal: {selectedDevice.signalState}</div>
+                      <div
+                        style={{
+                          fontSize: 28,
+                          fontWeight: 800,
+                          fontFamily: "monospace",
+                          color: primaryOrange,
+                        }}
+                      >
+                        {selectedDevice.weightReading}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 800,
+                          color: statusOnline,
+                        }}
+                      >
+                        ● Signal: {selectedDevice.signalState}
+                      </div>
                     </>
                   )}
                   {selectedDevice.type === "Camera" && (
                     <>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: primaryText }}>{selectedDevice.fps} FPS</div>
-                      <div style={{ fontSize: 11, fontWeight: 800, color: statusOnline }}>● {selectedDevice.streamStatus}</div>
+                      <div
+                        style={{
+                          fontSize: 22,
+                          fontWeight: 800,
+                          color: primaryText,
+                        }}
+                      >
+                        {selectedDevice.fps} FPS
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 800,
+                          color: statusOnline,
+                        }}
+                      >
+                        ● {selectedDevice.streamStatus}
+                      </div>
                     </>
                   )}
                   {selectedDevice.type === "Printer" && (
                     <>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: primaryText }}>Paper: {selectedDevice.paperLevel}</div>
-                      <div style={{ fontSize: 11, fontWeight: 800, color: statusOnline }}>Queue: {selectedDevice.printQueue} pending</div>
+                      <div
+                        style={{
+                          fontSize: 22,
+                          fontWeight: 800,
+                          color: primaryText,
+                        }}
+                      >
+                        Paper: {selectedDevice.paperLevel}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 800,
+                          color: statusOnline,
+                        }}
+                      >
+                        Queue: {selectedDevice.printQueue} pending
+                      </div>
                     </>
                   )}
-                  {(selectedDevice.type === "Controller" || selectedDevice.type === "Display" || selectedDevice.type === "Sensor") && (
+                  {(selectedDevice.type === "Controller" ||
+                    selectedDevice.type === "Display" ||
+                    selectedDevice.type === "Sensor") && (
                     <>
-                      <div style={{ fontSize: 18, fontWeight: 800, color: primaryText }}>{selectedDevice.relayState || selectedDevice.beamState}</div>
-                      <div style={{ fontSize: 11, fontWeight: 800, color: statusOnline }}>● Normal Operation</div>
+                      <div
+                        style={{
+                          fontSize: 18,
+                          fontWeight: 800,
+                          color: primaryText,
+                        }}
+                      >
+                        {selectedDevice.relayState || selectedDevice.beamState}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 800,
+                          color: statusOnline,
+                        }}
+                      >
+                        ● Normal Operation
+                      </div>
                     </>
                   )}
                 </div>
               </div>
 
               {/* Information & Connectivity Grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 16,
+                }}
+              >
                 {/* Device Information */}
-                <div style={{ padding: 18, borderRadius: 10, background: elevated, border: `1px solid ${border}` }}>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: primaryOrange, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>DEVICE SPECIFICATIONS</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12.5 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Device ID</span><span style={{ fontWeight: 700, fontFamily: "monospace" }}>{selectedDevice.id}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Device Type</span><span style={{ fontWeight: 700 }}>{selectedDevice.type}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Manufacturer</span><span style={{ fontWeight: 700 }}>{selectedDevice.manufacturer}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Model</span><span style={{ fontWeight: 700 }}>{selectedDevice.model}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Firmware</span><span>{selectedDevice.firmware}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Installed Date</span><span>{selectedDevice.installedDate}</span></div>
+                <div
+                  style={{
+                    padding: 18,
+                    borderRadius: 10,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: primaryOrange,
+                      marginBottom: 12,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    DEVICE SPECIFICATIONS
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      fontSize: 12.5,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Device ID</span>
+                      <span
+                        style={{ fontWeight: 700, fontFamily: "monospace" }}
+                      >
+                        {selectedDevice.id}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Device Type</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedDevice.type}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Manufacturer</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedDevice.manufacturer}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Model</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedDevice.model}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Firmware</span>
+                      <span>{selectedDevice.firmware}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Installed Date</span>
+                      <span>{selectedDevice.installedDate}</span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Connection Details */}
-                <div style={{ padding: 18, borderRadius: 10, background: elevated, border: `1px solid ${border}` }}>
-                  <div style={{ fontSize: 12, fontWeight: 800, color: primaryOrange, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.05em" }}>CONNECTION & HEALTH</div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 12.5 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Interface</span><span style={{ fontWeight: 700 }}>{selectedDevice.connection}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>IP Address</span><span style={{ fontFamily: "monospace" }}>{selectedDevice.ipAddress}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Port</span><span>{selectedDevice.port}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Uptime</span><span style={{ fontWeight: 800, color: statusOnline }}>{selectedDevice.uptime}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Last Error</span><span>{selectedDevice.lastError}</span></div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}><span style={{ color: mutedText }}>Last Maintenance</span><span>{selectedDevice.lastMaintenance}</span></div>
+                <div
+                  style={{
+                    padding: 18,
+                    borderRadius: 10,
+                    background: elevated,
+                    border: `1px solid ${border}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: primaryOrange,
+                      marginBottom: 12,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    CONNECTION & HEALTH
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      fontSize: 12.5,
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Interface</span>
+                      <span style={{ fontWeight: 700 }}>
+                        {selectedDevice.connection}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>IP Address</span>
+                      <span style={{ fontFamily: "monospace" }}>
+                        {selectedDevice.ipAddress}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Port</span>
+                      <span>{selectedDevice.port}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Uptime</span>
+                      <span style={{ fontWeight: 800, color: statusOnline }}>
+                        {selectedDevice.uptime}
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Last Error</span>
+                      <span>{selectedDevice.lastError}</span>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span style={{ color: mutedText }}>Last Maintenance</span>
+                      <span>{selectedDevice.lastMaintenance}</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Recent Activity Timeline */}
               <div>
-                <div style={{ fontSize: 12, fontWeight: 800, color: primaryText, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.05em" }}>RECENT DEVICE ACTIVITY TIMELINE</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 12 }}>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: primaryText,
+                    marginBottom: 10,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  RECENT DEVICE ACTIVITY TIMELINE
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    fontSize: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <span>08:42 AM — Heartbeat ping acknowledged</span>
-                    <span style={{ color: statusOnline, fontWeight: 700 }}>✓ Ack (12ms)</span>
+                    <span style={{ color: statusOnline, fontWeight: 700 }}>
+                      ✓ Ack (12ms)
+                    </span>
                   </div>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
-                    <span>08:35 AM — Device telemetry configuration synchronized</span>
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span>
+                      08:35 AM — Device telemetry configuration synchronized
+                    </span>
                     <span style={{ color: mutedText }}>Sync OK</span>
                   </div>
-                  <div style={{ padding: "10px 14px", borderRadius: 8, background: elevated, display: "flex", justifyContent: "space-between" }}>
+                  <div
+                    style={{
+                      padding: "10px 14px",
+                      borderRadius: 8,
+                      background: elevated,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <span>08:31 AM — Workstation connection established</span>
-                    <span style={{ color: mutedText }}>Station: {selectedDevice.weighbridgeName}</span>
+                    <span style={{ color: mutedText }}>
+                      Station: {selectedDevice.weighbridgeName}
+                    </span>
                   </div>
                 </div>
               </div>
-
             </div>
 
             {/* Modal Footer */}
-            <div style={{ padding: "16px 24px", borderTop: `1px solid ${border}`, display: "flex", justifyContent: "flex-end", gap: 12 }}>
+            <div
+              style={{
+                padding: "16px 24px",
+                borderTop: `1px solid ${border}`,
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 12,
+              }}
+            >
               <button
                 type="button"
                 onClick={() => {
-                  showToast(`✓ Testing ping sent to ${selectedDevice.ipAddress}`);
+                  showToast(
+                    `✓ Testing ping sent to ${selectedDevice.ipAddress}`,
+                  );
                 }}
-                style={{ padding: "10px 18px", borderRadius: 8, background: elevated, border: `1px solid ${border}`, color: primaryText, fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+                style={{
+                  padding: "10px 18px",
+                  borderRadius: 8,
+                  background: elevated,
+                  border: `1px solid ${border}`,
+                  color: primaryText,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
               >
                 📡 Test Signal
               </button>
@@ -1386,7 +2268,16 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
               <button
                 type="button"
                 onClick={() => setShowDetailModal(false)}
-                style={{ padding: "10px 20px", borderRadius: 8, background: primaryOrange, color: "#FFF", border: "none", fontSize: 13, fontWeight: 800, cursor: "pointer" }}
+                style={{
+                  padding: "10px 20px",
+                  borderRadius: 8,
+                  background: primaryOrange,
+                  color: "#FFF",
+                  border: "none",
+                  fontSize: 13,
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
               >
                 Close Preview
               </button>
@@ -1394,7 +2285,6 @@ export default function DeviceMonitoringScreen({ darkMode: dm, onNavigate }: Pro
           </div>
         </div>
       )}
-
     </div>
   );
 }
