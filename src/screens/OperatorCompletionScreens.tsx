@@ -893,60 +893,6 @@ function SecondWeighingScreen({
                   </p>
                 </div>
               </div>
-
-              {/* Station Info & Operator */}
-              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                <div style={{ textAlign: "right" }}>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 800,
-                      color: primaryText,
-                    }}
-                  >
-                    WB-01 — Main Gate
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      color: isWbOffline ? statusOffline : statusOnline,
-                    }}
-                  >
-                    ● {isWbOffline ? "OFFLINE" : "ONLINE"}
-                  </div>
-                </div>
-
-                <div style={{ height: 28, width: 1, background: border }} />
-
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div
-                    style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: 999,
-                      background: primaryOrange,
-                      color: "#FFF",
-                      fontWeight: 800,
-                      fontSize: 13,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    AK
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 12.5,
-                      fontWeight: 700,
-                      color: primaryText,
-                    }}
-                  >
-                    Arun Kumar
-                  </div>
-                </div>
-              </div>
             </header>
 
             {/* WORKFLOW STEPPER BAR */}

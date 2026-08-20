@@ -21,20 +21,20 @@ export interface AuditEvent {
   role: "Admin" | "Employee / Operator";
   action: string;
   module:
-    | "Authentication"
-    | "Weighbridges"
-    | "Transactions"
-    | "Vehicles"
-    | "Drivers"
-    | "Customers"
-    | "Suppliers"
-    | "Materials"
-    | "Employees"
-    | "Tickets"
-    | "Billing"
-    | "Reports"
-    | "Settings"
-    | "System";
+  | "Authentication"
+  | "Weighbridges"
+  | "Transactions"
+  | "Vehicles"
+  | "Drivers"
+  | "Customers"
+  | "Suppliers"
+  | "Materials"
+  | "Employees"
+  | "Tickets"
+  | "Billing"
+  | "Reports"
+  | "Settings"
+  | "System";
   reference: string;
   weighbridge: string;
   ipAddress: string;
@@ -910,39 +910,6 @@ export default function AuditLogsScreen({
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            {/* Quick Mode & Demo Toggles */}
-            <button
-              onClick={() => setIsLoading(!isLoading)}
-              style={{
-                padding: "6px 12px",
-                borderRadius: 6,
-                fontSize: 11,
-                fontWeight: 600,
-                border: `1px solid ${p.border}`,
-                background: p.sub,
-                color: p.secondary,
-                cursor: "pointer",
-              }}
-              title="Toggle Skeleton Loading State"
-            >
-              {isLoading ? "⚡ Stop Skeleton" : "⌛ Skeleton Test"}
-            </button>
-            <button
-              onClick={() => setHasError(!hasError)}
-              style={{
-                padding: "6px 12px",
-                borderRadius: 6,
-                fontSize: 11,
-                fontWeight: 600,
-                border: `1px solid ${hasError ? "#DC2626" : p.border}`,
-                background: hasError ? (dm ? "#450A0A" : "#FEF2F2") : p.sub,
-                color: hasError ? "#DC2626" : p.secondary,
-                cursor: "pointer",
-              }}
-              title="Toggle Error State View"
-            >
-              {hasError ? "⚠ Clear Error View" : "⚠ Error State View"}
-            </button>
 
             {/* Refresh Button */}
             <button
@@ -987,27 +954,6 @@ export default function AuditLogsScreen({
               <span>↓</span> Export Logs
             </button>
 
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={onToggleDark}
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 8,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                border: `1px solid ${p.border}`,
-                background: p.surface,
-                color: p.muted,
-                cursor: "pointer",
-                fontSize: 15,
-              }}
-              title="Toggle Theme"
-            >
-              {dm ? "☼" : "◐"}
-            </button>
-
             {/* Profile Avatar */}
             <div
               style={{
@@ -1017,32 +963,7 @@ export default function AuditLogsScreen({
                 paddingLeft: 12,
                 borderLeft: `1px solid ${p.border}`,
               }}
-            >
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 999,
-                  background: "#F97316",
-                  color: "#FFFFFF",
-                  fontWeight: 800,
-                  fontSize: 13,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                AD
-              </div>
-              <div className="hidden sm:block">
-                <div style={{ fontSize: 12.5, fontWeight: 700, color: p.text }}>
-                  Admin User
-                </div>
-                <div style={{ fontSize: 10.5, color: p.muted }}>
-                  Super Administrator
-                </div>
-              </div>
-            </div>
+            ></div>
           </div>
         </header>
 

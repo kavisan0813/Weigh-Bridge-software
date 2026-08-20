@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
+import { GlobalDateTime } from "./ui/GlobalDateTime";
+
 
 export type Role = "admin" | "operator" | "maintenance" | "manager";
 
@@ -64,7 +66,7 @@ export default function AppShell({
       : userRole === "maintenance"
         ? "Suresh Tech"
         : "Rajesh Supervisor",
-  stationName = "WB-01 • ONLINE",
+  stationName = userRole === "operator" ? "WB-01 — Main Gate • ONLINE" : "All Weighbridges",
   darkMode: dm,
   onToggleDark,
   onLogout,
@@ -239,20 +241,30 @@ export default function AppShell({
             top: 0,
           }}
         >
-          {/* TOPBAR LEFT: BREADCRUMB / SECTION CONTEXT */}
+          {/* TOPBAR LEFT: BRANDING & LIVE DATE + TIME */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 10,
-              fontSize: 13.5,
-              fontWeight: 700,
-              color: primaryText,
+              gap: 16,
             }}
           >
-            <span style={{ color: primaryOrange, fontSize: 16 }}>📍</span>
-            <span>{getBreadcrumbContext()}</span>
+            {/* Branding (ABC WEIGHBRIDGE / ABC Industries) */}
+           
+            {/* Vertical Divider */}
+            <div
+              className="hidden sm:block"
+              style={{
+                width: 1,
+                height: 24,
+                background: border,
+              }}
+            />
+
+            {/* LIVE DATE + TIME COMPONENT */}
+            <GlobalDateTime darkMode={dm} />
           </div>
+
 
           {/* TOPBAR RIGHT: STATION STATUS, NOTIFICATIONS & USER PROFILE */}
           <div
