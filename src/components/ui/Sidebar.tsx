@@ -1,4 +1,4 @@
-import MasterSidebar, { type SidebarProps as MasterSidebarProps } from "../Sidebar";
+import MasterSidebar from "../Sidebar";
 
 export interface NavItem {
   key: string;

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import LoginScreen from "./screens/LoginScreen";
 import DashboardScreen from "./screens/DashboardScreen";
-import AdminOperations, { type AdminView } from "./screens/AdminOperations";
+import { type AdminView } from "./screens/AdminOperations";
+import AdminOperations from "./components/admin/AdminOps";
 import OperatorScreens, { type OperatorView } from "./screens/OperatorScreens";
 
 type Screen = "login" | "dashboard" | AdminView | OperatorView;
@@ -9,7 +10,9 @@ type Screen = "login" | "dashboard" | AdminView | OperatorView;
 export default function App() {
   const [screen, setScreen] = useState<Screen>("login");
   const [darkMode, setDarkMode] = useState(false);
-  const [userRole, setUserRole] = useState<"admin" | "operator" | "maintenance" | "manager">("admin");
+  const [userRole, setUserRole] = useState<
+    "admin" | "operator" | "maintenance" | "manager"
+  >("admin");
 
   const isOperatorScreen =
     screen === "operator-dashboard" ||
@@ -43,16 +46,16 @@ export default function App() {
           darkMode={darkMode}
           onToggleDark={() => setDarkMode((v) => !v)}
           onLogout={() => setScreen("login")}
-          onNavigate={(view) => setScreen(view as Screen)}
+          onNavigate={(view: string) => setScreen(view as Screen)}
         />
       ) : (
         <AdminOperations
-          view={screen}
+          view={screen as AdminView}
           userRole={userRole}
           darkMode={darkMode}
           onToggleDark={() => setDarkMode((v) => !v)}
           onLogout={() => setScreen("login")}
-          onNavigate={(view) => setScreen(view as Screen)}
+          onNavigate={(view: string) => setScreen(view as Screen)}
         />
       )}
     </div>

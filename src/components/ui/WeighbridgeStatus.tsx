@@ -22,7 +22,9 @@ export function WeighbridgeStatus({
   if (compact) {
     return (
       <div className={`inline-flex items-center gap-2 ${className}`}>
-        <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${darkMode ? "bg-gray-800 text-amber-400" : "bg-gray-100 text-gray-800"}`}>
+        <span
+          className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${darkMode ? "bg-gray-800 text-amber-400" : "bg-gray-100 text-gray-800"}`}
+        >
           {id}
         </span>
         <StatusBadge status={status} darkMode={darkMode} size="sm" />
@@ -33,7 +35,9 @@ export function WeighbridgeStatus({
   return (
     <div
       className={`flex items-center justify-between p-3 rounded-xl border ${
-        darkMode ? "bg-[#1F2937] border-[#374151]" : "bg-white border-[#E5E7EB]"
+        darkMode
+          ? "bg-wb-dark-surface border-wb-dark-border"
+          : "bg-white border-wb-border"
       } ${className}`}
     >
       <div className="flex items-center gap-3">
@@ -41,11 +45,15 @@ export function WeighbridgeStatus({
           {id}
         </div>
         <div>
-          <div className={`text-sm font-semibold ${darkMode ? "text-gray-100" : "text-gray-900"}`}>
+          <div
+            className={`text-sm font-semibold ${darkMode ? "text-gray-100" : "text-gray-900"}`}
+          >
             {id} {location ? `• ${location}` : ""}
           </div>
           {operator && (
-            <div className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+            <div
+              className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"}`}
+            >
               Op: {operator}
             </div>
           )}
