@@ -30,7 +30,7 @@ const REGISTERED_INVOICES = [
   {
     invNo: "INV-2026-00458",
     date: "19 Aug 2026",
-    customer: "ABC Construction",
+    customer: "Viyan Construction",
     ticket: "WB-2026-00458",
     material: "Gravel",
     net: "25,000 KG",
@@ -39,7 +39,7 @@ const REGISTERED_INVOICES = [
     balance: "₹0",
     status: "PAID",
     statusColor: "#16A34A",
-    gstin: "33ABCDE1234F1Z5",
+    gstin: "33ViyanDE1234F1Z5",
     method: "Bank Transfer",
     refNo: "TXN-784521",
   },
@@ -1237,7 +1237,7 @@ export default function BillingScreen({ darkMode: dm, onToggleDark }: Props) {
                     fontSize: 13,
                   }}
                 >
-                  <option>ABC Construction</option>
+                  <option>Viyan Construction</option>
                   <option>XYZ Logistics</option>
                   <option>Global Cement</option>
                 </select>

@@ -18,7 +18,7 @@ const HISTORY = [
     gross: "38,500",
     tare: "13,450",
     net: "25,050",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     status: "COMPLETED",
     statusColor: "#16A34A",
   },
@@ -29,7 +29,7 @@ const HISTORY = [
     gross: "37,800",
     tare: "13,450",
     net: "24,350",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     status: "COMPLETED",
     statusColor: "#16A34A",
   },
@@ -40,7 +40,7 @@ const HISTORY = [
     gross: "39,200",
     tare: "13,500",
     net: "25,700",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     status: "COMPLETED",
     statusColor: "#16A34A",
   },
@@ -51,7 +51,7 @@ const HISTORY = [
     gross: "36,900",
     tare: "13,400",
     net: "23,500",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     status: "COMPLETED",
     statusColor: "#16A34A",
   },
@@ -62,7 +62,7 @@ const HISTORY = [
     gross: "38,100",
     tare: "13,450",
     net: "24,650",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     status: "COMPLETED",
     statusColor: "#16A34A",
   },
@@ -804,7 +804,7 @@ export default function VehicleDetailScreen({
                             color: primaryText,
                           }}
                         >
-                          Arun Kumar
+                          Rithick Nathan
                         </div>
                         <div style={{ fontSize: 11.5, color: mutedText }}>
                           DRV-00124
@@ -997,9 +997,9 @@ export default function VehicleDetailScreen({
                           key={row.ticket}
                           style={{ cursor: "pointer" }}
                           onMouseEnter={(e) =>
-                            (e.currentTarget.style.background = dm
-                              ? "#273449"
-                              : "#F8FAFC")
+                          (e.currentTarget.style.background = dm
+                            ? "#273449"
+                            : "#F8FAFC")
                           }
                           onMouseLeave={(e) =>
                             (e.currentTarget.style.background = "transparent")
@@ -1462,7 +1462,7 @@ export default function VehicleDetailScreen({
                     <div
                       style={{ fontSize: 12, color: mutedText, marginTop: 2 }}
                     >
-                      Arun Kumar • Metro Builders Ltd
+                      Rithick Nathan • Metro Builders Ltd
                     </div>
                   </div>
                   <span

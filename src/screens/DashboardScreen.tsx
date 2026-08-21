@@ -159,7 +159,7 @@ const bridges: BridgeData[] = [
     weight: "38,500 KG",
     weightState: "WEIGHT STABLE",
     weightColor: null,
-    operator: "Arun Kumar",
+    operator: "Rithick Nathan",
     total: 58,
     extraInfo: null,
   },
@@ -432,7 +432,7 @@ export default function DashboardScreen({
     <AppShell
       activeView="dashboard"
       userRole="admin"
-      userName="Arun Kumar"
+      userName="Rithick Nathan"
       stationName="All Weighbridges"
       darkMode={darkMode}
       onToggleDark={onToggleDark}

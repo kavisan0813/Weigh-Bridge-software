@@ -115,7 +115,7 @@ export default function OperatorDashboardScreen({
     {
       ticket: "WB-2026-00462",
       vehicle: "TN22GH3456",
-      customer: "ABC Transport",
+      customer: "Viyan Transport",
       material: "Gravel",
       firstWeight: "24,500 KG",
       time: "10:45 AM",
@@ -2672,7 +2672,7 @@ export default function OperatorDashboardScreen({
                       <div>
                         Operator:{" "}
                         <strong style={{ color: primaryOrange }}>
-                          Arun Kumar
+                          Rithick Nathan
                         </strong>
                       </div>
                       <div>

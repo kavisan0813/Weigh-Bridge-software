@@ -544,12 +544,12 @@ export default function Sidebar({
           },
           ...(isAdmin
             ? [
-                {
-                  key: "suppliers",
-                  label: "Suppliers",
-                  icon: (c: string) => <FactoryIcon color={c} />,
-                },
-              ]
+              {
+                key: "suppliers",
+                label: "Suppliers",
+                icon: (c: string) => <FactoryIcon color={c} />,
+              },
+            ]
             : []),
           {
             key: "materials",
@@ -573,27 +573,27 @@ export default function Sidebar({
           },
           ...(isAdmin
             ? [
-                {
-                  key: "indicators",
-                  label: "Weight Indicators",
-                  icon: (c: string) => <GaugeIcon color={c} />,
-                },
-                {
-                  key: "cameras",
-                  label: "Cameras",
-                  icon: (c: string) => <CameraIcon color={c} />,
-                },
-                {
-                  key: "printers",
-                  label: "Printers",
-                  icon: (c: string) => <PrinterIcon color={c} />,
-                },
-                {
-                  key: "calibration",
-                  label: "Calibration",
-                  icon: (c: string) => <SlidersIcon color={c} />,
-                },
-              ]
+              {
+                key: "indicators",
+                label: "Weight Indicators",
+                icon: (c: string) => <GaugeIcon color={c} />,
+              },
+              {
+                key: "cameras",
+                label: "Cameras",
+                icon: (c: string) => <CameraIcon color={c} />,
+              },
+              {
+                key: "printers",
+                label: "Printers",
+                icon: (c: string) => <PrinterIcon color={c} />,
+              },
+              {
+                key: "calibration",
+                label: "Calibration",
+                icon: (c: string) => <SlidersIcon color={c} />,
+              },
+            ]
             : []),
         ],
       },
@@ -846,7 +846,7 @@ export default function Sidebar({
                 whiteSpace: "nowrap",
               }}
             >
-              ABC WEIGHBRIDGE
+              Viyan WEIGHBRIDGE
             </span>
             <span
               style={{
@@ -857,7 +857,7 @@ export default function Sidebar({
                 marginTop: 2,
               }}
             >
-              ABC Industries
+              Viyan Industries
             </span>
           </div>
         )}

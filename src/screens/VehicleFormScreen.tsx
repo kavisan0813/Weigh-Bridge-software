@@ -55,7 +55,7 @@ export default function VehicleFormScreen({
   const [tare, setTare] = useState(prefill ? "13450" : "");
   const [capacity, setCapacity] = useState(prefill ? "25000" : "");
   const [status, setStatus] = useState(prefill ? "ACTIVE" : "ACTIVE");
-  const [driver, setDriver] = useState(prefill ? "Arun Kumar" : "");
+  const [driver, setDriver] = useState(prefill ? "Rithick Nathan" : "");
   const [customer, setCustomer] = useState(prefill ? "Metro Builders Ltd" : "");
   const [notes, setNotes] = useState(
     prefill ? "Vehicle regularly operates between WB-01 and WB-02." : "",
@@ -733,9 +733,9 @@ export default function VehicleFormScreen({
                             (e.target.style.borderColor = primaryOrange)
                           }
                           onBlur={(e) =>
-                            (e.target.style.borderColor = errors.vehicleNo
-                              ? statusError
-                              : border)
+                          (e.target.style.borderColor = errors.vehicleNo
+                            ? statusError
+                            : border)
                           }
                         />
                         {!errors.vehicleNo && vehicleNo && (
@@ -921,9 +921,9 @@ export default function VehicleFormScreen({
                             (e.target.style.borderColor = primaryOrange)
                           }
                           onBlur={(e) =>
-                            (e.target.style.borderColor = errors.tare
-                              ? statusError
-                              : border)
+                          (e.target.style.borderColor = errors.tare
+                            ? statusError
+                            : border)
                           }
                         />
                         <FieldErr msg={errors.tare} />
@@ -943,9 +943,9 @@ export default function VehicleFormScreen({
                             (e.target.style.borderColor = primaryOrange)
                           }
                           onBlur={(e) =>
-                            (e.target.style.borderColor = errors.capacity
-                              ? statusError
-                              : border)
+                          (e.target.style.borderColor = errors.capacity
+                            ? statusError
+                            : border)
                           }
                         />
                         <FieldErr msg={errors.capacity} />
@@ -1232,7 +1232,7 @@ export default function VehicleFormScreen({
                     >
                       <option value="">No driver assigned</option>
                       {[
-                        "Arun Kumar",
+                        "Rithick Nathan",
                         "Ravi Sharma",
                         "Suresh Kumar",
                         "Manoj Kumar",
@@ -1328,7 +1328,7 @@ export default function VehicleFormScreen({
                       <option value="">No customer assigned</option>
                       {[
                         "Metro Builders Ltd",
-                        "ABC Construction",
+                        "Viyan Construction",
                         "XYZ Logistics",
                         "Kumar Traders",
                       ].map((c) => (

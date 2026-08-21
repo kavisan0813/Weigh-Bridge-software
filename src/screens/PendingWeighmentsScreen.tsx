@@ -31,7 +31,7 @@ const INITIAL_PENDING_ITEMS: PendingItem[] = [
   {
     ticket: "WB-2026-00462",
     vehicle: "TN22GH3456",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     customer: "Metro Builders Ltd",
     material: "Gravel",
     firstWeight: "24,850 KG",
@@ -1195,26 +1195,26 @@ export default function PendingWeighmentsScreen({
                 {(searchQuery ||
                   selectedWb !== "All" ||
                   selectedStatus !== "All") && (
-                  <button
-                    onClick={() => {
-                      setSearchQuery("");
-                      setSelectedWb("All");
-                      setSelectedStatus("All");
-                    }}
-                    style={{
-                      padding: "8px 14px",
-                      borderRadius: 6,
-                      border: `1px solid ${border}`,
-                      background: "transparent",
-                      color: secondaryText,
-                      fontSize: 12,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Clear Filters
-                  </button>
-                )}
+                    <button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setSelectedWb("All");
+                        setSelectedStatus("All");
+                      }}
+                      style={{
+                        padding: "8px 14px",
+                        borderRadius: 6,
+                        border: `1px solid ${border}`,
+                        background: "transparent",
+                        color: secondaryText,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Clear Filters
+                    </button>
+                  )}
               </div>
 
               {/* PENDING WEIGHMENTS DATA TABLE */}

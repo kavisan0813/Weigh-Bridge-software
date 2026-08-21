@@ -76,7 +76,7 @@ const INITIAL_INDICATORS: WeightIndicatorItem[] = [
     calibrationStatus: "VALID",
     lastCalibrationDate: "02 Aug 2026",
     nextCalibrationDate: "02 Nov 2026",
-    calibratedBy: "ABC Weighbridge Service Ltd",
+    calibratedBy: "Viyan Weighbridge Service Ltd",
     certificateId: "WB-CAL-2026-082",
     capacity: "80,000 KG",
     division: "20 KG",
@@ -144,7 +144,7 @@ const INITIAL_INDICATORS: WeightIndicatorItem[] = [
     calibrationStatus: "DUE SOON",
     lastCalibrationDate: "12 Aug 2025",
     nextCalibrationDate: "30 Aug 2026",
-    calibratedBy: "ABC Weighbridge Service Ltd",
+    calibratedBy: "Viyan Weighbridge Service Ltd",
     certificateId: "WB-CAL-2025-119",
     capacity: "100,000 KG",
     division: "20 KG",
@@ -178,7 +178,7 @@ const INITIAL_INDICATORS: WeightIndicatorItem[] = [
     calibrationStatus: "OVERDUE",
     lastCalibrationDate: "15 Jun 2025",
     nextCalibrationDate: "15 Jun 2026",
-    calibratedBy: "ABC Weighbridge Service Ltd",
+    calibratedBy: "Viyan Weighbridge Service Ltd",
     certificateId: "WB-CAL-2025-061",
     capacity: "80,000 KG",
     division: "20 KG",
@@ -418,7 +418,7 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
           (formData.calibrationStatus as CalibrationStatus) || "VALID",
         lastCalibrationDate: formData.lastCalibrationDate || "20 Aug 2026",
         nextCalibrationDate: formData.nextCalibrationDate || "20 Nov 2026",
-        calibratedBy: "ABC Weighbridge Service Ltd",
+        calibratedBy: "Viyan Weighbridge Service Ltd",
         certificateId: "WB-CAL-2026-101",
         capacity: formData.capacity || "80,000 KG",
         division: formData.division || "20 KG",
@@ -1287,9 +1287,9 @@ export default function WeightIndicatorsScreen({ darkMode: dm }: Props) {
                       transition: "background 0.15s ease",
                     }}
                     onMouseEnter={(e) =>
-                      (e.currentTarget.style.background = dm
-                        ? "rgba(255,255,255,0.03)"
-                        : "#F8FAFC")
+                    (e.currentTarget.style.background = dm
+                      ? "rgba(255,255,255,0.03)"
+                      : "#F8FAFC")
                     }
                     onMouseLeave={(e) =>
                       (e.currentTarget.style.background = "transparent")

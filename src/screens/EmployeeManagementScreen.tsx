@@ -33,7 +33,7 @@ function pal(dm: boolean) {
 
 const EMPLOYEES = [
   {
-    name: "Arun Kumar",
+    name: "Rithick Nathan",
     id: "EMP001",
     primary: "WB-01",
     additional: "—",
@@ -211,9 +211,9 @@ export default function EmployeeManagementScreen({ darkMode: dm }: Props) {
                   className="transition-colors"
                   style={{ borderTop: `1px solid ${c.border}` }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.background = dm
-                      ? "#1E293B"
-                      : "#F8FAFC")
+                  (e.currentTarget.style.background = dm
+                    ? "#1E293B"
+                    : "#F8FAFC")
                   }
                   onMouseLeave={(e) =>
                     (e.currentTarget.style.background = "transparent")

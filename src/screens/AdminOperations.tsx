@@ -74,7 +74,7 @@ export function Shell({
     <AppShell
       activeView={view}
       userRole={userRole}
-      userName={userRole === "operator" ? "Ravi Kumar" : "Arun Kumar"}
+      userName={userRole === "operator" ? "Ravi Kumar" : "Rithick Nathan"}
       stationName={
         userRole === "operator" ? "WB-01 Main Gate" : "All Weighbridges"
       }
@@ -110,7 +110,7 @@ export function Monitoring({
       weight: "38,500 KG",
       weightState: "WEIGHT STABLE",
       weightColor: dm ? "#F9FAFB" : "#111827",
-      operator: "Arun Kumar",
+      operator: "Rithick Nathan",
       count: 58,
       lastTime: "10:50 AM",
       hw: [

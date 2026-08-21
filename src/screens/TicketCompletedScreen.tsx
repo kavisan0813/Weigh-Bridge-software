@@ -705,7 +705,7 @@ export default function TicketCompletedScreen({
                       marginTop: 2,
                     }}
                   >
-                    Transaction finished at 11:14 AM by Operator Arun Kumar •
+                    Transaction finished at 11:14 AM by Operator Rithick Nathan •
                     Audit log recorded.
                   </div>
                 </div>
@@ -954,7 +954,7 @@ export default function TicketCompletedScreen({
                     </div>
                     <div>
                       Driver:{" "}
-                      <strong style={{ color: primaryText }}>Arun Kumar</strong>
+                      <strong style={{ color: primaryText }}>Rithick Nathan</strong>
                     </div>
                     <div>
                       Customer:{" "}
@@ -980,7 +980,7 @@ export default function TicketCompletedScreen({
                     </div>
                     <div>
                       Assigned Operator:{" "}
-                      <strong style={{ color: primaryText }}>Arun Kumar</strong>
+                      <strong style={{ color: primaryText }}>Rithick Nathan</strong>
                     </div>
                     <div>
                       Transaction Status:{" "}
@@ -1022,7 +1022,7 @@ export default function TicketCompletedScreen({
                       {
                         time: "10:52:18 AM",
                         title: "Vehicle Entry / Gate Registration",
-                        detail: "Registered TN22GH3456 by Arun Kumar",
+                        detail: "Registered TN22GH3456 by Rithick Nathan",
                         done: true,
                       },
                       {
@@ -1232,7 +1232,7 @@ export default function TicketCompletedScreen({
                         color: primaryText,
                       }}
                     >
-                      ABC INDUSTRIAL WEIGHBRIDGE
+                      Viyan INDUSTRIAL WEIGHBRIDGE
                     </div>
                     <div
                       style={{
@@ -1294,7 +1294,7 @@ export default function TicketCompletedScreen({
                       }}
                     >
                       <span style={{ color: mutedText }}>Driver:</span>{" "}
-                      <strong>Arun Kumar</strong>
+                      <strong>Rithick Nathan</strong>
                     </div>
                     <div
                       style={{

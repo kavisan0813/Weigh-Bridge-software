@@ -147,7 +147,7 @@ export default function LiveWeighmentScreen({ darkMode, onNavigate }: Props) {
     setTimeout(() => {
       setWeightState("captured");
       alert(
-        "Audit Log Event Created: First Weight Captured (24,850 KG) for WB-2026-00463 by Arun Kumar.",
+        "Audit Log Event Created: First Weight Captured (24,850 KG) for WB-2026-00463 by Rithick Nathan.",
       );
     }, 1200);
   };
@@ -1029,7 +1029,7 @@ export default function LiveWeighmentScreen({ darkMode, onNavigate }: Props) {
                   </div>
                   <div>
                     Driver:{" "}
-                    <strong style={{ color: primaryText }}>Arun Kumar</strong>
+                    <strong style={{ color: primaryText }}>Rithick Nathan</strong>
                   </div>
                   <div>
                     Customer:{" "}
@@ -1262,7 +1262,7 @@ export default function LiveWeighmentScreen({ darkMode, onNavigate }: Props) {
                             marginTop: 4,
                           }}
                         >
-                          Recorded at 10:55:24 AM by Operator Arun Kumar (WB-01)
+                          Recorded at 10:55:24 AM by Operator Rithick Nathan (WB-01)
                         </div>
                         <button
                           onClick={() => onNavigate("second-weighment")}
@@ -1484,7 +1484,7 @@ export default function LiveWeighmentScreen({ darkMode, onNavigate }: Props) {
                         label: "WB-01 Station online & responsive",
                         ok: !isWbOffline,
                       },
-                      { label: "Operator Arun Kumar authenticated", ok: true },
+                      { label: "Operator Rithick Nathan authenticated", ok: true },
                       {
                         label: "ANPR Camera feed verified",
                         ok: !isCameraOffline,

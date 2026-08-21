@@ -21,8 +21,8 @@ SOFT ORANGE + DEEP NAVY
 The final result should immediately look like a professional industrial weighbridge management system.
 
 ==================================================
-1. PRODUCT
-==================================================
+
+1. # PRODUCT
 
 Product:
 Weighbridge Management Software
@@ -39,6 +39,7 @@ WB-04
 WB-05
 
 User roles:
+
 1. Super Admin
 2. Admin
 3. Employee / Operator
@@ -54,8 +55,7 @@ Desktop Web
 FRAME:
 1440 × 1024
 
-==================================================
-2. FINAL COLOR SYSTEM — STRICT
+================================================== 2. FINAL COLOR SYSTEM — STRICT
 ==================================================
 
 PRIMARY BRAND COLOR — SOFT ORANGE
@@ -75,7 +75,6 @@ Primary Soft:
 Primary Light:
 #FFEDD5
 
-
 SECONDARY BRAND COLOR — DEEP NAVY
 
 Secondary:
@@ -90,7 +89,6 @@ Secondary Hover:
 Secondary Soft:
 #EAF2F8
 
-
 IMPORTANT:
 
 DEEP NAVY IS THE SECONDARY BRAND COLOR.
@@ -99,9 +97,7 @@ DO NOT USE GRAY AS THE SECONDARY BRAND COLOR.
 
 Gray/slate colors may ONLY be used as neutral text, border and background tokens.
 
-
-==================================================
-3. LIGHT MODE NEUTRALS
+================================================== 3. LIGHT MODE NEUTRALS
 ==================================================
 
 Page Background:
@@ -134,7 +130,6 @@ Input Background:
 Disabled Background:
 #F1F5F9
 
-
 IMPORTANT:
 
 #111827 is only for readable text.
@@ -147,9 +142,7 @@ The visual hierarchy must be:
 2. Soft Orange
 3. Neutral surfaces
 
-
-==================================================
-4. STATUS COLORS
+================================================== 4. STATUS COLORS
 ==================================================
 
 Success:
@@ -170,16 +163,13 @@ Processing:
 Neutral:
 #64748B
 
-
 Always show:
 
 ICON + COLOR + TEXT
 
 Never communicate status using color alone.
 
-
-==================================================
-5. TYPOGRAPHY
+================================================== 5. TYPOGRAPHY
 ==================================================
 
 Use ONLY:
@@ -214,9 +204,7 @@ Use tabular numerals.
 
 Financial and weight values must use tabular numerals.
 
-
-==================================================
-6. SPACING
+================================================== 6. SPACING
 ==================================================
 
 Use a 4px spacing system.
@@ -244,9 +232,7 @@ Card padding:
 Section spacing:
 24–32px
 
-
-==================================================
-7. BORDER RADIUS
+================================================== 7. BORDER RADIUS
 ==================================================
 
 Buttons:
@@ -264,12 +250,9 @@ Large containers:
 Status badges:
 999px
 
-
 Do not make every component heavily rounded.
 
-
-==================================================
-8. SHADOWS
+================================================== 8. SHADOWS
 ==================================================
 
 Use subtle shadows only.
@@ -282,9 +265,7 @@ Medium:
 
 Avoid heavy shadows.
 
-
-==================================================
-9. APPLICATION SHELL
+================================================== 9. APPLICATION SHELL
 ==================================================
 
 Create a professional enterprise desktop application layout.
@@ -305,7 +286,7 @@ Brand:
 WEIGHBRIDGE
 
 Company:
-ABC Industries
+Viyan Industries
 
 Navigation:
 
@@ -329,21 +310,17 @@ White icon
 
 Do NOT use gray active navigation.
 
-
 SIDEBAR TEXT:
 White / very light neutral.
 
 Secondary sidebar text:
 #CBD5E1
 
-
 BOTTOM SIDEBAR:
 
 Sign Out
 
-
-==================================================
-10. TOP HEADER
+================================================== 10. TOP HEADER
 ==================================================
 
 Top header background:
@@ -355,14 +332,13 @@ Bottom border:
 Left:
 Breadcrumb
 
-ABC Industries
+Viyan Industries
 /
 Reports
 
 Use Deep Navy for important breadcrumb text.
 
 Use muted slate only for secondary breadcrumb text.
-
 
 RIGHT SIDE:
 
@@ -375,9 +351,7 @@ Deep Navy or Soft Orange.
 
 Do not use random colors.
 
-
-==================================================
-11. REPORTS PAGE HEADER
+================================================== 11. REPORTS PAGE HEADER
 ==================================================
 
 Main content background:
@@ -391,7 +365,6 @@ Description:
 
 Analyze weighbridge operations, vehicle movement, material quantities and business performance across all 5 weighbridges.
 
-
 RIGHT SIDE ACTIONS:
 
 Secondary button:
@@ -403,7 +376,6 @@ Export PDF
 Primary button:
 Generate Report
 
-
 IMPORTANT:
 
 Generate Report:
@@ -414,9 +386,7 @@ Deep Navy outline/text OR neutral outlined buttons with Deep Navy text.
 
 Do not make all buttons orange.
 
-
-==================================================
-12. REPORT FILTER BAR
+================================================== 12. REPORT FILTER BAR
 ==================================================
 
 Create one large filter container.
@@ -453,9 +423,7 @@ Use Soft Orange highlight or Deep Navy text.
 
 Do not use gray as the visual selected color.
 
-
-==================================================
-13. REPORT CATEGORY CARDS
+================================================== 13. REPORT CATEGORY CARDS
 ==================================================
 
 Create a horizontal category section.
@@ -498,9 +466,7 @@ Very subtle elevation
 
 Do not make every card orange.
 
-
-==================================================
-14. KPI / SUMMARY AREA
+================================================== 14. KPI / SUMMARY AREA
 ==================================================
 
 Create four compact KPI cards below the report categories.
@@ -531,9 +497,7 @@ Muted slate.
 Small icon:
 Soft Orange or Deep Navy.
 
-
-==================================================
-15. MAIN CHART — NET WEIGHT TREND
+================================================== 15. MAIN CHART — NET WEIGHT TREND
 ==================================================
 
 Create a large white chart card.
@@ -577,9 +541,7 @@ Soft Orange
 Highlight current point with:
 Soft Orange + subtle ring.
 
-
-==================================================
-16. WEIGHBRIDGE COMPARISON
+================================================== 16. WEIGHBRIDGE COMPARISON
 ==================================================
 
 Create a white card next to the main chart.
@@ -621,9 +583,7 @@ WB-03 — 1,120 MT
 WB-04 — 720 MT
 WB-05 — 1,030 MT
 
-
-==================================================
-17. VEHICLE VOLUME
+================================================== 17. VEHICLE VOLUME
 ==================================================
 
 Create a full-width white chart card.
@@ -670,9 +630,7 @@ OFFLINE
 
 Do not simply leave the chart visually empty.
 
-
-==================================================
-18. REPORT INSIGHTS
+================================================== 18. REPORT INSIGHTS
 ==================================================
 
 Add a compact insights section below the charts.
@@ -708,9 +666,7 @@ Muted supporting text
 Soft Orange icons
 Status colors where appropriate.
 
-
-==================================================
-19. TABLE / RECENT REPORTS
+================================================== 19. TABLE / RECENT REPORTS
 ==================================================
 
 Add a recent reports table.
@@ -755,7 +711,6 @@ Admin
 Completed
 Download
 
-
 STATUS BADGES:
 
 Completed:
@@ -767,9 +722,7 @@ Purple
 Failed:
 Red
 
-
-==================================================
-20. FINAL VISUAL HIERARCHY
+================================================== 20. FINAL VISUAL HIERARCHY
 ==================================================
 
 The screen MUST visually communicate:
@@ -808,9 +761,7 @@ The overall appearance must clearly look like:
 
 SOFT ORANGE + DEEP NAVY ENTERPRISE SOFTWARE.
 
-
-==================================================
-21. UX REQUIREMENTS
+================================================== 21. UX REQUIREMENTS
 ==================================================
 
 The Reports screen must support:
@@ -829,9 +780,7 @@ Chart visualization
 Report history
 Report preview
 
-
-==================================================
-22. RESPONSIVE BEHAVIOR
+================================================== 22. RESPONSIVE BEHAVIOR
 ==================================================
 
 Design the desktop version first.
@@ -846,9 +795,7 @@ Tables should support horizontal scrolling on smaller screens.
 
 Do not shrink text excessively.
 
-
-==================================================
-23. FIGMA IMPLEMENTATION
+================================================== 23. FIGMA IMPLEMENTATION
 ==================================================
 
 Use:
@@ -875,9 +822,7 @@ Table
 Table Row
 Insight Card
 
-
-==================================================
-24. FINAL INSTRUCTION
+================================================== 24. FINAL INSTRUCTION
 ==================================================
 
 DO NOT redesign this as a generic orange-and-gray dashboard.

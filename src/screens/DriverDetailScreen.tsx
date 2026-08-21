@@ -239,7 +239,7 @@ export default function DriverDetailScreen({
                   color: secondaryText,
                 }}
               >
-                Arun Kumar will no longer be available for new weighbridge
+                Rithick Nathan will no longer be available for new weighbridge
                 operations.
               </p>
               <p
@@ -451,7 +451,7 @@ export default function DriverDetailScreen({
                   Drivers
                 </button>
                 <span>/</span>
-                <span style={{ color: primaryOrange }}>Arun Kumar</span>
+                <span style={{ color: primaryOrange }}>Rithick Nathan</span>
               </div>
               <h1
                 style={{
@@ -579,7 +579,7 @@ export default function DriverDetailScreen({
                       color: primaryText,
                     }}
                   >
-                    Arun Kumar
+                    Rithick Nathan
                   </h2>
                   <div style={{ fontSize: 13, color: mutedText, marginTop: 2 }}>
                     DRV-00124
@@ -834,7 +834,7 @@ export default function DriverDetailScreen({
                       </div>
                     </div>
                     <div style={{ padding: "0 20px 4px" }}>
-                      <InfoRow label="Full Name" value="Arun Kumar" />
+                      <InfoRow label="Full Name" value="Rithick Nathan" />
                       <InfoRow
                         label="Driver ID"
                         value="DRV-00124"
@@ -1017,9 +1017,9 @@ export default function DriverDetailScreen({
                             key={v.no}
                             style={{ cursor: "pointer" }}
                             onMouseEnter={(e) =>
-                              (e.currentTarget.style.background = dm
-                                ? "#273449"
-                                : "#F8FAFC")
+                            (e.currentTarget.style.background = dm
+                              ? "#273449"
+                              : "#F8FAFC")
                             }
                             onMouseLeave={(e) =>
                               (e.currentTarget.style.background = "transparent")
@@ -1128,7 +1128,7 @@ export default function DriverDetailScreen({
                     <div
                       style={{ fontSize: 11.5, color: mutedText, marginTop: 2 }}
                     >
-                      248 total weighments by Arun Kumar.
+                      248 total weighments by Rithick Nathan.
                     </div>
                   </div>
                   <div style={{ display: "flex", gap: 8 }}>
@@ -1196,9 +1196,9 @@ export default function DriverDetailScreen({
                           key={i}
                           style={{ cursor: "pointer" }}
                           onMouseEnter={(e) =>
-                            (e.currentTarget.style.background = dm
-                              ? "#273449"
-                              : "#F8FAFC")
+                          (e.currentTarget.style.background = dm
+                            ? "#273449"
+                            : "#F8FAFC")
                           }
                           onMouseLeave={(e) =>
                             (e.currentTarget.style.background = "transparent")
@@ -1671,7 +1671,7 @@ export default function DriverDetailScreen({
                       color: primaryText,
                     }}
                   >
-                    Arun Kumar
+                    Rithick Nathan
                   </div>
                   <div style={{ fontSize: 12, color: mutedText }}>
                     DRV-00124 • Metro Builders

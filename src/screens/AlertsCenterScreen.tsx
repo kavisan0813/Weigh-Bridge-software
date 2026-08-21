@@ -1300,60 +1300,60 @@ export default function AlertsCenterScreen({
                 selectedType !== "All" ||
                 selectedWeighbridge !== "All" ||
                 searchTerm) && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    paddingTop: 8,
-                    borderTop: `1px solid ${divider}`,
-                  }}
-                >
-                  <span
-                    style={{ fontSize: 11, fontWeight: 700, color: mutedText }}
-                  >
-                    ACTIVE FILTERS:
-                  </span>
-                  {selectedPriorityTab !== "All" && (
-                    <span
-                      style={chipStyle}
-                    >{`Priority: ${selectedPriorityTab}`}</span>
-                  )}
-                  {selectedStatusTab !== "All" && (
-                    <span
-                      style={chipStyle}
-                    >{`Status: ${selectedStatusTab}`}</span>
-                  )}
-                  {selectedType !== "All" && (
-                    <span style={chipStyle}>{`Type: ${selectedType}`}</span>
-                  )}
-                  {selectedWeighbridge !== "All" && (
-                    <span
-                      style={chipStyle}
-                    >{`Scale: ${selectedWeighbridge}`}</span>
-                  )}
-                  <button
-                    onClick={() => {
-                      setSelectedPriorityTab("All");
-                      setSelectedStatusTab("All");
-                      setSelectedType("All");
-                      setSelectedWeighbridge("All");
-                      setSearchTerm("");
-                    }}
+                  <div
                     style={{
-                      background: "none",
-                      border: 0,
-                      color: primaryOrange,
-                      fontSize: 11,
-                      fontWeight: 800,
-                      cursor: "pointer",
-                      marginLeft: 4,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      paddingTop: 8,
+                      borderTop: `1px solid ${divider}`,
                     }}
                   >
-                    Clear All Filters
-                  </button>
-                </div>
-              )}
+                    <span
+                      style={{ fontSize: 11, fontWeight: 700, color: mutedText }}
+                    >
+                      ACTIVE FILTERS:
+                    </span>
+                    {selectedPriorityTab !== "All" && (
+                      <span
+                        style={chipStyle}
+                      >{`Priority: ${selectedPriorityTab}`}</span>
+                    )}
+                    {selectedStatusTab !== "All" && (
+                      <span
+                        style={chipStyle}
+                      >{`Status: ${selectedStatusTab}`}</span>
+                    )}
+                    {selectedType !== "All" && (
+                      <span style={chipStyle}>{`Type: ${selectedType}`}</span>
+                    )}
+                    {selectedWeighbridge !== "All" && (
+                      <span
+                        style={chipStyle}
+                      >{`Scale: ${selectedWeighbridge}`}</span>
+                    )}
+                    <button
+                      onClick={() => {
+                        setSelectedPriorityTab("All");
+                        setSelectedStatusTab("All");
+                        setSelectedType("All");
+                        setSelectedWeighbridge("All");
+                        setSearchTerm("");
+                      }}
+                      style={{
+                        background: "none",
+                        border: 0,
+                        color: primaryOrange,
+                        fontSize: 11,
+                        fontWeight: 800,
+                        cursor: "pointer",
+                        marginLeft: 4,
+                      }}
+                    >
+                      Clear All Filters
+                    </button>
+                  </div>
+                )}
             </div>
 
             {/* MAIN ALERTS TABLE CARD */}
@@ -1492,12 +1492,12 @@ export default function AlertsCenterScreen({
                             (e.currentTarget.style.background = elevated)
                           }
                           onMouseLeave={(e) =>
-                            (e.currentTarget.style.background =
-                              row.status === "UNREAD"
-                                ? dm
-                                  ? "rgba(251,146,60,0.04)"
-                                  : "#FFFBF5"
-                                : "transparent")
+                          (e.currentTarget.style.background =
+                            row.status === "UNREAD"
+                              ? dm
+                                ? "rgba(251,146,60,0.04)"
+                                : "#FFFBF5"
+                              : "transparent")
                           }
                           onClick={() => setSelectedAlert(row)}
                         >

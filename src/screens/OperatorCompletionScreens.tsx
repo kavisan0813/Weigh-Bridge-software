@@ -1083,7 +1083,7 @@ function SecondWeighingScreen({
                   <div
                     style={{ fontSize: 12, color: secondaryText, marginTop: 4 }}
                   >
-                    Customer: Metro Builders | Driver: Arun Kumar | Customer
+                    Customer: Metro Builders | Driver: Rithick Nathan | Customer
                     Ticket: WB-2026-00463
                   </div>
                 </div>
@@ -1303,7 +1303,7 @@ function SecondWeighingScreen({
                             marginTop: 2,
                           }}
                         >
-                          Recorded at 11:12:42 AM by Operator Arun Kumar
+                          Recorded at 11:12:42 AM by Operator Rithick Nathan
                         </div>
                       </div>
                     ) : (

@@ -32,7 +32,7 @@ const ALL_TRANSACTIONS = [
     time: "19 Aug, 10:50 AM",
     wb: "WB-01",
     vehicle: "TN20AB1234",
-    customer: "ABC Construction",
+    customer: "Viyan Construction",
     material: "Gravel",
     gross: "38,500 KG",
     tare: "13,500 KG",
@@ -77,7 +77,7 @@ const ALL_TRANSACTIONS = [
     time: "19 Aug, 10:28 AM",
     wb: "WB-05",
     vehicle: "TN09GH3456",
-    customer: "ABC Steel",
+    customer: "Viyan Steel",
     material: "Steel",
     gross: "42,800 KG",
     tare: "20,000 KG",
@@ -1176,7 +1176,7 @@ export default function TransactionsScreen({
                   color: p.text,
                 }}
               >
-                ABC INDUSTRIES
+                Viyan INDUSTRIES
               </div>
               <div
                 style={{

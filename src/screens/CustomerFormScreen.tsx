@@ -54,7 +54,7 @@ export default function CustomerFormScreen({
   );
 
   // Contact Information
-  const [contactName, setContactName] = useState(prefill ? "Arun Kumar" : "");
+  const [contactName, setContactName] = useState(prefill ? "Rithick Nathan" : "");
   const [phone, setPhone] = useState(prefill ? "+91 98400 12345" : "");
   const [email, setEmail] = useState(
     prefill ? "contact@metrobuilders.com" : "",
@@ -62,7 +62,7 @@ export default function CustomerFormScreen({
   const [altPhone, setAltPhone] = useState(prefill ? "+91 98400 99887" : "");
 
   // Business Information
-  const [gstin, setGstin] = useState(prefill ? "33ABCDE1234F1Z5" : "");
+  const [gstin, setGstin] = useState(prefill ? "33ViyanDE1234F1Z5" : "");
   const [regNo, setRegNo] = useState(prefill ? "REG-2024-9988" : "");
   const [billingContact, setBillingContact] = useState(
     prefill ? "Accounts Dept" : "",
@@ -787,9 +787,9 @@ export default function CustomerFormScreen({
                             (e.target.style.borderColor = primaryOrange)
                           }
                           onBlur={(e) =>
-                            (e.target.style.borderColor = errors.companyName
-                              ? statusError
-                              : border)
+                          (e.target.style.borderColor = errors.companyName
+                            ? statusError
+                            : border)
                           }
                         />
                         <FieldErr errKey="companyName" />
@@ -909,15 +909,15 @@ export default function CustomerFormScreen({
                             setContactName(e.target.value);
                             dirty();
                           }}
-                          placeholder="Arun Kumar"
+                          placeholder="Rithick Nathan"
                           style={inputStyle("contactName")}
                           onFocus={(e) =>
                             (e.target.style.borderColor = primaryOrange)
                           }
                           onBlur={(e) =>
-                            (e.target.style.borderColor = errors.contactName
-                              ? statusError
-                              : border)
+                          (e.target.style.borderColor = errors.contactName
+                            ? statusError
+                            : border)
                           }
                         />
                         <FieldErr errKey="contactName" />
@@ -936,9 +936,9 @@ export default function CustomerFormScreen({
                             (e.target.style.borderColor = primaryOrange)
                           }
                           onBlur={(e) =>
-                            (e.target.style.borderColor = errors.phone
-                              ? statusError
-                              : border)
+                          (e.target.style.borderColor = errors.phone
+                            ? statusError
+                            : border)
                           }
                         />
                         <FieldErr errKey="phone" />
@@ -1003,7 +1003,7 @@ export default function CustomerFormScreen({
                             setGstin(e.target.value);
                             dirty();
                           }}
-                          placeholder="33ABCDE1234F1Z5"
+                          placeholder="33ViyanDE1234F1Z5"
                           style={{ ...inputStyle(), fontFamily: "monospace" }}
                           onFocus={(e) =>
                             (e.target.style.borderColor = primaryOrange)
@@ -1097,9 +1097,9 @@ export default function CustomerFormScreen({
                             (e.target.style.borderColor = primaryOrange)
                           }
                           onBlur={(e) =>
-                            (e.target.style.borderColor = errors.address1
-                              ? statusError
-                              : border)
+                          (e.target.style.borderColor = errors.address1
+                            ? statusError
+                            : border)
                           }
                         />
                         <FieldErr errKey="address1" />
@@ -1136,9 +1136,9 @@ export default function CustomerFormScreen({
                             (e.target.style.borderColor = primaryOrange)
                           }
                           onBlur={(e) =>
-                            (e.target.style.borderColor = errors.city
-                              ? statusError
-                              : border)
+                          (e.target.style.borderColor = errors.city
+                            ? statusError
+                            : border)
                           }
                         />
                         <FieldErr errKey="city" />
@@ -1930,7 +1930,7 @@ export default function CustomerFormScreen({
                   contactName,
                   setContactName,
                   "text",
-                  "Arun Kumar",
+                  "Rithick Nathan",
                 ],
                 ["Phone Number *", phone, setPhone, "tel", "+91 98400 12345"],
                 [
@@ -1940,7 +1940,7 @@ export default function CustomerFormScreen({
                   "email",
                   "contact@company.com",
                 ],
-                ["GSTIN / Tax ID", gstin, setGstin, "text", "33ABCDE1234F1Z5"],
+                ["GSTIN / Tax ID", gstin, setGstin, "text", "33ViyanDE1234F1Z5"],
                 [
                   "Address Line 1 *",
                   address1,

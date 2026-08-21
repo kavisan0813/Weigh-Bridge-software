@@ -46,7 +46,7 @@ Company branding:
 
 WEIGHBRIDGE
 
-ABC Industries
+Viyan Industries
 
 Navigation:
 
@@ -86,7 +86,7 @@ TOP HEADER
 
 Breadcrumb:
 
-ABC Industries / Dashboard
+Viyan Industries / Dashboard
 
 Right side:
 
@@ -216,7 +216,7 @@ Current Weight:
 38,500 KG
 
 Operator:
-Arun Kumar
+Rithick Nathan
 
 Today:
 58 transactions
@@ -254,8 +254,7 @@ Today:
 WB-04
 ● OFFLINE
 
-Current Vehicle:
---
+## Current Vehicle:
 
 Weight:
 -- KG
@@ -313,7 +312,7 @@ Material:
 Gravel
 
 Customer:
-ABC Construction
+Viyan Construction
 
 Current Weight:
 
@@ -425,7 +424,7 @@ Sample:
 WB-2026-00458
 TN20AB1234
 WB-01
-ABC Construction
+Viyan Construction
 38,500 KG
 12,500 KG
 26,000 KG
@@ -447,7 +446,7 @@ Completed
 WB-2026-00456
 TN45EF7812
 WB-03
-ABC Construction
+Viyan Construction
 31,850 KG
 12,100 KG
 19,750 KG
@@ -549,8 +548,8 @@ The brand must clearly read as:
 SOFT ORANGE + PREMIUM GOLD
 
 #F97316
-+
-#C99A2E
+
+- #C99A2E
 
 Do not allow the screen to become primarily gray.
 

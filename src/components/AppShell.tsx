@@ -60,7 +60,7 @@ export default function AppShell({
   activeView,
   userRole = "admin",
   userName = userRole === "admin"
-    ? "Arun Kumar"
+    ? "Rithick Nathan"
     : userRole === "operator"
       ? "Ravi Kumar"
       : userRole === "maintenance"
@@ -187,7 +187,7 @@ export default function AppShell({
       case "settings":
         return "Administration / System Settings";
       default:
-        return "ABC Weighbridge / Management System";
+        return "Viyan Weighbridge / Management System";
     }
   };
 
@@ -249,8 +249,8 @@ export default function AppShell({
               gap: 16,
             }}
           >
-            {/* Branding (ABC WEIGHBRIDGE / ABC Industries) */}
-           
+            {/* Branding (Viyan WEIGHBRIDGE / Viyan Industries) */}
+
             {/* Vertical Divider */}
             <div
               className="hidden sm:block"
@@ -642,7 +642,7 @@ export default function AppShell({
                       {userName}
                     </div>
                     <div style={{ fontSize: 11, color: mutedText }}>
-                      {roleLabel} · ABC Industries
+                      {roleLabel} · Viyan Industries
                     </div>
                   </div>
                   <button

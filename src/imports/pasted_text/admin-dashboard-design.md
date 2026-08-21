@@ -15,8 +15,8 @@ The final result must clearly look like a premium industrial weighbridge managem
 SOFT ORANGE + DEEP NAVY.
 
 ============================================================
-1. PRODUCT
-============================================================
+
+1. # PRODUCT
 
 Product:
 Weighbridge Management Software
@@ -25,7 +25,7 @@ Purpose:
 Manage and monitor exactly 5 physical weighbridges for a client company.
 
 Client:
-ABC Industries
+Viyan Industries
 
 Weighbridges:
 
@@ -42,8 +42,7 @@ The Admin manages the client's weighbridge operations.
 
 This is an enterprise operational dashboard, NOT a marketing dashboard.
 
-============================================================
-2. CORE VISUAL PERSONALITY
+============================================================ 2. CORE VISUAL PERSONALITY
 ============================================================
 
 The visual personality must be:
@@ -62,6 +61,7 @@ Premium
 The interface should feel suitable for employees and managers who use the software every day in a real weighbridge environment.
 
 Avoid:
+
 - Generic CRM appearance
 - Excessive gray
 - Excessive black
@@ -73,6 +73,7 @@ Avoid:
 - Marketing-style UI
 
 Prioritize:
+
 - Data clarity
 - Operational status
 - Weight information
@@ -80,8 +81,7 @@ Prioritize:
 - Fast actions
 - Clear hierarchy
 
-============================================================
-3. FINAL COLOR SYSTEM
+============================================================ 3. FINAL COLOR SYSTEM
 ============================================================
 
 PRIMARY BRAND COLOR — SOFT ORANGE
@@ -101,7 +101,6 @@ Primary Soft:
 Primary Light:
 #FFEDD5
 
-
 SECONDARY BRAND COLOR — DEEP NAVY
 
 Secondary:
@@ -115,7 +114,6 @@ Secondary Hover:
 
 Secondary Soft:
 #EAF2F8
-
 
 LIGHT MODE NEUTRALS
 
@@ -143,7 +141,6 @@ Border:
 Divider:
 #F1F5F9
 
-
 IMPORTANT COLOR RULE:
 
 Deep Navy is the SECONDARY BRAND COLOR.
@@ -151,6 +148,7 @@ Deep Navy is the SECONDARY BRAND COLOR.
 Do NOT replace it with gray.
 
 Gray/slate colors may ONLY be used as supporting neutral colors for:
+
 - borders
 - muted text
 - dividers
@@ -158,9 +156,7 @@ Gray/slate colors may ONLY be used as supporting neutral colors for:
 
 Gray must NOT become the main secondary visual identity.
 
-
-============================================================
-4. STATUS COLORS
+============================================================ 4. STATUS COLORS
 ============================================================
 
 Success:
@@ -181,7 +177,6 @@ Processing / Weighing:
 Neutral:
 #64748B
 
-
 Always communicate status using:
 
 ICON + COLOR + TEXT
@@ -198,9 +193,7 @@ Examples:
 
 Never communicate status using color alone.
 
-
-============================================================
-5. TYPOGRAPHY
+============================================================ 5. TYPOGRAPHY
 ============================================================
 
 Use INTER throughout the interface.
@@ -236,14 +229,13 @@ Caption:
 11px / 16px / 400
 
 Use tabular numerals for:
+
 - Weight
 - Vehicle counts
 - Transactions
 - Financial values
 
-
-============================================================
-6. SPACING
+============================================================ 6. SPACING
 ============================================================
 
 Use a 4px spacing grid:
@@ -269,9 +261,7 @@ Card padding:
 Section spacing:
 24–32px
 
-
-============================================================
-7. BORDER RADIUS
+============================================================ 7. BORDER RADIUS
 ============================================================
 
 Buttons:
@@ -291,9 +281,7 @@ Status badges:
 
 Do not make every element extremely rounded.
 
-
-============================================================
-8. SHADOWS
+============================================================ 8. SHADOWS
 ============================================================
 
 Use subtle shadows.
@@ -306,9 +294,7 @@ Medium:
 
 Avoid heavy shadows.
 
-
-============================================================
-9. APPLICATION SHELL
+============================================================ 9. APPLICATION SHELL
 ============================================================
 
 Desktop frame:
@@ -326,9 +312,7 @@ RIGHT:
 Top header
 Main content area
 
-
-============================================================
-10. SIDEBAR
+============================================================ 10. SIDEBAR
 ============================================================
 
 SIDEBAR BACKGROUND:
@@ -344,7 +328,7 @@ Logo area:
 
 Orange square icon
 WEIGHBRIDGE
-ABC Industries
+Viyan Industries
 
 Navigation:
 
@@ -374,16 +358,13 @@ Inactive navigation:
 
 Sidebar should feel strong, industrial and premium.
 
-
 BOTTOM SIDEBAR:
 
 Sign Out
 
 Use a subtle divider before Sign Out.
 
-
-============================================================
-11. TOP HEADER
+============================================================ 11. TOP HEADER
 ============================================================
 
 Use a clean white surface.
@@ -391,7 +372,7 @@ Use a clean white surface.
 Include:
 
 Breadcrumb:
-ABC Industries / Dashboard
+Viyan Industries / Dashboard
 
 Right side:
 
@@ -409,9 +390,7 @@ Use Deep Navy for important text and icons.
 
 Orange can be used for notification indicator and active controls.
 
-
-============================================================
-12. PAGE HEADER
+============================================================ 12. PAGE HEADER
 ============================================================
 
 Title:
@@ -424,7 +403,7 @@ Monitor your weighbridge operations, transactions and daily activity.
 
 Right side primary action:
 
-+ New Weighment
+- New Weighment
 
 Primary button:
 Soft Orange #F97316
@@ -438,9 +417,7 @@ Secondary button:
 Deep Navy #17324D
 White text
 
-
-============================================================
-13. KPI SECTION
+============================================================ 13. KPI SECTION
 ============================================================
 
 Create 5 KPI cards.
@@ -498,7 +475,6 @@ Requires Attention
 
 Use warning styling.
 
-
 IMPORTANT:
 
 KPI numbers must be visually prominent.
@@ -507,9 +483,7 @@ Use tabular numerals.
 
 Do not use giant colorful backgrounds.
 
-
-============================================================
-14. WEIGHBRIDGE MONITORING
+============================================================ 14. WEIGHBRIDGE MONITORING
 ============================================================
 
 Create a major section:
@@ -520,7 +494,6 @@ Description:
 
 Live operational status across all 5 weighbridges.
 
-
 Create exactly 5 weighbridge cards:
 
 WB-01
@@ -528,7 +501,6 @@ WB-02
 WB-03
 WB-04
 WB-05
-
 
 WB-01:
 
@@ -543,11 +515,10 @@ Current Weight:
 ● WEIGHT STABLE
 
 Operator:
-Arun Kumar
+Rithick Nathan
 
 Today:
 58 weighments
-
 
 WB-02:
 
@@ -567,7 +538,6 @@ Rajesh Kumar
 Today:
 49 weighments
 
-
 WB-03:
 
 ● WEIGHING
@@ -586,7 +556,6 @@ Suresh
 Today:
 52 weighments
 
-
 WB-04:
 
 ● MAINTENANCE
@@ -602,7 +571,6 @@ Not Assigned
 
 Today:
 27 weighments
-
 
 WB-05:
 
@@ -622,12 +590,12 @@ Vijay
 Today:
 47 weighments
 
-
 IMPORTANT:
 
 Use Deep Navy for the main card heading/structural elements.
 
 Use Soft Orange for:
+
 - Active actions
 - Important weight highlights
 - Selected states
@@ -636,9 +604,7 @@ Use status colors only for status indicators.
 
 Do not make every card orange.
 
-
-============================================================
-15. LIVE WEIGHT VISUAL
+============================================================ 15. LIVE WEIGHT VISUAL
 ============================================================
 
 The current weight must be highly readable.
@@ -663,9 +629,7 @@ Under it:
 
 Use green status.
 
-
-============================================================
-16. DAILY ACTIVITY CHART
+============================================================ 16. DAILY ACTIVITY CHART
 ============================================================
 
 Create a large chart section:
@@ -703,9 +667,7 @@ Use very light neutral grid lines.
 
 Chart should feel clean and operational.
 
-
-============================================================
-17. WEIGHBRIDGE COMPARISON
+============================================================ 17. WEIGHBRIDGE COMPARISON
 ============================================================
 
 Create a smaller chart:
@@ -731,9 +693,7 @@ Use warning/error status styling because it is under maintenance.
 
 Do not introduce random colors.
 
-
-============================================================
-18. RECENT TRANSACTIONS
+============================================================ 18. RECENT TRANSACTIONS
 ============================================================
 
 Create a table:
@@ -757,7 +717,7 @@ Sample:
 WB-2026-00458
 TN20AB1234
 WB-01
-ABC Construction
+Viyan Construction
 52,500 KG
 14,000 KG
 38,500 KG
@@ -784,15 +744,12 @@ Metro Materials
 Weighing
 10:31 AM
 
-
 Use status badges.
 
 Provide:
 View All Transactions
 
-
-============================================================
-19. ALERT PANEL
+============================================================ 19. ALERT PANEL
 ============================================================
 
 Create:
@@ -818,19 +775,17 @@ Description
 Timestamp
 Action
 
-
-============================================================
-20. QUICK ACTIONS
+============================================================ 20. QUICK ACTIONS
 ============================================================
 
 Create a compact section:
 
 Quick Actions
 
-+ New Weighment
-Manage Vehicles
-View Transactions
-Generate Report
+- New Weighment
+  Manage Vehicles
+  View Transactions
+  Generate Report
 
 Primary action:
 Orange
@@ -838,9 +793,7 @@ Orange
 Secondary actions:
 Deep Navy / white surface treatment
 
-
-============================================================
-21. RESPONSIVE BEHAVIOR
+============================================================ 21. RESPONSIVE BEHAVIOR
 ============================================================
 
 Desktop first.
@@ -855,9 +808,7 @@ Convert tables into horizontal scrolling or card-based rows.
 
 Do not simply shrink desktop elements.
 
-
-============================================================
-22. COMPONENT REQUIREMENTS
+============================================================ 22. COMPONENT REQUIREMENTS
 ============================================================
 
 Create reusable components:
@@ -877,7 +828,6 @@ Secondary Button
 Icon Button
 User Avatar
 
-
 Use:
 Auto Layout
 Components
@@ -885,9 +835,7 @@ Variants
 Reusable styles
 Responsive constraints
 
-
-============================================================
-23. FINAL VISUAL CHECK
+============================================================ 23. FINAL VISUAL CHECK
 ============================================================
 
 Before finishing the screen, verify:

@@ -15,24 +15,24 @@ export interface TicketRow {
   code: string;
   title: string;
   category:
-    | "Weighbridge"
-    | "Camera"
-    | "Printer"
-    | "Indicator"
-    | "Network"
-    | "Software"
-    | "Hardware"
-    | "Maintenance"
-    | "Other";
+  | "Weighbridge"
+  | "Camera"
+  | "Printer"
+  | "Indicator"
+  | "Network"
+  | "Software"
+  | "Hardware"
+  | "Maintenance"
+  | "Other";
   weighbridge: string;
   priority: "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
   status:
-    | "OPEN"
-    | "IN_PROGRESS"
-    | "PENDING"
-    | "RESOLVED"
-    | "CLOSED"
-    | "OVERDUE";
+  | "OPEN"
+  | "IN_PROGRESS"
+  | "PENDING"
+  | "RESOLVED"
+  | "CLOSED"
+  | "OVERDUE";
   assignedTo: string;
   created: string;
   sla: string;
@@ -55,7 +55,7 @@ const INITIAL_TICKETS: TicketRow[] = [
     sla: "02h 18m",
     isOverdue: false,
     lastUpdated: "20 Aug 2026 · 10:30 AM",
-    creator: "Arun Kumar",
+    creator: "Rithick Nathan",
   },
   {
     id: "2",
@@ -65,7 +65,7 @@ const INITIAL_TICKETS: TicketRow[] = [
     weighbridge: "WB-01",
     priority: "MEDIUM",
     status: "IN_PROGRESS",
-    assignedTo: "Arun Kumar",
+    assignedTo: "Rithick Nathan",
     created: "20 Aug 2026",
     sla: "05h 42m",
     isOverdue: false,
@@ -115,7 +115,7 @@ const INITIAL_TICKETS: TicketRow[] = [
     sla: "08h 10m",
     isOverdue: false,
     lastUpdated: "19 Aug 2026 · 02:20 PM",
-    creator: "Arun Kumar",
+    creator: "Rithick Nathan",
   },
   {
     id: "6",
@@ -130,7 +130,7 @@ const INITIAL_TICKETS: TicketRow[] = [
     sla: "OVERDUE",
     isOverdue: true,
     lastUpdated: "19 Aug 2026 · 11:10 AM",
-    creator: "Arun Kumar",
+    creator: "Rithick Nathan",
   },
   {
     id: "7",
@@ -248,8 +248,8 @@ export default function TicketManagementScreen({
       // Operators view permitted / own tickets
       return INITIAL_TICKETS.filter(
         (t) =>
-          t.creator === "Arun Kumar" ||
-          t.assignedTo === "Arun Kumar" ||
+          t.creator === "Rithick Nathan" ||
+          t.assignedTo === "Rithick Nathan" ||
           t.weighbridge === "WB-01",
       );
     }
@@ -939,7 +939,7 @@ export default function TicketManagementScreen({
               >
                 <option value="ALL">All Assignees</option>
                 <option value="Raj Kumar">Raj Kumar</option>
-                <option value="Arun Kumar">Arun Kumar</option>
+                <option value="Rithick Nathan">Rithick Nathan</option>
                 <option value="Maintenance Team">Maintenance Team</option>
                 <option value="IT Support">IT Support</option>
               </select>
@@ -1458,15 +1458,15 @@ export default function TicketManagementScreen({
                                   )}
                                   {(role === "admin" ||
                                     role === "maintenance") && (
-                                    <button
-                                      onClick={() =>
-                                        alert(`Mark Resolved ${row.code}`)
-                                      }
-                                      style={menuBtnStyle(false)}
-                                    >
-                                      Mark Resolved
-                                    </button>
-                                  )}
+                                      <button
+                                        onClick={() =>
+                                          alert(`Mark Resolved ${row.code}`)
+                                        }
+                                        style={menuBtnStyle(false)}
+                                      >
+                                        Mark Resolved
+                                      </button>
+                                    )}
                                   <button
                                     onClick={() =>
                                       alert(`Add Comment ${row.code}`)

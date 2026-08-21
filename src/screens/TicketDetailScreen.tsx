@@ -56,7 +56,7 @@ export default function TicketDetailScreen({
       text: "Checked the communication cable connection. Connection appears unstable near the terminal block.",
     },
     {
-      author: "Arun Kumar",
+      author: "Rithick Nathan",
       role: "Weighbridge Operator",
       time: "20 Aug 2026 · 10:12 AM",
       text: "Restarted the indicator controller twice. The display stays at zero even when vehicle is positioned on scale.",
@@ -78,7 +78,7 @@ export default function TicketDetailScreen({
           role === "admin"
             ? "Admin User"
             : role === "operator"
-              ? "Arun Kumar"
+              ? "Rithick Nathan"
               : "Raj Kumar",
         role: role.toUpperCase(),
         time: "Just now",
@@ -231,7 +231,7 @@ export default function TicketDetailScreen({
                   letterSpacing: "-0.01em",
                 }}
               >
-                ABC INDUSTRIES WEIGHBRIDGE SYSTEM
+                Viyan INDUSTRIES WEIGHBRIDGE SYSTEM
               </div>
               <div style={{ fontSize: 12, color: "#4B5563", marginTop: 2 }}>
                 OPERATIONAL SUPPORT & MAINTENANCE TICKET REPORT
@@ -317,7 +317,7 @@ export default function TicketDetailScreen({
             <tbody>
               <tr style={{ background: "#F8FAFC" }}>
                 <td style={printTdKey}>Reported By:</td>
-                <td style={printTdVal}>Arun Kumar (Operator)</td>
+                <td style={printTdVal}>Rithick Nathan (Operator)</td>
                 <td style={printTdKey}>Assigned To:</td>
                 <td style={printTdVal}>{assignee} (Maintenance)</td>
               </tr>
@@ -1014,7 +1014,7 @@ export default function TicketDetailScreen({
                     >
                       REPORTED BY
                     </span>
-                    <strong>Arun Kumar</strong>
+                    <strong>Rithick Nathan</strong>
                   </div>
                   <div>
                     <span
@@ -1302,7 +1302,7 @@ export default function TicketDetailScreen({
                     },
                     {
                       time: "20 Aug 2026 · 09:42 AM",
-                      text: "Ticket TKT-10248 created by Arun Kumar.",
+                      text: "Ticket TKT-10248 created by Rithick Nathan.",
                     },
                   ].map((act, i) => (
                     <div

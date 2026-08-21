@@ -30,7 +30,7 @@ const REGISTERED_VEHICLES = [
   {
     no: "TN20AB1234",
     type: "Truck (10-Wheeler)",
-    customer: "ABC Construction",
+    customer: "Viyan Construction",
     tare: "13,500 KG",
     lastWeighed: "Today, 10:50 AM",
     count: 3,
@@ -75,7 +75,7 @@ const REGISTERED_VEHICLES = [
   {
     no: "TN09GH3456",
     type: "Tipper",
-    customer: "ABC Steel",
+    customer: "Viyan Steel",
     tare: "20,000 KG",
     lastWeighed: "05 Aug 2026",
     count: 0,
@@ -139,7 +139,7 @@ export default function VehicleManagementScreen({
   // New vehicle form fields
   const [newNo, setNewNo] = useState("");
   const [newType, setNewType] = useState("Truck");
-  const [newCustomer, setNewCustomer] = useState("ABC Construction");
+  const [newCustomer, setNewCustomer] = useState("Viyan Construction");
   const [newTare, setNewTare] = useState("13,500 KG");
 
   const filtered = useMemo(() => {
@@ -1083,7 +1083,7 @@ export default function VehicleManagementScreen({
                     fontSize: 13,
                   }}
                 >
-                  <option>ABC Construction</option>
+                  <option>Viyan Construction</option>
                   <option>XYZ Logistics</option>
                   <option>Global Cement</option>
                 </select>

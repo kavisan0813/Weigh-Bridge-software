@@ -7,6 +7,7 @@ PRODUCT PERSONALITY:
 Industrial, professional, reliable, precise, modern, operational and easy to use for employees working long shifts.
 
 USER ROLES:
+
 1. Super Admin — software provider/company that develops and maintains the platform.
 2. Admin — client/company that purchased the software.
 3. Employee/Operator — employee who operates a physical weighbridge.
@@ -197,10 +198,9 @@ DESKTOP APPLICATION STRUCTURE
 Use a consistent enterprise application shell:
 
 248px sidebar
-+
-top header
-+
-main content area
+
+- top header
+- main content area
 
 SIDEBAR:
 Use Deep Navy as the primary navigation structure.
@@ -246,7 +246,7 @@ Current company
 User profile
 
 Admin example:
-ABC Industries
+Viyan Industries
 
 Operator example:
 WB-01 — Main Gate
@@ -276,11 +276,12 @@ TN20AB1234
 ● WEIGHT STABLE
 
 Operator:
-Arun Kumar
+Rithick Nathan
 
 58 vehicles today
 
 Each card may include:
+
 - Weighbridge ID
 - Location
 - Status

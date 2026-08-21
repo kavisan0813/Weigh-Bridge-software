@@ -30,7 +30,7 @@ const INITIAL_CUSTOMERS: CustomerItem[] = [
   {
     id: "CUS-00124",
     name: "Metro Builders Ltd",
-    contactPerson: "Arun Kumar",
+    contactPerson: "Rithick Nathan",
     phone: "+91 98400 12345",
     email: "info@metrobuilders.com",
     type: "Company",
@@ -1144,9 +1144,9 @@ export default function CustomerManagementScreen({
                             key={row.id}
                             style={{ cursor: "pointer" }}
                             onMouseEnter={(e) =>
-                              (e.currentTarget.style.background = dm
-                                ? "#273449"
-                                : "#F8FAFC")
+                            (e.currentTarget.style.background = dm
+                              ? "#273449"
+                              : "#F8FAFC")
                             }
                             onMouseLeave={(e) =>
                               (e.currentTarget.style.background = "transparent")

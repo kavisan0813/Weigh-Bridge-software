@@ -13,8 +13,8 @@ Do NOT change typography, spacing, radius or component styling between screens.
 The product is an enterprise-grade industrial Weighbridge Management Software.
 
 ==================================================
-1. PRODUCT
-==================================================
+
+1. # PRODUCT
 
 Product:
 Weighbridge Management Software
@@ -32,18 +32,17 @@ WB-05
 USER ROLES:
 
 1. Super Admin
-The software provider/company that develops and maintains the platform.
+   The software provider/company that develops and maintains the platform.
 
 2. Admin
-The client/company that purchased and operates the software.
+   The client/company that purchased and operates the software.
 
 3. Employee / Operator
-The employee who works at and operates a physical weighbridge.
+   The employee who works at and operates a physical weighbridge.
 
 Do NOT invent additional roles.
 
-==================================================
-2. DESIGN PERSONALITY
+================================================== 2. DESIGN PERSONALITY
 ==================================================
 
 The interface must feel:
@@ -75,8 +74,7 @@ Generic HR software
 Generic analytics dashboard
 Marketing website
 
-==================================================
-3. BRAND COLOR SYSTEM
+================================================== 3. BRAND COLOR SYSTEM
 ==================================================
 
 PRIMARY BRAND COLOR — SOFT ORANGE
@@ -96,7 +94,6 @@ Primary Soft:
 Primary Light:
 #FFEDD5
 
-
 SECONDARY BRAND COLOR — PREMIUM GOLD
 
 Secondary:
@@ -114,7 +111,6 @@ Secondary Soft:
 Secondary Light:
 #F5E8BF
 
-
 IMPORTANT COLOR RULE:
 
 The secondary brand color is GOLD.
@@ -127,8 +123,7 @@ Orange = Primary Action / Energy / Live Operations
 
 Gold = Premium Secondary / Important Information / Industrial Highlight / Supporting Brand Accent
 
-==================================================
-4. NEUTRAL COLORS
+================================================== 4. NEUTRAL COLORS
 ==================================================
 
 Neutrals are ONLY structural colors.
@@ -167,7 +162,6 @@ Input Background:
 Disabled Background:
 #F1F5F9
 
-
 IMPORTANT:
 
 Gray is NOT the secondary brand color.
@@ -182,8 +176,7 @@ neutral UI states
 
 Do not create gray-heavy layouts.
 
-==================================================
-5. DARK MODE
+================================================== 5. DARK MODE
 ==================================================
 
 Dark Background:
@@ -223,8 +216,7 @@ Dark mode should feel warm, premium and industrial.
 
 Do NOT use a blue/navy dark theme.
 
-==================================================
-6. STATUS COLORS
+================================================== 6. STATUS COLORS
 ==================================================
 
 Success:
@@ -263,8 +255,7 @@ Examples:
 ● PENDING
 ● ERROR
 
-==================================================
-7. COLOR USAGE RATIO
+================================================== 7. COLOR USAGE RATIO
 ==================================================
 
 Use the colors intentionally.
@@ -286,8 +277,7 @@ Do not turn the entire interface orange or gold.
 
 Do not make everything gray.
 
-==================================================
-8. TYPOGRAPHY
+================================================== 8. TYPOGRAPHY
 ==================================================
 
 Font:
@@ -339,8 +329,7 @@ Example:
 
 38,500 KG
 
-==================================================
-9. SPACING
+================================================== 9. SPACING
 ==================================================
 
 Use a 4px spacing system.
@@ -375,8 +364,7 @@ Table row:
 Desktop sidebar:
 248px
 
-==================================================
-10. BORDER RADIUS
+================================================== 10. BORDER RADIUS
 ==================================================
 
 4px:
@@ -401,8 +389,7 @@ Avoid excessive rounded UI.
 
 The product should feel industrial and precise.
 
-==================================================
-11. SHADOWS
+================================================== 11. SHADOWS
 ==================================================
 
 Use subtle shadows.
@@ -418,17 +405,15 @@ Large:
 
 Do not use dramatic floating shadows.
 
-==================================================
-12. DESKTOP APPLICATION SHELL
+================================================== 12. DESKTOP APPLICATION SHELL
 ==================================================
 
 Use:
 
 248px Sidebar
-+
-Top Header
-+
-Main Content
+
+- Top Header
+- Main Content
 
 SIDEBAR STYLE:
 
@@ -450,8 +435,7 @@ Secondary navigation highlights may use Gold #C99A2E.
 
 The sidebar should NOT be blue or navy.
 
-==================================================
-13. ADMIN NAVIGATION
+================================================== 13. ADMIN NAVIGATION
 ==================================================
 
 Dashboard
@@ -475,8 +459,7 @@ Show appropriate icons.
 Active item:
 Orange background or Orange left indicator.
 
-==================================================
-14. TOP HEADER
+================================================== 14. TOP HEADER
 ==================================================
 
 Top header should include:
@@ -491,10 +474,9 @@ User avatar/profile
 
 Example company:
 
-ABC Industries
+Viyan Industries
 
-==================================================
-15. WEIGHBRIDGE SYSTEM
+================================================== 15. WEIGHBRIDGE SYSTEM
 ==================================================
 
 The system has exactly:
@@ -527,8 +509,7 @@ Operator
 Today's Transactions
 Hardware Status
 
-==================================================
-16. LIVE WEIGHT COMPONENT
+================================================== 16. LIVE WEIGHT COMPONENT
 ==================================================
 
 Core component of the product.
@@ -565,8 +546,7 @@ Offline:
 
 Weight must always be the most visually dominant value.
 
-==================================================
-17. BUTTON SYSTEM
+================================================== 17. BUTTON SYSTEM
 ==================================================
 
 PRIMARY BUTTON:
@@ -611,8 +591,7 @@ Focus
 Disabled
 Loading
 
-==================================================
-18. FORM SYSTEM
+================================================== 18. FORM SYSTEM
 ==================================================
 
 Inputs support:
@@ -632,8 +611,7 @@ Labels must always be visible.
 
 Do not rely only on placeholders.
 
-==================================================
-19. TABLE SYSTEM
+================================================== 19. TABLE SYSTEM
 ==================================================
 
 Tables must be clean and operational.
@@ -660,8 +638,7 @@ Use Gold for selected secondary emphasis.
 
 Do not make tables gray-heavy.
 
-==================================================
-20. DATA VISUALIZATION
+================================================== 20. DATA VISUALIZATION
 ==================================================
 
 Charts must follow the brand palette.
@@ -687,8 +664,7 @@ Previous Period
 
 Use status colors only for status-related data.
 
-==================================================
-21. KPI CARDS
+================================================== 21. KPI CARDS
 ==================================================
 
 KPI cards should be clean and premium.
@@ -719,8 +695,7 @@ Cards should not all look identical.
 
 Use small colored accent lines/icons instead of huge color blocks.
 
-==================================================
-22. MOBILE
+================================================== 22. MOBILE
 ==================================================
 
 Mobile is NOT a compressed desktop.
@@ -744,8 +719,7 @@ Transactions
 Alerts
 More
 
-==================================================
-23. ACCESSIBILITY
+================================================== 23. ACCESSIBILITY
 ==================================================
 
 Maintain strong contrast.
@@ -764,8 +738,7 @@ Clear focus states.
 
 Readable typography.
 
-==================================================
-24. FIGMA IMPLEMENTATION
+================================================== 24. FIGMA IMPLEMENTATION
 ==================================================
 
 Use:
@@ -806,8 +779,7 @@ Error States
 
 Do not duplicate components unnecessarily.
 
-==================================================
-25. FINAL VISUAL RULE
+================================================== 25. FINAL VISUAL RULE
 ==================================================
 
 Every screen must immediately look like the SAME WEIGHBRIDGE PRODUCT.

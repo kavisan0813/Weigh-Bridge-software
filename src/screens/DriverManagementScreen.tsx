@@ -29,7 +29,7 @@ interface DriverItem {
 const INITIAL_DRIVERS: DriverItem[] = [
   {
     id: "DRV-00124",
-    name: "Arun Kumar",
+    name: "Rithick Nathan",
     avatar: "AK",
     phone: "+91 98765 43210",
     license: "TN-XX-XXXXXXXX",
@@ -1203,9 +1203,9 @@ export default function DriverManagementScreen({
                             key={row.id}
                             style={{ cursor: "pointer" }}
                             onMouseEnter={(e) =>
-                              (e.currentTarget.style.background = dm
-                                ? "#273449"
-                                : "#F8FAFC")
+                            (e.currentTarget.style.background = dm
+                              ? "#273449"
+                              : "#F8FAFC")
                             }
                             onMouseLeave={(e) =>
                               (e.currentTarget.style.background = "transparent")

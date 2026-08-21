@@ -145,25 +145,25 @@ export default function TransactionDetailScreen({
     {
       time: "10:52 AM",
       action: "Transaction Created",
-      user: "Arun Kumar",
+      user: "Rithick Nathan",
       value: "Ticket WB-2026-00463",
     },
     {
       time: "10:55 AM",
       action: "First Weight Captured",
-      user: "Arun Kumar",
+      user: "Rithick Nathan",
       value: "24,850 KG (Stable)",
     },
     {
       time: "11:12 AM",
       action: "Second Weight Captured",
-      user: "Arun Kumar",
+      user: "Rithick Nathan",
       value: "13,500 KG (Stable)",
     },
     {
       time: "11:14 AM",
       action: "Weighment Completed",
-      user: "Arun Kumar",
+      user: "Rithick Nathan",
       value: "Net Weight 11,350 KG",
     },
     {
@@ -474,7 +474,7 @@ export default function TransactionDetailScreen({
                   }}
                 >
                   <span style={{ color: p.secondary }}>Driver:</span>
-                  <strong style={{ color: p.text }}>Arun Kumar</strong>
+                  <strong style={{ color: p.text }}>Rithick Nathan</strong>
                 </div>
                 <div
                   style={{
@@ -719,7 +719,7 @@ export default function TransactionDetailScreen({
                     <div
                       style={{ fontSize: 11, color: p.muted, fontWeight: 500 }}
                     >
-                      ABC Industries
+                      Viyan Industries
                     </div>
                   </div>
                 </div>
@@ -815,7 +815,7 @@ export default function TransactionDetailScreen({
                     <div
                       style={{ fontSize: 12.5, fontWeight: 700, color: p.text }}
                     >
-                      {role === "admin" ? "Super Admin" : "Arun Kumar"}
+                      {role === "admin" ? "Super Admin" : "Rithick Nathan"}
                     </div>
                     <div style={{ fontSize: 10.5, color: p.muted }}>
                       {role === "admin" ? "Platform Admin" : "WB Operator"}
@@ -907,7 +907,7 @@ export default function TransactionDetailScreen({
                       WB-01 — Main Gate
                     </div>
                     <div style={{ color: p.statusSuccess, fontWeight: 700 }}>
-                      ● ONLINE • Operator: Arun Kumar
+                      ● ONLINE • Operator: Rithick Nathan
                     </div>
                   </div>
 
@@ -1297,7 +1297,7 @@ export default function TransactionDetailScreen({
                     </div>
                     <div style={{ fontSize: 12, color: p.text, marginTop: 4 }}>
                       Reason: Unexpected cargo variation on platform • Requested
-                      by Operator Arun Kumar • Approved by Super Admin at 11:14
+                      by Operator Rithick Nathan • Approved by Super Admin at 11:14
                       AM
                     </div>
                   </div>
@@ -1636,7 +1636,7 @@ export default function TransactionDetailScreen({
                       >
                         <span style={{ color: p.muted }}>Driver Name</span>
                         <span style={{ fontWeight: 800, color: p.text }}>
-                          Arun Kumar
+                          Rithick Nathan
                         </span>
                       </div>
                       <div
@@ -1842,7 +1842,7 @@ export default function TransactionDetailScreen({
                               marginTop: 2,
                             }}
                           >
-                            Gate Registration Verified • Driver: Arun Kumar
+                            Gate Registration Verified • Driver: Rithick Nathan
                           </div>
                         </div>
                       </div>
@@ -2275,7 +2275,7 @@ export default function TransactionDetailScreen({
                           color: p.primaryOrange,
                         }}
                       >
-                        ABC INDUSTRIES WEIGHBRIDGE
+                        Viyan INDUSTRIES WEIGHBRIDGE
                       </div>
                       <div
                         style={{
@@ -2292,7 +2292,7 @@ export default function TransactionDetailScreen({
                           margin: "8px 0",
                         }}
                       />
-                      <div>Vehicle: TN22GH3456 • Driver: Arun Kumar</div>
+                      <div>Vehicle: TN22GH3456 • Driver: Rithick Nathan</div>
                       <div>Material: Gravel • Customer: Metro Builders</div>
                       <div
                         style={{
@@ -2324,7 +2324,7 @@ export default function TransactionDetailScreen({
                           color: p.muted,
                         }}
                       >
-                        ✓ Certified by Operator Arun Kumar
+                        ✓ Certified by Operator Rithick Nathan
                       </div>
                     </div>
                   </section>
@@ -2568,7 +2568,7 @@ export default function TransactionDetailScreen({
                       }}
                     >
                       Added by{" "}
-                      <strong style={{ color: p.text }}>Arun Kumar</strong> on
+                      <strong style={{ color: p.text }}>Rithick Nathan</strong> on
                       19 Aug 2026, 11:13 AM
                     </div>
                   </section>

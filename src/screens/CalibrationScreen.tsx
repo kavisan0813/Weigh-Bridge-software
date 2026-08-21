@@ -56,7 +56,7 @@ const INITIAL_CALIBRATIONS: CalibrationItem[] = [
     daysRemaining: 74,
     status: "VALID",
     calibrationType: "Periodic Calibration",
-    provider: "ABC Calibration Services",
+    provider: "Viyan Calibration Services",
     technician: "Rajesh Kumar (Cert #ISO-882)",
     certificateNumber: "CAL-2026-082",
     certificateFileName: "WB01_Calibration_Cert_Aug2026.pdf",
@@ -83,7 +83,7 @@ const INITIAL_CALIBRATIONS: CalibrationItem[] = [
     daysRemaining: 56,
     status: "VALID",
     calibrationType: "Periodic Calibration",
-    provider: "ABC Calibration Services",
+    provider: "Viyan Calibration Services",
     technician: "Suresh Menon (Cert #ISO-911)",
     certificateNumber: "CAL-2026-071",
     certificateFileName: "WB02_Calibration_Cert_Jul2026.pdf",
@@ -1129,7 +1129,7 @@ export default function CalibrationScreen({ darkMode: dm }: Props) {
                     type="text"
                     value={scheduleForm.provider}
                     onChange={(e) => setScheduleForm({ ...scheduleForm, provider: e.target.value })}
-                    placeholder="ABC Calibration Services"
+                    placeholder="Viyan Calibration Services"
                     style={formInputStyle(inputBg, border, primaryText)}
                   />
                 </div>

@@ -15,7 +15,7 @@ const WEIGHMENTS_HISTORY = [
     date: "19 Aug 2026",
     ticket: "WB-2026-00462",
     vehicle: "TN22GH3456",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     material: "Gravel",
     gross: "42,500 KG",
     tare: "17,650 KG",
@@ -54,7 +54,7 @@ const WEIGHMENTS_HISTORY = [
     date: "17 Aug 2026",
     ticket: "WB-2026-00441",
     vehicle: "TN22GH3456",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     material: "M-Sand",
     gross: "39,900 KG",
     tare: "17,500 KG",
@@ -82,7 +82,7 @@ const VEHICLES = [
   {
     no: "TN22GH3456",
     type: "Truck",
-    driver: "Arun Kumar",
+    driver: "Rithick Nathan",
     wb: "WB-01",
     lastUsed: "19 Aug 2026",
     status: "ACTIVE",
@@ -115,7 +115,7 @@ const VEHICLES = [
 
 const DRIVERS = [
   {
-    name: "Arun Kumar",
+    name: "Rithick Nathan",
     id: "DRV-00124",
     vehicle: "TN22GH3456",
     licenseStatus: "VALID",
@@ -170,7 +170,7 @@ const TIMELINE = [
   {
     date: "18 Aug 2026",
     title: "Driver assigned",
-    desc: "Arun Kumar → TN22GH3456",
+    desc: "Rithick Nathan → TN22GH3456",
   },
   {
     date: "15 Aug 2026",
@@ -950,7 +950,7 @@ export default function CustomerDetailScreen({
                         />
                         <InfoRow
                           label="Primary Contact"
-                          value="Arun Kumar"
+                          value="Rithick Nathan"
                           divider={divider}
                           mutedText={mutedText}
                           primaryText={primaryText}
@@ -978,7 +978,7 @@ export default function CustomerDetailScreen({
                         />
                         <InfoRow
                           label="Tax / Business ID (GSTIN)"
-                          value="33ABCDE1234F1Z5"
+                          value="33ViyanDE1234F1Z5"
                           accent={secondaryGold}
                           divider={divider}
                           mutedText={mutedText}
@@ -1233,9 +1233,9 @@ export default function CustomerDetailScreen({
                         key={v.no}
                         style={{ cursor: "pointer" }}
                         onMouseEnter={(e) =>
-                          (e.currentTarget.style.background = dm
-                            ? "#273449"
-                            : "#F8FAFC")
+                        (e.currentTarget.style.background = dm
+                          ? "#273449"
+                          : "#F8FAFC")
                         }
                         onMouseLeave={(e) =>
                           (e.currentTarget.style.background = "transparent")
@@ -1384,9 +1384,9 @@ export default function CustomerDetailScreen({
                         key={d.id}
                         style={{ cursor: "pointer" }}
                         onMouseEnter={(e) =>
-                          (e.currentTarget.style.background = dm
-                            ? "#273449"
-                            : "#F8FAFC")
+                        (e.currentTarget.style.background = dm
+                          ? "#273449"
+                          : "#F8FAFC")
                         }
                         onMouseLeave={(e) =>
                           (e.currentTarget.style.background = "transparent")
@@ -1552,9 +1552,9 @@ export default function CustomerDetailScreen({
                         key={i}
                         style={{ cursor: "pointer" }}
                         onMouseEnter={(e) =>
-                          (e.currentTarget.style.background = dm
-                            ? "#273449"
-                            : "#F8FAFC")
+                        (e.currentTarget.style.background = dm
+                          ? "#273449"
+                          : "#F8FAFC")
                         }
                         onMouseLeave={(e) =>
                           (e.currentTarget.style.background = "transparent")
@@ -2125,10 +2125,10 @@ export default function CustomerDetailScreen({
 
               {/* Info rows */}
               {[
-                ["Contact", "Arun Kumar"],
+                ["Contact", "Rithick Nathan"],
                 ["Phone", "+91 98400 12345"],
                 ["Email", "contact@metrobuilders.com"],
-                ["GSTIN", "33ABCDE1234F1Z5"],
+                ["GSTIN", "33ViyanDE1234F1Z5"],
                 ["City", "Chennai, Tamil Nadu"],
               ].map(([label, val]) => (
                 <div

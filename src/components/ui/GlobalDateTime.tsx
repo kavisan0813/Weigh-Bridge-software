@@ -101,8 +101,8 @@ export function GlobalDateTime({ darkMode = false }: GlobalDateTimeProps) {
         }}
       >
         <span>{timeStr}</span>
-        <span style={{ color: mutedColor, fontWeight: 1400 }}>|</span>
-        <span style={{ color: orangeAccent, fontWeight: 800 }}>{dateStr}</span>
+        <span style={{ fontWeight: 600 }}>|</span>
+        <span style={{ fontWeight: 600 }}>{dateStr}</span>
       </div>
 
       {/* Tablet View: Stacked Date / Time */}

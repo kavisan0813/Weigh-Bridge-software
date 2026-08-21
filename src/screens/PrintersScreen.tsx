@@ -1371,7 +1371,7 @@ export default function PrintersScreen({ darkMode: dm }: Props) {
             </p>
 
             <div style={{ padding: 16, borderRadius: 8, background: dm ? "#1A2332" : "#FFF7ED", border: `1px solid ${primaryOrange}40`, textAlign: "left", fontSize: 12, fontFamily: "monospace", color: primaryText, marginBottom: 20 }}>
-              <div style={{ fontWeight: 800, color: primaryOrange, textAlign: "center", marginBottom: 8 }}>ABC WEIGHBRIDGE SYSTEM</div>
+              <div style={{ fontWeight: 800, color: primaryOrange, textAlign: "center", marginBottom: 8 }}>Viyan WEIGHBRIDGE SYSTEM</div>
               <div>--- DIAGNOSTIC TEST TICKET ---</div>
               <div>Printer ID: {selectedPrinter.code}</div>
               <div>Station: {selectedPrinter.weighbridgeName}</div>

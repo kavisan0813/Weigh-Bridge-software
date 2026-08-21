@@ -29,7 +29,7 @@ export default function VehicleEntryScreen({ darkMode, onNavigate }: Props) {
   // Form Field States
   const [vehicleNumber, setVehicleNumber] = useState("TN22GH3456");
   const [vehicleType, setVehicleType] = useState("Heavy Truck");
-  const [driverName, setDriverName] = useState("Arun Kumar");
+  const [driverName, setDriverName] = useState("Rithick Nathan");
   const [driverPhone, setDriverPhone] = useState("98765 43210");
   const [driverDl, setDriverDl] = useState("TN12 20260012345");
   const [partyType, setPartyType] = useState<"customer" | "supplier">(
@@ -106,8 +106,8 @@ export default function VehicleEntryScreen({ darkMode, onNavigate }: Props) {
     setEntryState("found");
     alert(
       "Audit Log Created: Weighment Started for " +
-        vehicleNumber +
-        " by Arun Kumar (WB-01).",
+      vehicleNumber +
+      " by Rithick Nathan (WB-01).",
     );
     onNavigate("live-weighment");
   };
@@ -477,7 +477,7 @@ export default function VehicleEntryScreen({ darkMode, onNavigate }: Props) {
                 <div
                   style={{ fontSize: 12, color: secondaryText, marginTop: 2 }}
                 >
-                  Owner: ABC Transport
+                  Owner: Viyan Transport
                 </div>
                 <div
                   style={{
@@ -1160,7 +1160,7 @@ export default function VehicleEntryScreen({ darkMode, onNavigate }: Props) {
                         <div>
                           Owner:{" "}
                           <strong style={{ color: primaryText }}>
-                            ABC Transport
+                            Viyan Transport
                           </strong>
                         </div>
                         <div>
@@ -1953,7 +1953,7 @@ export default function VehicleEntryScreen({ darkMode, onNavigate }: Props) {
                     >
                       <span style={{ color: mutedText }}>Operator:</span>
                       <strong style={{ color: primaryText }}>
-                        Arun Kumar (EMP-0012)
+                        Rithick Nathan (EMP-0012)
                       </strong>
                     </div>
                     <div

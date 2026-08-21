@@ -20,7 +20,7 @@ export const authService = {
   authenticate: async (
     usernameInput: string,
     passwordInput: string,
-    selectedWeighbridge: string = "WB-01"
+    selectedWeighbridge: string = "WB-01",
   ): Promise<AuthResult> => {
     // Simulate slight network latency for realistic loading state
     await new Promise((resolve) => setTimeout(resolve, 600));
@@ -38,11 +38,12 @@ export const authService = {
 
     // Admin Credential Check
     if (
-      (username.toLowerCase() === "admin" || username.toLowerCase() === "arun") &&
+      (username.toLowerCase() === "admin" ||
+        username.toLowerCase() === "arun") &&
       password === "Admin@123"
     ) {
       const session: UserSession = {
-        user: "Arun Kumar",
+        user: "Rithick Nathan",
         role: "admin",
         isAuthenticated: true,
       };
@@ -82,7 +83,11 @@ export const authService = {
       const raw = localStorage.getItem(SESSION_STORAGE_KEY);
       if (!raw) return null;
       const parsed = JSON.parse(raw) as UserSession;
-      if (parsed && parsed.isAuthenticated && (parsed.role === "admin" || parsed.role === "operator")) {
+      if (
+        parsed &&
+        parsed.isAuthenticated &&
+        (parsed.role === "admin" || parsed.role === "operator")
+      ) {
         return parsed;
       }
       return null;

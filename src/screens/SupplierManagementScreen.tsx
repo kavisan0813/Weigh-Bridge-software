@@ -65,7 +65,7 @@ const INITIAL_SUPPLIERS: SupplierRow[] = [
     name: "Metro Stone Suppliers",
     code: "SUP-00127",
     type: "Distributor",
-    contact: "Arun Kumar",
+    contact: "Rithick Nathan",
     phone: "+91 98400 45678",
     materialsCount: 2,
     vehiclesCount: 5,

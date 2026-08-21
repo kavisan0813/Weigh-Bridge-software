@@ -107,7 +107,7 @@ const INITIAL_WEIGHBRIDGES: WeighbridgeItem[] = [
     currentVehicle: "TN18CD5678",
     currentWeight: "32,100 KG",
     weightState: "STABILIZING",
-    operator: "Arun Kumar",
+    operator: "Rithick Nathan",
     lastActivity: "Just now",
     capacity: "100,000 KG",
     ipAddress: "192.168.1.103",
@@ -351,10 +351,10 @@ export default function WeighbridgeManagementScreen({ darkMode: dm }: Props) {
         prev.map((w) =>
           w.id === formData.id
             ? ({
-                ...w,
-                ...formData,
-                fullName: `${formData.code} — ${formData.name}`,
-              } as WeighbridgeItem)
+              ...w,
+              ...formData,
+              fullName: `${formData.code} — ${formData.name}`,
+            } as WeighbridgeItem)
             : w,
         ),
       );
@@ -901,7 +901,7 @@ export default function WeighbridgeManagementScreen({ darkMode: dm }: Props) {
             <option value="All">All Operators ▼</option>
             <option value="Ravi Kumar">Ravi Kumar</option>
             <option value="Suresh Kumar">Suresh Kumar</option>
-            <option value="Arun Kumar">Arun Kumar</option>
+            <option value="Rithick Nathan">Rithick Nathan</option>
           </select>
         </div>
 
@@ -1089,9 +1089,9 @@ export default function WeighbridgeManagementScreen({ darkMode: dm }: Props) {
                       transition: "background 0.15s ease",
                     }}
                     onMouseEnter={(e) =>
-                      (e.currentTarget.style.background = dm
-                        ? "rgba(255,255,255,0.03)"
-                        : "#F8FAFC")
+                    (e.currentTarget.style.background = dm
+                      ? "rgba(255,255,255,0.03)"
+                      : "#F8FAFC")
                     }
                     onMouseLeave={(e) =>
                       (e.currentTarget.style.background = "transparent")
@@ -1305,12 +1305,12 @@ export default function WeighbridgeManagementScreen({ darkMode: dm }: Props) {
                                 prev.map((w) =>
                                   w.id === item.id
                                     ? {
-                                        ...w,
-                                        status:
-                                          w.status === "OFFLINE"
-                                            ? "ONLINE"
-                                            : "OFFLINE",
-                                      }
+                                      ...w,
+                                      status:
+                                        w.status === "OFFLINE"
+                                          ? "ONLINE"
+                                          : "OFFLINE",
+                                    }
                                     : w,
                                 ),
                               );
@@ -2195,7 +2195,7 @@ export default function WeighbridgeManagementScreen({ darkMode: dm }: Props) {
                   >
                     <option value="Ravi Kumar">Ravi Kumar</option>
                     <option value="Suresh Kumar">Suresh Kumar</option>
-                    <option value="Arun Kumar">Arun Kumar</option>
+                    <option value="Rithick Nathan">Rithick Nathan</option>
                     <option value="-">Unassigned (-)</option>
                   </select>
                 </div>

@@ -661,7 +661,7 @@ export default function DriverFormScreen({
                         fontSize: 11,
                       }}
                     >
-                      Arun Kumar
+                      Rithick Nathan
                     </button>
                   </>
                 )}
@@ -877,9 +877,9 @@ export default function DriverFormScreen({
                                 (e.target.style.borderColor = primaryOrange)
                               }
                               onBlur={(e) =>
-                                (e.target.style.borderColor = errors.firstName
-                                  ? statusError
-                                  : border)
+                              (e.target.style.borderColor = errors.firstName
+                                ? statusError
+                                : border)
                               }
                             />
                             <FieldErr errKey="firstName" />
@@ -898,9 +898,9 @@ export default function DriverFormScreen({
                                 (e.target.style.borderColor = primaryOrange)
                               }
                               onBlur={(e) =>
-                                (e.target.style.borderColor = errors.lastName
-                                  ? statusError
-                                  : border)
+                              (e.target.style.borderColor = errors.lastName
+                                ? statusError
+                                : border)
                               }
                             />
                             <FieldErr errKey="lastName" />
@@ -921,9 +921,9 @@ export default function DriverFormScreen({
                                 (e.target.style.borderColor = primaryOrange)
                               }
                               onBlur={(e) =>
-                                (e.target.style.borderColor = errors.phone
-                                  ? statusError
-                                  : border)
+                              (e.target.style.borderColor = errors.phone
+                                ? statusError
+                                : border)
                               }
                             />
                             <FieldErr errKey="phone" />
@@ -1074,9 +1074,9 @@ export default function DriverFormScreen({
                               (e.target.style.borderColor = primaryOrange)
                             }
                             onBlur={(e) =>
-                              (e.target.style.borderColor = errors.licenseNo
-                                ? statusError
-                                : border)
+                            (e.target.style.borderColor = errors.licenseNo
+                              ? statusError
+                              : border)
                             }
                           />
                           <FieldErr errKey="licenseNo" />
@@ -1138,9 +1138,9 @@ export default function DriverFormScreen({
                               (e.target.style.borderColor = primaryOrange)
                             }
                             onBlur={(e) =>
-                              (e.target.style.borderColor = errors.licenseExpiry
-                                ? statusError
-                                : border)
+                            (e.target.style.borderColor = errors.licenseExpiry
+                              ? statusError
+                              : border)
                             }
                           />
                           <FieldErr errKey="licenseExpiry" />
@@ -1171,7 +1171,7 @@ export default function DriverFormScreen({
                           const now = new Date();
                           const diff = Math.ceil(
                             (exp.getTime() - now.getTime()) /
-                              (1000 * 60 * 60 * 24),
+                            (1000 * 60 * 60 * 24),
                           );
                           const isExpired = diff < 0;
                           const isSoon = diff >= 0 && diff <= 90;
@@ -1314,7 +1314,7 @@ export default function DriverFormScreen({
                           <option value="">No customer assigned</option>
                           {[
                             "Metro Builders Ltd",
-                            "ABC Construction",
+                            "Viyan Construction",
                             "XYZ Logistics",
                             "Kumar Traders",
                             "Delta Mining Corp",
@@ -2266,7 +2266,7 @@ export default function DriverFormScreen({
                       [
                         "No customer",
                         "Metro Builders Ltd",
-                        "ABC Construction",
+                        "Viyan Construction",
                         "XYZ Logistics",
                       ],
                     ],

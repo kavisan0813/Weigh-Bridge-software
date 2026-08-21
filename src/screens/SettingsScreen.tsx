@@ -99,12 +99,12 @@ export default function SettingsScreen({
 
   // 1. Company Profile Form State
   const [companyForm, setCompanyForm] = useState({
-    name: "ABC Industrial Services Ltd.",
+    name: "Viyan Industrial Services Ltd.",
     regNo: "REG-2026-88019",
-    gstin: "33ABCDE1234F1Z5",
+    gstin: "33ViyanDE1234F1Z5",
     phone: "+91 98765 43210",
-    email: "admin@abcindustrial.com",
-    website: "www.abcindustrial.com",
+    email: "admin@Viyanindustrial.com",
+    website: "www.Viyanindustrial.com",
     address: "Plot 42, Heavy Industrial Corridor, Phase-II",
     city: "Chennai",
     state: "Tamil Nadu",
@@ -330,7 +330,7 @@ export default function SettingsScreen({
   const [operatorWbAccess, setOperatorWbAccess] = useState<
     Record<string, string[]>
   >({
-    "Arun Kumar": ["WB-01", "WB-02"],
+    "Rithick Nathan": ["WB-01", "WB-02"],
     "Ravi Kumar": ["WB-03"],
     "Suresh Kumar": ["WB-05"],
     Kumar: ["WB-02"],
@@ -357,7 +357,7 @@ export default function SettingsScreen({
       isCurrent: true,
     },
     {
-      user: "Arun Kumar",
+      user: "Rithick Nathan",
       device: "Windows 10 Terminal",
       location: "WB-01 Station",
       ip: "192.168.1.24",
@@ -416,74 +416,74 @@ export default function SettingsScreen({
     icon: string;
     section: string;
   }[] = [
-    {
-      key: "company",
-      label: "Company Profile",
-      icon: "🏢",
-      section: "GENERAL",
-    },
-    {
-      key: "weighbridge",
-      label: "Weighbridge Config",
-      icon: "⚖️",
-      section: "OPERATIONS",
-    },
-    {
-      key: "rules",
-      label: "Weighing Rules",
-      icon: "📏",
-      section: "OPERATIONS",
-    },
-    {
-      key: "ticket",
-      label: "Ticket & Printing",
-      icon: "🎫",
-      section: "OPERATIONS",
-    },
-    {
-      key: "camera",
-      label: "Cameras & Video",
-      icon: "📹",
-      section: "OPERATIONS",
-    },
-    {
-      key: "billing",
-      label: "Billing Config",
-      icon: "💳",
-      section: "FINANCE & COMM",
-    },
-    {
-      key: "notifications",
-      label: "Notifications",
-      icon: "🔔",
-      section: "FINANCE & COMM",
-    },
-    {
-      key: "users",
-      label: "Users & Permissions",
-      icon: "👥",
-      section: "ACCESS & SECURITY",
-    },
-    {
-      key: "security",
-      label: "Security & Sessions",
-      icon: "🔒",
-      section: "ACCESS & SECURITY",
-    },
-    {
-      key: "preferences",
-      label: "System Preferences",
-      icon: "⚙️",
-      section: "SYSTEM",
-    },
-    {
-      key: "integrations",
-      label: "Integrations",
-      icon: "🔌",
-      section: "SYSTEM",
-    },
-    { key: "backup", label: "Backup & Data", icon: "💾", section: "SYSTEM" },
-  ];
+      {
+        key: "company",
+        label: "Company Profile",
+        icon: "🏢",
+        section: "GENERAL",
+      },
+      {
+        key: "weighbridge",
+        label: "Weighbridge Config",
+        icon: "⚖️",
+        section: "OPERATIONS",
+      },
+      {
+        key: "rules",
+        label: "Weighing Rules",
+        icon: "📏",
+        section: "OPERATIONS",
+      },
+      {
+        key: "ticket",
+        label: "Ticket & Printing",
+        icon: "🎫",
+        section: "OPERATIONS",
+      },
+      {
+        key: "camera",
+        label: "Cameras & Video",
+        icon: "📹",
+        section: "OPERATIONS",
+      },
+      {
+        key: "billing",
+        label: "Billing Config",
+        icon: "💳",
+        section: "FINANCE & COMM",
+      },
+      {
+        key: "notifications",
+        label: "Notifications",
+        icon: "🔔",
+        section: "FINANCE & COMM",
+      },
+      {
+        key: "users",
+        label: "Users & Permissions",
+        icon: "👥",
+        section: "ACCESS & SECURITY",
+      },
+      {
+        key: "security",
+        label: "Security & Sessions",
+        icon: "🔒",
+        section: "ACCESS & SECURITY",
+      },
+      {
+        key: "preferences",
+        label: "System Preferences",
+        icon: "⚙️",
+        section: "SYSTEM",
+      },
+      {
+        key: "integrations",
+        label: "Integrations",
+        icon: "🔌",
+        section: "SYSTEM",
+      },
+      { key: "backup", label: "Backup & Data", icon: "💾", section: "SYSTEM" },
+    ];
 
   // Selected Weighbridge Object
   const currentWb =
@@ -1045,18 +1045,18 @@ export default function SettingsScreen({
                 {(activeCategory === "weighbridge" ||
                   activeCategory === "security" ||
                   activeCategory === "backup") && (
-                  <DangerZoneSection
-                    onDisableWb={() => {
-                      setSelectedWbToDisable(currentWb);
-                      setIsDisableWbModalOpen(true);
-                    }}
-                    onResetIntegrations={() =>
-                      showToast("Integrations reset to default parameters.")
-                    }
-                    p={p}
-                    dm={dm}
-                  />
-                )}
+                    <DangerZoneSection
+                      onDisableWb={() => {
+                        setSelectedWbToDisable(currentWb);
+                        setIsDisableWbModalOpen(true);
+                      }}
+                      onResetIntegrations={() =>
+                        showToast("Integrations reset to default parameters.")
+                      }
+                      p={p}
+                      dm={dm}
+                    />
+                  )}
               </>
             )}
           </div>
@@ -1475,7 +1475,7 @@ function CompanyProfileSection({
                 boxShadow: "0 2px 8px rgba(249,115,22,0.3)",
               }}
             >
-              ABC
+              Viyan
             </div>
             <div>
               <div style={{ display: "flex", gap: 8, marginBottom: 6 }}>
@@ -2691,7 +2691,7 @@ function UsersPermissionsSection({
             </tr>
           </thead>
           <tbody>
-            {["Arun Kumar", "Ravi Kumar", "Suresh Kumar", "Kumar"].map((op) => (
+            {["Rithick Nathan", "Ravi Kumar", "Suresh Kumar", "Kumar"].map((op) => (
               <tr key={op} style={{ borderTop: `1px solid ${p.divider}` }}>
                 <td
                   style={{

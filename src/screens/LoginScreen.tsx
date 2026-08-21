@@ -1725,13 +1725,12 @@ export default function LoginScreen({ onLogin, darkMode, onToggleDark }: LoginSc
                           padding: 16,
                           borderRadius: 12,
                           background: dm ? "#111827" : "#F8FAFC",
-                          border: `1.5px solid ${
-                            selectedWb.status === "OFFLINE"
+                          border: `1.5px solid ${selectedWb.status === "OFFLINE"
                               ? statusOffline
                               : activeState === "device-error"
                                 ? statusWarning
                                 : primaryOrange
-                          }`,
+                            }`,
                         }}
                       >
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>

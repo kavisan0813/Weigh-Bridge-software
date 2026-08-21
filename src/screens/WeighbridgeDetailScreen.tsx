@@ -549,7 +549,7 @@ export default function WeighbridgeDetailScreen({
                         marginTop: 2,
                       }}
                     >
-                      ABC Construction
+                      Viyan Construction
                     </div>
                   </div>
                   <div>
@@ -605,7 +605,7 @@ export default function WeighbridgeDetailScreen({
                         marginTop: 2,
                       }}
                     >
-                      Arun Kumar
+                      Rithick Nathan
                     </div>
                   </div>
                 </div>
@@ -1394,7 +1394,7 @@ export default function WeighbridgeDetailScreen({
                 Section 9 — Assigned Operator
               </div>
               <div style={{ fontSize: 12.5, fontWeight: 700, color: p.text }}>
-                Arun Kumar (EMP001)
+                Rithick Nathan (EMP001)
               </div>
               <div style={{ fontSize: 11.5, color: p.muted, marginTop: 4 }}>
                 Shift: 08:00 AM – 04:00 PM • Status:{" "}

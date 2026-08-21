@@ -94,7 +94,7 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
       ],
     },
     timeline: [
-      { time: "09:15 AM", event: "Ticket Created", actor: "Arun Kumar" },
+      { time: "09:15 AM", event: "Ticket Created", actor: "Rithick Nathan" },
       {
         time: "09:16 AM",
         event: "First Weighing Recorded (38,300 KG)",
@@ -105,7 +105,7 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
         event: "Second Weighing Recorded (13,500 KG)",
         actor: "WB-01 Scale",
       },
-      { time: "09:21 AM", event: "Ticket Printed", actor: "Arun Kumar" },
+      { time: "09:21 AM", event: "Ticket Printed", actor: "Rithick Nathan" },
       { time: "11:20 AM", event: "Ticket Voided", actor: "Admin" },
     ],
     relatedRecords: {
@@ -114,13 +114,13 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
       material: "Gravel 20mm",
       customer: "Metro Builders",
       supplier: "Metro Aggregates",
-      operator: "Arun Kumar",
+      operator: "Rithick Nathan",
     },
   },
   {
     id: "AUD-2026-001841",
     timestamp: "19 Aug 2026, 10:51 AM",
-    user: "Arun Kumar",
+    user: "Rithick Nathan",
     role: "Employee / Operator",
     action: "Ticket Printed",
     module: "Tickets",
@@ -151,21 +151,21 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
         event: "Net Weight Stabilized (25,000 KG)",
         actor: "Indicator #1",
       },
-      { time: "10:51 AM", event: "Ticket Printed", actor: "Arun Kumar" },
+      { time: "10:51 AM", event: "Ticket Printed", actor: "Rithick Nathan" },
     ],
     relatedRecords: {
       ticket: "WB-2026-00458",
       vehicle: "TN20AB1234",
       material: "Gravel",
-      customer: "ABC Construction",
+      customer: "Viyan Construction",
       supplier: "Alpha Quarries",
-      operator: "Arun Kumar",
+      operator: "Rithick Nathan",
     },
   },
   {
     id: "AUD-2026-001840",
     timestamp: "19 Aug 2026, 10:48 AM",
-    user: "Arun Kumar",
+    user: "Rithick Nathan",
     role: "Employee / Operator",
     action: "Weighment Completed",
     module: "Transactions",
@@ -196,14 +196,14 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
         event: "Vehicle Arrived at WB-01",
         actor: "ANPR Camera",
       },
-      { time: "10:48 AM", event: "Weighment Completed", actor: "Arun Kumar" },
+      { time: "10:48 AM", event: "Weighment Completed", actor: "Rithick Nathan" },
     ],
     relatedRecords: {
       ticket: "WB-2026-00458",
       vehicle: "TN20AB1234",
       material: "Gravel",
-      customer: "ABC Construction",
-      operator: "Arun Kumar",
+      customer: "Viyan Construction",
+      operator: "Rithick Nathan",
     },
   },
   {
@@ -369,7 +369,7 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
   {
     id: "AUD-2026-001835",
     timestamp: "19 Aug 2026, 08:42 AM",
-    user: "Arun Kumar",
+    user: "Rithick Nathan",
     role: "Employee / Operator",
     action: "Login Successful",
     module: "Authentication",
@@ -396,7 +396,7 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
       ],
     },
     timeline: [
-      { time: "08:41 AM", event: "Credentials Entered", actor: "Arun Kumar" },
+      { time: "08:41 AM", event: "Credentials Entered", actor: "Rithick Nathan" },
       {
         time: "08:42 AM",
         event: "OTP Verified & Session Started",
@@ -404,7 +404,7 @@ const INITIAL_AUDIT_LOGS: AuditEvent[] = [
       },
     ],
     relatedRecords: {
-      operator: "Arun Kumar",
+      operator: "Rithick Nathan",
     },
   },
   {
@@ -662,7 +662,7 @@ export default function AuditLogsScreen({
   const userOptions = [
     "All",
     "Admin",
-    "Arun Kumar",
+    "Rithick Nathan",
     "Suresh Kumar",
     "Ravi",
     "Kumar",
