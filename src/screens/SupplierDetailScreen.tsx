@@ -12,8 +12,6 @@ interface Props {
 
 export default function SupplierDetailScreen({
   darkMode: dm,
-  onToggleDark,
-  onLogout,
   onNavigate,
 }: Props) {
   // Master Design System Color Tokens
@@ -24,14 +22,10 @@ export default function SupplierDetailScreen({
   const secondaryText = dm ? "#D1D5DB" : "#4B5563";
   const mutedText = dm ? "#9CA3AF" : "#6B7280";
   const border = dm ? "#374151" : "#E2E8F0";
-  const divider = dm ? "#374151" : "#F1F5F9";
   const primaryOrange = dm ? "#FB923C" : "#F97316";
   const primaryOrangeSoft = dm ? "#273449" : "#FFF7ED";
   const secondaryGold = dm ? "#D4A83A" : "#C99A2E";
-  const secondaryGoldSoft = dm ? "#422F0A" : "#FFFBEB";
-
   const statusSuccess = "#16A34A";
-  const statusWarning = "#F59E0B";
 
   // State
   const [viewDevice, setViewDevice] = useState<ViewDevice>("desktop");

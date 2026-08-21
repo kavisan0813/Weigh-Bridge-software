@@ -275,9 +275,6 @@ export default function AlertsCenterScreen({
 
   return renderDesktopView();
 
-  /* ─────────────────────────────────────────────────────────────────── */
-  /*  DESKTOP VIEW                                                      */
-  /* ─────────────────────────────────────────────────────────────────── */
   function renderDesktopView() {
     return (
       <div
