@@ -1,5 +1,6 @@
-import { useMemo, useState, lazy, Suspense } from "react";
+import { useState, useMemo, lazy, Suspense } from "react";
 
+// Recharts components lazy loaded for optimal performance
 const Bar = lazy(() =>
   import("recharts").then((module) => ({ default: module.Bar })),
 );
@@ -32,813 +33,1072 @@ const XAxis = lazy(() =>
 const YAxis = lazy(() =>
   import("recharts").then((module) => ({ default: module.YAxis })),
 );
-import type { NavView } from "./EmployeeManagementScreen";
 
-interface Props {
+export interface ReportsScreenProps {
   darkMode: boolean;
-  onToggleDark: () => void;
-  onLogout: () => void;
-  onNavigate: (view: NavView) => void;
+  onToggleDark?: () => void;
+  onLogout?: () => void;
+  onNavigate?: (view: string) => void;
 }
 
-const categories = [
-  ["Weight Reports", "⚖", "24 reports"],
-  ["Weighbridge Reports", "▦", "15 reports"],
-  ["Vehicle Reports", "▱", "18 reports"],
-  ["Material Reports", "◇", "12 reports"],
-  ["Customer Reports", "⌂", "31 reports"],
-  ["Operator Reports", "♙", "9 reports"],
-  ["Billing Reports", "₹", "19 reports"],
-] as const;
-
-const netWeight = [
-  { time: "06:00", net: 0 },
-  { time: "07:00", net: 320 },
-  { time: "08:00", net: 810 },
-  { time: "09:00", net: 1290 },
-  { time: "10:00", net: 1820 },
-  { time: "10:30", net: 2095 },
-];
-const comparison = [
-  { name: "WB-01", mt: 1245 },
-  { name: "WB-02", mt: 980 },
-  { name: "WB-03", mt: 1120 },
-  { name: "WB-04", mt: 720 },
-  { name: "WB-05", mt: 1030 },
-];
-const vehicleVolume = [
-  { name: "WB-01", vehicles: 58 },
-  { name: "WB-02", vehicles: 46 },
-  { name: "WB-03", vehicles: 52 },
-  { name: "WB-04", vehicles: 0 },
-  { name: "WB-05", vehicles: 48 },
-];
-
-function palette(dark: boolean) {
+// ── Color Palette Helper ─────────────────────────────────────────────────────
+function getPalette(dark: boolean) {
   return {
-    page: dark ? "#111827" : "#F8FAFC",
+    bg: dark ? "#111827" : "#F8FAFC",
     surface: dark ? "#1F2937" : "#FFFFFF",
     elevated: dark ? "#273449" : "#FFFFFF",
-    text: dark ? "#F9FAFB" : "#111827",
-    secondary: dark ? "#D1D5DB" : "#4B5563",
-    muted: dark ? "#9CA3AF" : "#6B7280",
-    border: dark ? "#374151" : "#E5E7EB",
+    textPrimary: dark ? "#F9FAFB" : "#111827",
+    textSecondary: dark ? "#D1D5DB" : "#4B5563",
+    textMuted: dark ? "#9CA3AF" : "#6B7280",
+    border: dark ? "#374151" : "#E2E8F0",
     divider: dark ? "#374151" : "#F1F5F9",
-    navy: dark ? "#F9FAFB" : "#111827",
-    input: dark ? "#111827" : "#FFFFFF",
-    tooltip: dark ? "#1F2937" : "#FFFFFF",
+    inputBg: dark ? "#111827" : "#FFFFFF",
+    tooltipBg: dark ? "#1F2937" : "#FFFFFF",
+    primaryOrange: dark ? "#FB923C" : "#F97316",
+    primaryHover: dark ? "#F97316" : "#EA580C",
+    secondaryGold: dark ? "#D4A83A" : "#C99A2E",
+    secondaryGoldSoft: dark ? "#422F0A" : "#FFFBEB",
+    primarySoft: dark ? "rgba(249, 115, 22, 0.15)" : "#FFF7ED",
+    tableHeaderBg: dark ? "#1A2332" : "#F8FAFC",
+    badgeSuccessBg: dark ? "#052E16" : "#F0FDF4",
+    badgeSuccessText: "#16A34A",
+    badgeWarningBg: dark ? "#451A03" : "#FFFBEB",
+    badgeWarningText: "#F59E0B",
+    badgeInfoBg: dark ? "#172554" : "#EFF6FF",
+    badgeInfoText: "#2563EB",
   };
 }
 
+// ── SVG Line Icons ──────────────────────────────────────────────────────────
+function ScaleLineIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+      <path d="M2 17l10 5 10-5" />
+      <path d="M2 12l10 5 10-5" />
+    </svg>
+  );
+}
+
+function PerformanceIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M3 9h18" />
+      <path d="M9 21V9" />
+    </svg>
+  );
+}
+
+function UsersGroupIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
+function ChartSummaryIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
+    </svg>
+  );
+}
+
+function ChevronDownIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
+
+function SearchIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
+
+function ArrowRightIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  );
+}
+
+function DownloadIcon({ color = "currentColor" }: { color?: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}
+
+// ── Status Badge Component (ICON + COLOR + TEXT) ──────────────────────────
 function StatusBadge({
   status,
+  darkMode,
 }: {
-  status: "Completed" | "Processing" | "Failed";
+  status: "Ready" | "Completed" | "Pending" | "Processing" | "Error";
+  darkMode: boolean;
 }) {
-  const config = {
-    Completed: ["#16A34A", "✓"],
-    Processing: ["#8B5CF6", "◌"],
-    Failed: ["#DC2626", "!"],
-  } as const;
-  const [color, icon] = config[status];
+  const p = getPalette(darkMode);
+  let color = p.badgeSuccessText;
+  let bg = p.badgeSuccessBg;
+  let icon = "●";
+
+  if (status === "Ready" || status === "Completed") {
+    color = p.badgeSuccessText;
+    bg = p.badgeSuccessBg;
+    icon = "✓";
+  } else if (status === "Pending" || status === "Processing") {
+    color = p.badgeWarningText;
+    bg = p.badgeWarningBg;
+    icon = "⏳";
+  } else if (status === "Error") {
+    color = "#DC2626";
+    bg = darkMode ? "#450A0A" : "#FEF2F2";
+    icon = "⚠";
+  }
+
   return (
     <span
-      className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] font-semibold"
-      style={{ color, background: `${color}18` }}
+      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold"
+      style={{ color, background: bg, border: `1px solid ${color}30` }}
     >
-      <span aria-hidden>{icon}</span>
-      {status}
+      <span aria-hidden="true" className="text-[10px]">{icon}</span>
+      {status.toUpperCase()}
     </span>
   );
 }
 
-export default function ReportsScreen({ darkMode }: Props) {
-  const c = palette(darkMode);
-  const [selectedCategory, setSelectedCategory] = useState("Weight Reports");
-  const [filters, setFilters] = useState({
-    date: "Today",
-    weighbridge: "All weighbridges",
-    material: "All materials",
-    customer: "All customers",
-    operator: "All operators",
-  });
-  const [query, setQuery] = useState("");
-  const [notice, setNotice] = useState("");
+// ── Main ReportsScreen Component (Screen 41) ─────────────────────────────────
+export default function ReportsScreen({
+  darkMode,
+  onNavigate,
+}: ReportsScreenProps) {
+  const p = getPalette(darkMode);
 
-  const reportRows = useMemo(
-    () =>
-      [
-        [
-          "Daily Weight Summary",
-          "Weight",
-          "Today",
-          "Admin",
-          "10:32 AM",
-          "Completed",
-        ],
-        [
-          "Weighbridge Performance",
-          "Weighbridge",
-          "Today",
-          "Admin",
-          "09:48 AM",
-          "Completed",
-        ],
-        [
-          "Vehicle Movement Report",
-          "Vehicle",
-          "Yesterday",
-          "Admin",
-          "08:20 AM",
-          "Completed",
-        ],
-        [
-          "Material Reconciliation",
-          "Material",
-          "This week",
-          "Priya Shah",
-          "Yesterday",
-          "Processing",
-        ],
-      ] as const,
-    [],
-  );
-  const visibleReports = reportRows.filter((row) =>
-    row.join(" ").toLowerCase().includes(query.toLowerCase()),
-  );
+  // Export dropdown state
+  const [isExportOpen, setIsExportOpen] = useState(false);
+  const [notification, setNotification] = useState("");
 
-  const control = (key: keyof typeof filters, options: string[]) => (
-    <label className="block min-w-0">
-      <span
-        className="mb-1 block text-[11px] font-semibold"
-        style={{ color: c.secondary }}
-      >
-        {key === "date" ? "Date Range" : key[0].toUpperCase() + key.slice(1)}
-      </span>
-      <select
-        value={filters[key]}
-        onChange={(event) =>
-          setFilters({ ...filters, [key]: event.target.value })
-        }
-        className="h-10 w-full rounded-lg px-3 text-[12px] outline-none"
-        style={{
-          background: c.input,
-          color: c.navy,
-          border: `1px solid ${c.border}`,
-          boxShadow: "none",
-        }}
-      >
-        {options.map((option) => (
-          <option key={option}>{option}</option>
-        ))}
-      </select>
-    </label>
+  // Filters State
+  const [dateRange, setDateRange] = useState("01 Aug – 21 Aug 2026");
+  const [weighbridgeFilter, setWeighbridgeFilter] = useState("All Weighbridges");
+  const [customerFilter, setCustomerFilter] = useState("All Customers");
+  const [supplierFilter, setSupplierFilter] = useState("All Suppliers");
+  const [materialFilter, setMaterialFilter] = useState("All Materials");
+
+  // Chart Period State
+  const [chartPeriod, setChartPeriod] = useState("7 Days");
+
+  // Recent Reports Table Filter
+  const [tableSearch, setTableSearch] = useState("");
+
+  // Handler for Exporting Report
+  const handleExport = (type: "CSV" | "Excel" | "PDF") => {
+    setIsExportOpen(false);
+    setNotification(`Report exported as ${type} successfully.`);
+    setTimeout(() => setNotification(""), 4000);
+  };
+
+  // Handler for Applying Filters
+  const handleApplyFilters = () => {
+    setNotification("Report filters applied successfully.");
+    setTimeout(() => setNotification(""), 3000);
+  };
+
+  // Handler for Resetting Filters
+  const handleResetFilters = () => {
+    setDateRange("01 Aug – 21 Aug 2026");
+    setWeighbridgeFilter("All Weighbridges");
+    setCustomerFilter("All Customers");
+    setSupplierFilter("All Suppliers");
+    setMaterialFilter("All Materials");
+    setNotification("Filters reset to default.");
+    setTimeout(() => setNotification(""), 3000);
+  };
+
+  // ── Mock Chart Data ──────────────────────────────────────────────────────
+  const chartData7Days = [
+    { day: "15 Aug", weighments: 162, weight: 3680 },
+    { day: "16 Aug", weighments: 178, weight: 4120 },
+    { day: "17 Aug", weighments: 195, weight: 4490 },
+    { day: "18 Aug", weighments: 142, weight: 3210 },
+    { day: "19 Aug", weighments: 188, weight: 4310 },
+    { day: "20 Aug", weighments: 205, weight: 4720 },
+    { day: "21 Aug", weighments: 178, weight: 3920 },
+  ];
+
+  const chartData30Days = [
+    { day: "Week 1", weighments: 1120, weight: 25400 },
+    { day: "Week 2", weighments: 1240, weight: 28100 },
+    { day: "Week 3", weighments: 1180, weight: 26800 },
+    { day: "Week 4", weighments: 1290, weight: 29400 },
+  ];
+
+  const activeChartData = chartPeriod === "30 Days" || chartPeriod === "This Month" ? chartData30Days : chartData7Days;
+
+  // Station Usage Data (WB-01 to WB-05)
+  const stationUsage = [
+    { id: "WB-01", location: "Main Gate", percentage: 42, count: 524, weight: "11,949 T", active: true },
+    { id: "WB-02", location: "North Gate", percentage: 31, count: 386, weight: "8,820 T", active: true },
+    { id: "WB-03", location: "Loading Yard", percentage: 18, count: 225, weight: "5,121 T", active: true },
+    { id: "WB-04", location: "East Gate", percentage: 6, count: 75, weight: "1,707 T", active: false },
+    { id: "WB-05", location: "West Gate", percentage: 3, count: 38, weight: "853 T", active: true },
+  ];
+
+  // Recent Reports Table Data
+  const recentReports = useMemo(() => [
+    { id: 1, name: "Weighment Report", period: "01 Aug – 21 Aug 2026", generated: "Just now", status: "Ready" as const, screenView: "weighment-report" },
+    { id: 2, name: "Weighbridge Performance", period: "01 Aug – 21 Aug 2026", generated: "10 min ago", status: "Ready" as const, screenView: "performance-report" },
+    { id: 3, name: "Customer Activity", period: "01 Aug – 21 Aug 2026", generated: "Yesterday", status: "Ready" as const, screenView: "customer-report" },
+    { id: 4, name: "Material Summary", period: "01 Aug – 20 Aug 2026", generated: "1 day ago", status: "Ready" as const, screenView: "weighment-report" },
+    { id: 5, name: "Daily Shift Audit", period: "20 Aug 2026", generated: "Yesterday", status: "Pending" as const, screenView: "performance-report" },
+    { id: 6, name: "Supplier Movement", period: "01 Aug – 15 Aug 2026", generated: "5 days ago", status: "Ready" as const, screenView: "customer-report" },
+  ], []);
+
+  const filteredReports = recentReports.filter(r =>
+    r.name.toLowerCase().includes(tableSearch.toLowerCase()) ||
+    r.period.toLowerCase().includes(tableSearch.toLowerCase())
   );
 
   return (
     <main
-      className="min-h-screen overflow-y-auto p-6"
+      className="min-h-screen overflow-y-auto p-5 md:p-8"
       style={{
-        background: c.page,
-        color: c.text,
+        background: p.bg,
+        color: p.textPrimary,
         fontFamily: "'Inter', -apple-system, sans-serif",
       }}
     >
-      <div className="mx-auto max-w-360">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+      <div className="mx-auto max-w-7xl">
+        
+        {/* ── 2. PAGE HEADER ──────────────────────────────────────────────── */}
+        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1
-              className="m-0 text-[32px] font-bold leading-10"
-              style={{ color: c.navy }}
+              className="m-0 text-3xl font-bold tracking-tight"
+              style={{ color: p.textPrimary }}
             >
               Reports
             </h1>
             <p
-              className="mt-1 max-w-3xl text-sm leading-5"
-              style={{ color: c.muted }}
+              className="mt-1 text-sm leading-5"
+              style={{ color: p.textMuted }}
             >
-              Analyze weighbridge operations, vehicle movement, material
-              quantities and business performance across all 5 weighbridges.
+              View operational, weighment, weighbridge and customer activity reports.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+
+          {/* Right Action: Secondary Export Dropdown */}
+          <div className="relative">
             <button
-              onClick={() => setNotice("CSV export prepared.")}
-              className="h-10 rounded-lg px-3.5 text-xs font-semibold"
+              onClick={() => setIsExportOpen(!isExportOpen)}
+              className="inline-flex h-11 items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all hover:bg-slate-50 dark:hover:bg-slate-800"
               style={{
-                background: c.surface,
-                color: c.navy,
-                border: `1px solid ${c.border}`,
+                background: p.surface,
+                color: p.textPrimary,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
                 cursor: "pointer",
               }}
             >
-              ↓ Export CSV
+              <DownloadIcon color={p.textSecondary} />
+              <span>Export Report</span>
+              <ChevronDownIcon color={p.textMuted} />
             </button>
-            <button
-              onClick={() => setNotice("PDF export prepared.")}
-              className="h-10 rounded-lg px-3.5 text-xs font-semibold"
-              style={{
-                background: c.surface,
-                color: c.navy,
-                border: `1px solid ${c.border}`,
-                cursor: "pointer",
-              }}
-            >
-              ↓ Export PDF
-            </button>
-            <button
-              onClick={() => setNotice("Report generation started.")}
-              className="h-10 rounded-lg bg-[#F97316] px-4 text-xs font-bold text-white"
-              style={{ border: 0, cursor: "pointer" }}
-            >
-              Generate Report
-            </button>
+
+            {/* Export Popover Dropdown */}
+            {isExportOpen && (
+              <div
+                className="absolute right-0 top-12 z-50 w-48 rounded-lg py-1 shadow-lg border"
+                style={{
+                  background: p.surface,
+                  borderColor: p.border,
+                }}
+              >
+                <button
+                  onClick={() => handleExport("CSV")}
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-800"
+                  style={{ color: p.textPrimary, background: "transparent", border: 0, cursor: "pointer" }}
+                >
+                  <span className="font-mono font-bold text-wb-primary">📄</span> Export CSV
+                </button>
+                <button
+                  onClick={() => handleExport("Excel")}
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-800"
+                  style={{ color: p.textPrimary, background: "transparent", border: 0, cursor: "pointer" }}
+                >
+                  <span className="font-mono font-bold text-wb-success">📊</span> Export Excel
+                </button>
+                <button
+                  onClick={() => handleExport("PDF")}
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-800"
+                  style={{ color: p.textPrimary, background: "transparent", border: 0, cursor: "pointer" }}
+                >
+                  <span className="font-mono font-bold text-wb-error">📕</span> Export PDF
+                </button>
+              </div>
+            )}
           </div>
         </div>
-        {notice && (
+
+        {/* Operational Notice Banner */}
+        {notification && (
           <div
-            className="mb-4 flex items-center justify-between rounded-lg border px-3 py-2 text-xs"
+            className="mb-6 flex items-center justify-between rounded-lg border px-4 py-3 text-xs font-semibold"
             style={{
-              color: "#16A34A",
-              background: darkMode ? "#10291C" : "#F0FDF4",
-              borderColor: "#16A34A",
+              color: p.badgeSuccessText,
+              background: p.badgeSuccessBg,
+              borderColor: `${p.badgeSuccessText}40`,
             }}
           >
-            ✓ {notice}
+            <div className="flex items-center gap-2">
+              <span>✓</span>
+              <span>{notification}</span>
+            </div>
             <button
-              onClick={() => setNotice("")}
-              style={{
-                border: 0,
-                color: "inherit",
-                background: "transparent",
-                cursor: "pointer",
-              }}
+              onClick={() => setNotification("")}
+              style={{ border: 0, background: "transparent", color: "inherit", cursor: "pointer" }}
             >
-              ×
+              ✕
             </button>
           </div>
         )}
 
+        {/* ── 3. REPORT CATEGORY SECTION ───────────────────────────────────── */}
+        <section className="mb-8">
+          <div className="mb-4">
+            <h2
+              className="m-0 text-xs font-bold tracking-wider text-slate-500 uppercase"
+              style={{ color: p.textMuted }}
+            >
+              REPORTS
+            </h2>
+            <p className="mt-0.5 text-xs" style={{ color: p.textMuted }}>
+              Select a report to view detailed operational information.
+            </p>
+          </div>
+
+          {/* Clean 2 x 2 Desktop Grid */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            
+            {/* CARD 1: WEIGHMENT REPORT (Screen 42) */}
+            <article
+              className="flex flex-col justify-between rounded-xl p-5 transition-all hover:border-amber-500/50"
+              style={{
+                background: p.surface,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+              }}
+            >
+              <div>
+                <div className="mb-3 flex items-center justify-between">
+                  <div
+                    className="grid h-10 w-10 place-items-center rounded-lg"
+                    style={{ background: p.primarySoft, color: p.primaryOrange }}
+                  >
+                    <ScaleLineIcon color={p.primaryOrange} />
+                  </div>
+                  <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                    SCREEN 42
+                  </span>
+                </div>
+                <h3
+                  className="m-0 text-base font-bold tracking-tight"
+                  style={{ color: p.textPrimary }}
+                >
+                  WEIGHMENT REPORT
+                </h3>
+                <p className="mt-1.5 text-xs leading-5" style={{ color: p.textMuted }}>
+                  Detailed vehicle weighment and transaction history.
+                </p>
+              </div>
+              <div className="mt-5 border-t pt-3" style={{ borderColor: p.divider }}>
+                <button
+                  onClick={() => onNavigate?.("weighment-report")}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-wb-primary transition-colors hover:underline"
+                  style={{ background: "transparent", border: 0, padding: 0, cursor: "pointer", color: p.primaryOrange }}
+                >
+                  <span>View Report</span>
+                  <ArrowRightIcon color={p.primaryOrange} />
+                </button>
+              </div>
+            </article>
+
+            {/* CARD 2: WEIGHBRIDGE PERFORMANCE (Screen 43) */}
+            <article
+              className="flex flex-col justify-between rounded-xl p-5 transition-all hover:border-amber-500/50"
+              style={{
+                background: p.surface,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+              }}
+            >
+              <div>
+                <div className="mb-3 flex items-center justify-between">
+                  <div
+                    className="grid h-10 w-10 place-items-center rounded-lg"
+                    style={{ background: p.secondaryGoldSoft, color: p.secondaryGold }}
+                  >
+                    <PerformanceIcon color={p.secondaryGold} />
+                  </div>
+                  <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                    SCREEN 43
+                  </span>
+                </div>
+                <h3
+                  className="m-0 text-base font-bold tracking-tight"
+                  style={{ color: p.textPrimary }}
+                >
+                  WEIGHBRIDGE PERFORMANCE
+                </h3>
+                <p className="mt-1.5 text-xs leading-5" style={{ color: p.textMuted }}>
+                  Monitor station activity, usage and operational performance.
+                </p>
+              </div>
+              <div className="mt-5 border-t pt-3" style={{ borderColor: p.divider }}>
+                <button
+                  onClick={() => onNavigate?.("performance-report")}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-wb-primary transition-colors hover:underline"
+                  style={{ background: "transparent", border: 0, padding: 0, cursor: "pointer", color: p.secondaryGold }}
+                >
+                  <span>View Report</span>
+                  <ArrowRightIcon color={p.secondaryGold} />
+                </button>
+              </div>
+            </article>
+
+            {/* CARD 3: CUSTOMER / SUPPLIER REPORT (Screen 44) */}
+            <article
+              className="flex flex-col justify-between rounded-xl p-5 transition-all hover:border-amber-500/50"
+              style={{
+                background: p.surface,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+              }}
+            >
+              <div>
+                <div className="mb-3 flex items-center justify-between">
+                  <div
+                    className="grid h-10 w-10 place-items-center rounded-lg"
+                    style={{ background: p.primarySoft, color: p.primaryOrange }}
+                  >
+                    <UsersGroupIcon color={p.primaryOrange} />
+                  </div>
+                  <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                    SCREEN 44
+                  </span>
+                </div>
+                <h3
+                  className="m-0 text-base font-bold tracking-tight"
+                  style={{ color: p.textPrimary }}
+                >
+                  CUSTOMER / SUPPLIER REPORT
+                </h3>
+                <p className="mt-1.5 text-xs leading-5" style={{ color: p.textMuted }}>
+                  View customer and supplier weighment activity and summaries.
+                </p>
+              </div>
+              <div className="mt-5 border-t pt-3" style={{ borderColor: p.divider }}>
+                <button
+                  onClick={() => onNavigate?.("customer-report")}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors hover:underline"
+                  style={{ background: "transparent", border: 0, padding: 0, cursor: "pointer", color: p.primaryOrange }}
+                >
+                  <span>View Report</span>
+                  <ArrowRightIcon color={p.primaryOrange} />
+                </button>
+              </div>
+            </article>
+
+            {/* CARD 4: REPORT SUMMARY */}
+            <article
+              className="flex flex-col justify-between rounded-xl p-5 transition-all hover:border-amber-500/50"
+              style={{
+                background: p.surface,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+              }}
+            >
+              <div>
+                <div className="mb-3 flex items-center justify-between">
+                  <div
+                    className="grid h-10 w-10 place-items-center rounded-lg"
+                    style={{ background: p.secondaryGoldSoft, color: p.secondaryGold }}
+                  >
+                    <ChartSummaryIcon color={p.secondaryGold} />
+                  </div>
+                  <span className="text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+                    SUMMARY
+                  </span>
+                </div>
+                <h3
+                  className="m-0 text-base font-bold tracking-tight"
+                  style={{ color: p.textPrimary }}
+                >
+                  REPORT SUMMARY
+                </h3>
+                <p className="mt-1.5 text-xs leading-5" style={{ color: p.textMuted }}>
+                  Quick overview of key operational reporting metrics.
+                </p>
+              </div>
+              <div className="mt-5 border-t pt-3" style={{ borderColor: p.divider }}>
+                <button
+                  onClick={() => {
+                    const elem = document.getElementById("report-summary-section");
+                    if (elem) elem.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold transition-colors hover:underline"
+                  style={{ background: "transparent", border: 0, padding: 0, cursor: "pointer", color: p.secondaryGold }}
+                >
+                  <span>View Summary</span>
+                  <ArrowRightIcon color={p.secondaryGold} />
+                </button>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        {/* ── 5. GLOBAL REPORT FILTERS ──────────────────────────────────────── */}
         <section
-          className="mb-6 rounded-xl p-4"
+          className="mb-8 rounded-xl p-5"
           style={{
-            background: c.surface,
-            border: `1px solid ${c.border}`,
-            boxShadow: "0 1px 2px rgba(15,23,42,.05)",
+            background: p.surface,
+            border: `1px solid ${p.border}`,
+            boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
           }}
         >
-          <div className="grid gap-3 lg:grid-cols-5">
-            {control("date", ["Today", "Yesterday", "This week", "This month"])}
-            {control("weighbridge", [
-              "All weighbridges",
-              "WB-01",
-              "WB-02",
-              "WB-03",
-              "WB-04",
-              "WB-05",
-            ])}
-            {control("material", ["All materials", "Granite", "Sand", "Steel"])}
-            {control("customer", [
-              "All customers",
-              "Apex Infra",
-              "Metro Materials",
-            ])}
-            {control("operator", [
-              "All operators",
-              "Admin",
-              "Priya Shah",
-              "Ravi Kumar",
-            ])}
-          </div>
-        </section>
-
-        <section className="mb-6">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="m-0 text-xl font-semibold" style={{ color: c.navy }}>
-              Report Categories
-            </h2>
-            <span className="text-xs" style={{ color: c.muted }}>
-              {selectedCategory}
-            </span>
-          </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-7">
-            {categories.map(([title, icon, count]) => {
-              const active = title === selectedCategory;
-              return (
-                <button
-                  key={title}
-                  onClick={() => setSelectedCategory(title)}
-                  className="rounded-xl p-4 text-left transition-all hover:-translate-y-0.5"
-                  style={{
-                    background: active
-                      ? darkMode
-                        ? "#2A1A0A"
-                        : "#FFF7ED"
-                      : c.surface,
-                    border: `1px solid ${active ? "#F97316" : c.border}`,
-                    cursor: "pointer",
-                    boxShadow: active ? "0 1px 2px rgba(15,23,42,.05)" : "none",
-                  }}
-                >
-                  <div
-                    className="mb-3 text-xl"
-                    style={{ color: active ? "#F97316" : c.navy }}
-                  >
-                    {icon}
-                  </div>
-                  <div
-                    className="text-xs font-semibold"
-                    style={{ color: c.navy }}
-                  >
-                    {title}
-                  </div>
-                  <div className="mt-1 text-[11px]" style={{ color: c.muted }}>
-                    {count}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {[
-            ["Total Net Weight", "2,095 MT", "↗ 12.4%", "⚖"],
-            ["Total Vehicles", "248", "↗ 8.1%", "▱"],
-            ["Total Transactions", "1,248", "↗ 6.8%", "▤"],
-            ["Average Net Weight", "8.45 MT", "↗ 3.2%", "◌"],
-          ].map(([label, value, trend, icon]) => (
-            <div
-              key={label}
-              className="rounded-xl p-5"
-              style={{ background: c.surface, border: `1px solid ${c.border}` }}
+          <div className="mb-4">
+            <h2
+              className="m-0 text-xs font-bold tracking-wider uppercase"
+              style={{ color: p.textMuted }}
             >
-              <div className="flex items-start justify-between">
-                <span
-                  className="text-xs font-semibold"
-                  style={{ color: c.muted }}
-                >
-                  {label}
-                </span>
-                <span className="text-lg text-[#F97316]">{icon}</span>
+              REPORT FILTERS
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap items-end gap-3.5">
+            {/* Filter 1: Date Range */}
+            <div className="min-w-44 flex-1">
+              <label className="mb-1 block text-[11px] font-semibold" style={{ color: p.textSecondary }}>
+                Date Range
+              </label>
+              <select
+                value={dateRange}
+                onChange={(e) => setDateRange(e.target.value)}
+                className="h-11 w-full rounded-lg px-3 text-xs outline-none transition-colors focus:border-amber-500"
+                style={{
+                  background: p.inputBg,
+                  color: p.textPrimary,
+                  border: `1px solid ${p.border}`,
+                }}
+              >
+                <option>Today</option>
+                <option>Yesterday</option>
+                <option>01 Aug – 21 Aug 2026</option>
+                <option>Last 7 Days</option>
+                <option>Last 30 Days</option>
+                <option>This Month</option>
+              </select>
+            </div>
+
+            {/* Filter 2: Weighbridge */}
+            <div className="min-w-40 flex-1">
+              <label className="mb-1 block text-[11px] font-semibold" style={{ color: p.textSecondary }}>
+                Weighbridge
+              </label>
+              <select
+                value={weighbridgeFilter}
+                onChange={(e) => setWeighbridgeFilter(e.target.value)}
+                className="h-11 w-full rounded-lg px-3 text-xs outline-none transition-colors focus:border-amber-500"
+                style={{
+                  background: p.inputBg,
+                  color: p.textPrimary,
+                  border: `1px solid ${p.border}`,
+                }}
+              >
+                <option>All Weighbridges</option>
+                <option>WB-01 (Main Gate)</option>
+                <option>WB-02 (North Gate)</option>
+                <option>WB-03 (Loading Yard)</option>
+                <option>WB-04 (East Gate)</option>
+                <option>WB-05 (West Gate)</option>
+              </select>
+            </div>
+
+            {/* Filter 3: Customer */}
+            <div className="min-w-40 flex-1">
+              <label className="mb-1 block text-[11px] font-semibold" style={{ color: p.textSecondary }}>
+                Customer
+              </label>
+              <select
+                value={customerFilter}
+                onChange={(e) => setCustomerFilter(e.target.value)}
+                className="h-11 w-full rounded-lg px-3 text-xs outline-none transition-colors focus:border-amber-500"
+                style={{
+                  background: p.inputBg,
+                  color: p.textPrimary,
+                  border: `1px solid ${p.border}`,
+                }}
+              >
+                <option>All Customers</option>
+                <option>Apex Infra Ltd</option>
+                <option>Metro Materials Ltd</option>
+                <option>UltraTech Cement</option>
+                <option>Southern Builders</option>
+              </select>
+            </div>
+
+            {/* Filter 4: Supplier */}
+            <div className="min-w-40 flex-1">
+              <label className="mb-1 block text-[11px] font-semibold" style={{ color: p.textSecondary }}>
+                Supplier
+              </label>
+              <select
+                value={supplierFilter}
+                onChange={(e) => setSupplierFilter(e.target.value)}
+                className="h-11 w-full rounded-lg px-3 text-xs outline-none transition-colors focus:border-amber-500"
+                style={{
+                  background: p.inputBg,
+                  color: p.textPrimary,
+                  border: `1px solid ${p.border}`,
+                }}
+              >
+                <option>All Suppliers</option>
+                <option>Southern Quarries</option>
+                <option>Apex Mining Corp</option>
+                <option>Global Aggregates</option>
+              </select>
+            </div>
+
+            {/* Filter 5: Material */}
+            <div className="min-w-40 flex-1">
+              <label className="mb-1 block text-[11px] font-semibold" style={{ color: p.textSecondary }}>
+                Material
+              </label>
+              <select
+                value={materialFilter}
+                onChange={(e) => setMaterialFilter(e.target.value)}
+                className="h-11 w-full rounded-lg px-3 text-xs outline-none transition-colors focus:border-amber-500"
+                style={{
+                  background: p.inputBg,
+                  color: p.textPrimary,
+                  border: `1px solid ${p.border}`,
+                }}
+              >
+                <option>All Materials</option>
+                <option>Aggregates 20mm</option>
+                <option>M-Sand</option>
+                <option>Cement Grade 53</option>
+                <option>Steel Rebar</option>
+                <option>Granite</option>
+              </select>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-2 pt-1 sm:pt-0">
+              <button
+                onClick={handleApplyFilters}
+                className="h-11 rounded-lg px-4 text-xs font-bold text-white transition-opacity hover:opacity-90"
+                style={{
+                  background: p.primaryOrange,
+                  border: 0,
+                  cursor: "pointer",
+                }}
+              >
+                Apply Filters
+              </button>
+              <button
+                onClick={handleResetFilters}
+                className="h-11 rounded-lg px-3.5 text-xs font-semibold transition-colors hover:bg-slate-100 dark:hover:bg-slate-800"
+                style={{
+                  background: "transparent",
+                  color: p.textSecondary,
+                  border: `1px solid ${p.border}`,
+                  cursor: "pointer",
+                }}
+              >
+                Reset
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 6. SUMMARY KPI SECTION ───────────────────────────────────────── */}
+        <section id="report-summary-section" className="mb-8">
+          <div className="mb-4">
+            <h2
+              className="m-0 text-xs font-bold tracking-wider uppercase"
+              style={{ color: p.textMuted }}
+            >
+              REPORT SUMMARY
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            
+            {/* KPI 1: TOTAL WEIGHMENTS */}
+            <div
+              className="rounded-xl p-5"
+              style={{
+                background: p.surface,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+              }}
+            >
+              <div className="text-[11px] font-bold tracking-wider uppercase" style={{ color: p.textMuted }}>
+                TOTAL WEIGHMENTS
               </div>
               <div
-                className="mt-3 text-2xl font-bold tabular-nums"
-                style={{ color: c.navy }}
+                className="mt-2 text-3xl font-bold tabular-nums"
+                style={{ color: p.textPrimary }}
               >
-                {value}
+                1,248
               </div>
-              <div className="mt-1 text-[11px] font-medium text-wb-success">
-                {trend} <span style={{ color: c.muted }}>vs yesterday</span>
+              <div className="mt-2 flex items-center gap-1 text-[11px] font-medium text-wb-success">
+                <span>↗ +8.4%</span>
+                <span style={{ color: p.textMuted }}>vs last period</span>
               </div>
             </div>
-          ))}
+
+            {/* KPI 2: TOTAL WEIGHT */}
+            <div
+              className="rounded-xl p-5"
+              style={{
+                background: p.surface,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+              }}
+            >
+              <div className="text-[11px] font-bold tracking-wider uppercase" style={{ color: p.textMuted }}>
+                TOTAL WEIGHT
+              </div>
+              <div
+                className="mt-2 text-3xl font-bold tabular-nums"
+                style={{ color: p.primaryOrange }}
+              >
+                28,450 T
+              </div>
+              <div className="mt-2 flex items-center gap-1 text-[11px] font-medium text-wb-success">
+                <span>↗ +12.1%</span>
+                <span style={{ color: p.textMuted }}>vs last period</span>
+              </div>
+            </div>
+
+            {/* KPI 3: VEHICLES */}
+            <div
+              className="rounded-xl p-5"
+              style={{
+                background: p.surface,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+              }}
+            >
+              <div className="text-[11px] font-bold tracking-wider uppercase" style={{ color: p.textMuted }}>
+                VEHICLES
+              </div>
+              <div
+                className="mt-2 text-3xl font-bold tabular-nums"
+                style={{ color: p.secondaryGold }}
+              >
+                486
+              </div>
+              <div className="mt-2 flex items-center gap-1 text-[11px] font-medium text-wb-success">
+                <span>↗ +5.2%</span>
+                <span style={{ color: p.textMuted }}>vs last period</span>
+              </div>
+            </div>
+
+            {/* KPI 4: AVG. WAIT TIME */}
+            <div
+              className="rounded-xl p-5"
+              style={{
+                background: p.surface,
+                border: `1px solid ${p.border}`,
+                boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+              }}
+            >
+              <div className="text-[11px] font-bold tracking-wider uppercase" style={{ color: p.textMuted }}>
+                AVG. WAIT TIME
+              </div>
+              <div
+                className="mt-2 text-3xl font-bold tabular-nums"
+                style={{ color: p.textPrimary }}
+              >
+                18 min
+              </div>
+              <div className="mt-2 flex items-center gap-1 text-[11px] font-medium text-wb-success">
+                <span>↘ -2 min</span>
+                <span style={{ color: p.textMuted }}>improved efficiency</span>
+              </div>
+            </div>
+
+          </div>
         </section>
 
-        <div className="mb-6 grid gap-5 xl:grid-cols-[1.55fr_1fr]">
-          <section
+        {/* ── 7. ANALYTICS SECTION ─────────────────────────────────────────── */}
+        <section className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          
+          {/* LEFT: WEIGHMENT ACTIVITY */}
+          <div
             className="rounded-xl p-6"
-            style={{ background: c.surface, border: `1px solid ${c.border}` }}
+            style={{
+              background: p.surface,
+              border: `1px solid ${p.border}`,
+              boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+            }}
           >
             <div className="mb-5 flex items-start justify-between">
               <div>
-                <h2
-                  className="m-0 text-base font-semibold"
-                  style={{ color: c.navy }}
+                <h3
+                  className="m-0 text-base font-bold tracking-tight"
+                  style={{ color: p.textPrimary }}
                 >
-                  Net Weight Trend
-                </h2>
-                <p className="mt-1 text-xs" style={{ color: c.muted }}>
-                  Cumulative net weight processed across all 5 weighbridges.
+                  WEIGHMENT ACTIVITY
+                </h3>
+                <p className="mt-0.5 text-xs" style={{ color: p.textMuted }}>
+                  Daily weighments
                 </p>
               </div>
-              <div className="text-right">
-                <div
-                  className="text-xl font-bold tabular-nums"
-                  style={{ color: c.navy }}
-                >
-                  2,095 MT
-                </div>
-                <div className="text-[11px]" style={{ color: c.muted }}>
-                  Today
-                </div>
-              </div>
+
+              {/* Period Selector */}
+              <select
+                value={chartPeriod}
+                onChange={(e) => setChartPeriod(e.target.value)}
+                className="h-8 rounded-md px-2.5 text-xs font-medium outline-none"
+                style={{
+                  background: p.inputBg,
+                  color: p.textPrimary,
+                  border: `1px solid ${p.border}`,
+                }}
+              >
+                <option>7 Days</option>
+                <option>30 Days</option>
+                <option>This Month</option>
+              </select>
             </div>
-            <Suspense fallback={null}>
-              <ResponsiveContainer width="100%" height={205}>
-                <LineChart
-                  data={netWeight}
-                  margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
-                >
-                  <CartesianGrid
-                    stroke={c.divider}
-                    strokeDasharray="3 3"
-                    vertical={false}
-                  />
-                  <XAxis
-                    dataKey="time"
-                    tick={{ fontSize: 11, fill: c.muted }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 11, fill: c.muted }}
-                    axisLine={false}
-                    tickLine={false}
-                    unit=" MT"
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      background: c.tooltip,
-                      border: `1px solid ${c.border}`,
-                      borderRadius: 8,
-                      fontSize: 12,
-                    }}
-                    formatter={(value: unknown) => [
-                      `${Number(value).toLocaleString()} MT`,
-                      "Net weight",
-                    ]}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="net"
-                    stroke="#F97316"
-                    strokeWidth={2.5}
-                    dot={{ r: 3, fill: "#F97316", strokeWidth: 0 }}
-                    activeDot={{
-                      r: 6,
-                      fill: "#F97316",
-                      stroke: "#FFEDD5",
-                      strokeWidth: 4,
-                    }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </Suspense>
-          </section>
-          <section
+
+            {/* Line / Bar Trend Chart */}
+            <div className="h-56 w-full">
+              <Suspense fallback={<div className="h-full w-full animate-pulse rounded bg-slate-100 dark:bg-slate-800" />}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={activeChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <CartesianGrid stroke={p.divider} strokeDasharray="3 3" vertical={false} />
+                    <XAxis dataKey="day" tick={{ fontSize: 11, fill: p.textMuted }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 11, fill: p.textMuted }} axisLine={false} tickLine={false} />
+                    <Tooltip
+                      contentStyle={{
+                        background: p.tooltipBg,
+                        border: `1px solid ${p.border}`,
+                        borderRadius: 8,
+                        fontSize: 12,
+                        color: p.textPrimary,
+                      }}
+                      formatter={(val: unknown) => [`${Number(val)} weighments`, "Daily Volume"]}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="weighments"
+                      stroke={p.primaryOrange}
+                      strokeWidth={2.5}
+                      dot={{ r: 4, fill: p.primaryOrange, strokeWidth: 0 }}
+                      activeDot={{ r: 6, fill: p.primaryOrange, stroke: p.bg, strokeWidth: 2 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Suspense>
+            </div>
+          </div>
+
+          {/* RIGHT: WEIGHBRIDGE USAGE */}
+          <div
             className="rounded-xl p-6"
-            style={{ background: c.surface, border: `1px solid ${c.border}` }}
+            style={{
+              background: p.surface,
+              border: `1px solid ${p.border}`,
+              boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+            }}
           >
             <div className="mb-5">
-              <h2
-                className="m-0 text-base font-semibold"
-                style={{ color: c.navy }}
+              <h3
+                className="m-0 text-base font-bold tracking-tight"
+                style={{ color: p.textPrimary }}
               >
-                Weighbridge Comparison
-              </h2>
-              <p className="mt-1 text-xs" style={{ color: c.muted }}>
-                Net weight processed today.
+                WEIGHBRIDGE USAGE
+              </h3>
+              <p className="mt-0.5 text-xs" style={{ color: p.textMuted }}>
+                Station utilization breakdown
               </p>
             </div>
-            <Suspense fallback={null}>
-              <ResponsiveContainer width="100%" height={175}>
-                <BarChart
-                  data={comparison}
-                  margin={{ top: 5, right: 0, left: -14, bottom: 0 }}
-                >
-                  <CartesianGrid
-                    stroke={c.divider}
-                    strokeDasharray="3 3"
-                    vertical={false}
-                  />
-                  <XAxis
-                    dataKey="name"
-                    tick={{ fontSize: 11, fill: c.muted }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 10, fill: c.muted }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      background: c.tooltip,
-                      border: `1px solid ${c.border}`,
-                      borderRadius: 8,
-                      fontSize: 12,
-                    }}
-                    formatter={(value: unknown) => [
-                      `${Number(value).toLocaleString()} MT`,
-                      "Net weight",
-                    ]}
-                  />
-                  <Bar dataKey="mt" radius={[4, 4, 0, 0]}>
-                    {comparison.map((item) => (
-                      <Cell
-                        key={item.name}
-                        fill={
-                          item.name === "WB-01"
-                            ? "#F97316"
-                            : item.name === "WB-04"
-                              ? "#DC2626"
-                              : "#C99A2E"
-                        }
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </Suspense>
-            <div className="mt-3 grid grid-cols-5 gap-1">
-              {comparison.map((item) => (
-                <div key={item.name} className="text-center">
-                  <div
-                    className="text-[10px] font-semibold tabular-nums"
-                    style={{
-                      color: item.name === "WB-04" ? "#DC2626" : c.navy,
-                    }}
-                  >
-                    {item.mt.toLocaleString()}
+
+            {/* Station Progress Bars */}
+            <div className="space-y-4">
+              {stationUsage.map((station) => (
+                <div key={station.id}>
+                  <div className="mb-1.5 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 font-semibold" style={{ color: p.textPrimary }}>
+                      <span className="font-mono">{station.id}</span>
+                      <span className="text-[11px] font-normal" style={{ color: p.textMuted }}>
+                        ({station.location})
+                      </span>
+                      {!station.active && (
+                        <span className="rounded px-1.5 py-0.2 text-[10px] font-bold text-wb-error bg-red-50 dark:bg-red-950/50">
+                          OFFLINE
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 font-mono font-bold text-xs">
+                      <span style={{ color: p.textMuted }}>{station.count} trips</span>
+                      <span style={{ color: station.id === "WB-01" ? p.primaryOrange : p.secondaryGold }}>
+                        {station.percentage}%
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-[10px]" style={{ color: c.muted }}>
-                    {item.name}
+
+                  {/* Progress Track */}
+                  <div
+                    className="h-2.5 w-full overflow-hidden rounded-full"
+                    style={{ background: p.divider }}
+                  >
+                    <div
+                      className="h-full rounded-full transition-all duration-500"
+                      style={{
+                        width: `${station.percentage}%`,
+                        background: station.id === "WB-01"
+                          ? p.primaryOrange
+                          : station.id === "WB-04"
+                            ? "#DC2626"
+                            : p.secondaryGold,
+                      }}
+                    />
                   </div>
                 </div>
               ))}
             </div>
-          </section>
-        </div>
+          </div>
 
-        <section
-          className="mb-6 rounded-xl p-6"
-          style={{ background: c.surface, border: `1px solid ${c.border}` }}
-        >
-          <div className="mb-5 flex items-start justify-between">
-            <div>
-              <h2
-                className="m-0 text-base font-semibold"
-                style={{ color: c.navy }}
-              >
-                Vehicle Volume
-              </h2>
-              <p className="mt-1 text-xs" style={{ color: c.muted }}>
-                Total vehicles processed per weighbridge today.
-              </p>
-            </div>
-            <div className="flex gap-3 text-[11px]" style={{ color: c.muted }}>
-              <span>
-                <i className="mr-1 inline-block h-2 w-2 rounded-full bg-[#F97316]" />
-                Active
-              </span>
-              <span>
-                <i className="mr-1 inline-block h-2 w-2 rounded-full bg-wb-error" />
-                Offline
-              </span>
-            </div>
-          </div>
-          <Suspense fallback={null}>
-            <ResponsiveContainer width="100%" height={185}>
-              <BarChart
-                data={vehicleVolume}
-                margin={{ top: 4, right: 8, left: -10, bottom: 0 }}
-              >
-                <CartesianGrid
-                  stroke={c.divider}
-                  strokeDasharray="3 3"
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey="name"
-                  tick={{ fontSize: 11, fill: c.muted }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={{ fontSize: 11, fill: c.muted }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip
-                  contentStyle={{
-                    background: c.tooltip,
-                    border: `1px solid ${c.border}`,
-                    borderRadius: 8,
-                    fontSize: 12,
-                  }}
-                  formatter={(value: unknown) => [
-                    `${Number(value)} vehicles`,
-                    "Processed",
-                  ]}
-                />
-                <Bar dataKey="vehicles" radius={[4, 4, 0, 0]}>
-                  {vehicleVolume.map((item) => (
-                    <Cell
-                      key={item.name}
-                      fill={
-                        item.name === "WB-04"
-                          ? "#DC2626"
-                          : item.name === "WB-01"
-                            ? "#F97316"
-                            : "#C99A2E"
-                      }
-                    />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </Suspense>
-          <div
-            className="mt-2 flex items-center gap-2 rounded-lg px-3 py-2 text-xs"
-            style={{
-              color: "#DC2626",
-              background: darkMode ? "#321519" : "#FEF2F2",
-            }}
-          >
-            <span>●</span>
-            <strong>WB-04 OFFLINE</strong>
-            <span style={{ color: c.muted }}>
-              No active transactions recorded today.
-            </span>
-          </div>
         </section>
 
-        <section className="mb-6">
-          <h2 className="mb-3 text-xl font-semibold" style={{ color: c.navy }}>
-            Operational Insights
-          </h2>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {[
-              [
-                "↗",
-                "Highest Volume",
-                "WB-01 processed the highest vehicle volume today.",
-                "#F97316",
-              ],
-              [
-                "!",
-                "Lowest Volume",
-                "WB-04 is currently offline and has no active transactions.",
-                "#DC2626",
-              ],
-              [
-                "◇",
-                "Top Material",
-                "Granite accounts for the highest net weight processed today.",
-                "#F97316",
-              ],
-            ].map(([icon, title, copy, color]) => (
-              <article
-                key={title}
-                className="flex gap-3 rounded-xl p-5"
-                style={{
-                  background: c.surface,
-                  border: `1px solid ${c.border}`,
-                }}
-              >
-                <div
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-base"
-                  style={{ color, background: `${color}18` }}
-                >
-                  {icon}
-                </div>
-                <div>
-                  <h3
-                    className="m-0 text-sm font-semibold"
-                    style={{ color: c.navy }}
-                  >
-                    {title}
-                  </h3>
-                  <p
-                    className="mt-1 text-xs leading-5"
-                    style={{ color: c.muted }}
-                  >
-                    {copy}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
+        {/* ── 8. RECENT REPORTS TABLE ──────────────────────────────────────── */}
         <section
           className="mb-8 overflow-hidden rounded-xl"
-          style={{ background: c.surface, border: `1px solid ${c.border}` }}
+          style={{
+            background: p.surface,
+            border: `1px solid ${p.border}`,
+            boxShadow: "0 1px 2px rgba(15,23,42,0.05)",
+          }}
         >
           <div
-            className="flex flex-wrap items-center justify-between gap-3 border-b p-5"
-            style={{ borderColor: c.border }}
+            className="flex flex-wrap items-center justify-between gap-4 border-b p-5"
+            style={{ borderColor: p.border }}
           >
             <div>
               <h2
-                className="m-0 text-base font-semibold"
-                style={{ color: c.navy }}
+                className="m-0 text-base font-bold tracking-tight"
+                style={{ color: p.textPrimary }}
               >
-                Recently Generated Reports
+                RECENT REPORTS
               </h2>
-              <p className="mt-1 text-xs" style={{ color: c.muted }}>
-                Latest exports and generated report history.
+              <p className="mt-0.5 text-xs" style={{ color: p.textMuted }}>
+                Recently generated reports.
               </p>
             </div>
-            <label className="relative">
-              <span className="sr-only">Search reports</span>
+
+            {/* Quick Search */}
+            <div className="relative w-64">
               <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search reports"
-                className="h-9 w-52 rounded-lg px-3 pl-8 text-xs outline-none"
+                type="text"
+                value={tableSearch}
+                onChange={(e) => setTableSearch(e.target.value)}
+                placeholder="Search recent reports..."
+                className="h-9 w-full rounded-lg pl-9 pr-3 text-xs outline-none"
                 style={{
-                  background: c.input,
-                  color: c.text,
-                  border: `1px solid ${c.border}`,
+                  background: p.inputBg,
+                  color: p.textPrimary,
+                  border: `1px solid ${p.border}`,
                 }}
               />
-              <span
-                className="pointer-events-none absolute left-3 top-2 text-xs"
-                style={{ color: c.muted }}
-              >
-                ⌕
-              </span>
-            </label>
+              <div className="pointer-events-none absolute left-3 top-2.5">
+                <SearchIcon color={p.textMuted} />
+              </div>
+            </div>
           </div>
+
+          {/* Table Container */}
           <div className="overflow-x-auto">
-            <table className="w-full min-w-205 text-left">
-              <thead
-                className="text-[11px]"
-                style={{
-                  color: c.muted,
-                  background: darkMode ? "#242118" : "#F8FAFC",
-                }}
-              >
-                <tr>
-                  {[
-                    "Report Name",
-                    "Type",
-                    "Date Range",
-                    "Generated By",
-                    "Generated At",
-                    "Status",
-                    "Action",
-                  ].map((head) => (
-                    <th key={head} className="px-5 py-3 font-semibold">
-                      {head}
-                    </th>
-                  ))}
+            <table className="w-full min-w-180 text-left border-collapse">
+              <thead>
+                <tr
+                  className="border-b text-[11px] font-bold tracking-wider uppercase"
+                  style={{
+                    background: p.tableHeaderBg,
+                    borderColor: p.border,
+                    color: p.textMuted,
+                  }}
+                >
+                  <th className="px-5 py-3.5">REPORT</th>
+                  <th className="px-5 py-3.5">PERIOD</th>
+                  <th className="px-5 py-3.5">GENERATED</th>
+                  <th className="px-5 py-3.5">STATUS</th>
+                  <th className="px-5 py-3.5 text-right">ACTION</th>
                 </tr>
               </thead>
-              <tbody>
-                {visibleReports.map((row) => (
+              <tbody className="divide-y text-xs" style={{ borderColor: p.divider }}>
+                {filteredReports.map((report) => (
                   <tr
-                    key={row[0]}
-                    className="border-t text-xs"
-                    style={{ borderColor: c.divider }}
+                    key={report.id}
+                    className="transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/50"
                   >
-                    <td
-                      className="px-5 py-4 font-semibold"
-                      style={{ color: c.navy }}
-                    >
-                      {row[0]}
+                    <td className="px-5 py-4 font-semibold" style={{ color: p.textPrimary }}>
+                      {report.name}
                     </td>
-                    <td className="px-5 py-4" style={{ color: c.secondary }}>
-                      {row[1]}
+                    <td className="px-5 py-4 font-mono text-[11px]" style={{ color: p.textSecondary }}>
+                      {report.period}
                     </td>
-                    <td className="px-5 py-4" style={{ color: c.secondary }}>
-                      {row[2]}
-                    </td>
-                    <td className="px-5 py-4" style={{ color: c.secondary }}>
-                      {row[3]}
-                    </td>
-                    <td
-                      className="px-5 py-4 tabular-nums"
-                      style={{ color: c.secondary }}
-                    >
-                      {row[4]}
+                    <td className="px-5 py-4" style={{ color: p.textMuted }}>
+                      {report.generated}
                     </td>
                     <td className="px-5 py-4">
-                      <StatusBadge status={row[5]} />
+                      <StatusBadge status={report.status} darkMode={darkMode} />
                     </td>
-                    <td className="px-5 py-4">
+                    <td className="px-5 py-4 text-right">
                       <button
-                        onClick={() =>
-                          setNotice(`${row[0]} opened for preview.`)
-                        }
-                        className="font-semibold"
+                        onClick={() => onNavigate?.(report.screenView)}
+                        className="inline-flex h-8 items-center gap-1 rounded-md px-3 text-xs font-semibold transition-all hover:bg-amber-500/10"
                         style={{
-                          color: "#F97316",
                           background: "transparent",
-                          border: 0,
+                          color: p.primaryOrange,
+                          border: `1px solid ${p.primaryOrange}40`,
                           cursor: "pointer",
                         }}
                       >
-                        {row[5] === "Processing"
-                          ? "View"
-                          : row[0].includes("Vehicle")
-                            ? "Download"
-                            : "View"}
+                        <span>View</span>
                       </button>
                     </td>
                   </tr>
                 ))}
-                {visibleReports.length === 0 && (
+                {filteredReports.length === 0 && (
                   <tr>
-                    <td
-                      colSpan={7}
-                      className="px-5 py-8 text-center text-sm"
-                      style={{ color: c.muted }}
-                    >
-                      No reports match your search.
+                    <td colSpan={5} className="py-8 text-center text-xs" style={{ color: p.textMuted }}>
+                      No reports found matching &quot;{tableSearch}&quot;.
                     </td>
                   </tr>
                 )}
@@ -846,6 +1106,7 @@ export default function ReportsScreen({ darkMode }: Props) {
             </table>
           </div>
         </section>
+
       </div>
     </main>
   );

@@ -32,6 +32,12 @@ export type AdminView =
   | "employees"
   | "reports"
   | "auditlogs"
+  | "weighbridges"
+  | "device-monitoring"
+  | "indicators"
+  | "cameras"
+  | "printers"
+  | "calibration"
   | "settings";
 
 import AppShell from "../components/AppShell";

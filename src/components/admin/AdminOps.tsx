@@ -24,6 +24,12 @@ import EmployeeManagementScreen from "@/screens/EmployeeManagementScreen";
 import ReportsScreen from "@/screens/ReportsScreen";
 import AuditLogsScreen from "@/screens/AuditLogsScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
+import WeighbridgeManagementScreen from "@/screens/WeighbridgeManagementScreen";
+import DeviceMonitoringScreen from "@/screens/DeviceMonitoringScreen";
+import WeightIndicatorsScreen from "@/screens/WeightIndicatorsScreen";
+import CamerasScreen from "@/screens/CamerasScreen";
+import PrintersScreen from "@/screens/PrintersScreen";
+import CalibrationScreen from "@/screens/CalibrationScreen";
 import {
   AdminOperationsProps,
   Monitoring,
@@ -298,6 +304,60 @@ export default function AdminOperations(props: AdminOperationsProps) {
     if (props.view === "auditlogs")
       return (
         <AuditLogsScreen
+          darkMode={props.darkMode}
+          onToggleDark={props.onToggleDark}
+          onLogout={props.onLogout}
+          onNavigate={props.onNavigate}
+        />
+      );
+    if (props.view === "weighbridges")
+      return (
+        <WeighbridgeManagementScreen
+          darkMode={props.darkMode}
+          onToggleDark={props.onToggleDark}
+          onLogout={props.onLogout}
+          onNavigate={props.onNavigate}
+        />
+      );
+    if (props.view === "device-monitoring")
+      return (
+        <DeviceMonitoringScreen
+          darkMode={props.darkMode}
+          onToggleDark={props.onToggleDark}
+          onLogout={props.onLogout}
+          onNavigate={props.onNavigate}
+        />
+      );
+    if (props.view === "indicators")
+      return (
+        <WeightIndicatorsScreen
+          darkMode={props.darkMode}
+          onToggleDark={props.onToggleDark}
+          onLogout={props.onLogout}
+          onNavigate={props.onNavigate}
+        />
+      );
+    if (props.view === "cameras")
+      return (
+        <CamerasScreen
+          darkMode={props.darkMode}
+          onToggleDark={props.onToggleDark}
+          onLogout={props.onLogout}
+          onNavigate={props.onNavigate}
+        />
+      );
+    if (props.view === "printers")
+      return (
+        <PrintersScreen
+          darkMode={props.darkMode}
+          onToggleDark={props.onToggleDark}
+          onLogout={props.onLogout}
+          onNavigate={props.onNavigate}
+        />
+      );
+    if (props.view === "calibration")
+      return (
+        <CalibrationScreen
           darkMode={props.darkMode}
           onToggleDark={props.onToggleDark}
           onLogout={props.onLogout}

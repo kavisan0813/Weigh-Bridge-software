@@ -92,6 +92,104 @@ export default function AppShell({
   const [stationPopoverOpen, setStationPopoverOpen] = useState(false);
   const [notifPopoverOpen, setNotifPopoverOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [selectedStationId, setSelectedStationId] = useState<string>("all");
+
+  const weighbridgesData = [
+    {
+      id: "all",
+      code: "ALL",
+      name: "All Weighbridges",
+      location: "All Locations (5 Stations)",
+      status: "ONLINE",
+      statusText: "4 Online / 1 Offline",
+      statusColor: "#16A34A",
+      hardware: [
+        { name: "WB-01 Main Gate", status: "Online", ok: true },
+        { name: "WB-02 North Gate", status: "Available", ok: true },
+        { name: "WB-03 Loading Yard", status: "Weighing", ok: true },
+        { name: "WB-04 South Gate", status: "Offline", ok: false },
+        { name: "WB-05 West Gate", status: "Available", ok: true },
+      ],
+    },
+    {
+      id: "wb-01",
+      code: "WB-01",
+      name: "WB-01 — Main Gate",
+      location: "Main Entrance",
+      status: "ONLINE",
+      statusText: "Online & Operational",
+      statusColor: "#16A34A",
+      hardware: [
+        { name: "Indicator", status: "Online", ok: true },
+        { name: "Camera", status: "Online", ok: true },
+        { name: "Printer", status: "Online", ok: true },
+        { name: "Network", status: "Online", ok: true },
+      ],
+    },
+    {
+      id: "wb-02",
+      code: "WB-02",
+      name: "WB-02 — North Gate",
+      location: "North Gate Entrance",
+      status: "AVAILABLE",
+      statusText: "Available & Ready",
+      statusColor: "#2563EB",
+      hardware: [
+        { name: "Indicator", status: "Online", ok: true },
+        { name: "Camera", status: "Online", ok: true },
+        { name: "Printer", status: "Online", ok: true },
+        { name: "Network", status: "Online", ok: true },
+      ],
+    },
+    {
+      id: "wb-03",
+      code: "WB-03",
+      name: "WB-03 — Loading Yard",
+      location: "Loading Bay East",
+      status: "WEIGHING",
+      statusText: "Weighing Active",
+      statusColor: "#8B5CF6",
+      hardware: [
+        { name: "Indicator", status: "Online", ok: true },
+        { name: "Camera", status: "Online", ok: true },
+        { name: "Printer", status: "Online", ok: true },
+        { name: "Network", status: "Online", ok: true },
+      ],
+    },
+    {
+      id: "wb-04",
+      code: "WB-04",
+      name: "WB-04 — South Gate",
+      location: "South Dispatch",
+      status: "OFFLINE",
+      statusText: "Offline — Maintenance",
+      statusColor: "#DC2626",
+      hardware: [
+        { name: "Indicator", status: "Offline", ok: false },
+        { name: "Camera", status: "Online", ok: true },
+        { name: "Printer", status: "Warning", ok: false },
+        { name: "Network", status: "Offline", ok: false },
+      ],
+    },
+    {
+      id: "wb-05",
+      code: "WB-05",
+      name: "WB-05 — West Gate",
+      location: "West Auxiliary Gate",
+      status: "AVAILABLE",
+      statusText: "Available & Ready",
+      statusColor: "#2563EB",
+      hardware: [
+        { name: "Indicator", status: "Online", ok: true },
+        { name: "Camera", status: "Online", ok: true },
+        { name: "Printer", status: "Online", ok: true },
+        { name: "Network", status: "Online", ok: true },
+      ],
+    },
+  ];
+
+  const activeStation =
+    weighbridgesData.find((s) => s.id === selectedStationId) || weighbridgesData[0];
 
   // User Initials
   const userInitials = userName
@@ -300,10 +398,26 @@ export default function AppShell({
                     width: 8,
                     height: 8,
                     borderRadius: "50%",
-                    background: statusSuccess,
+                    background: activeStation.statusColor,
                   }}
                 />
-                <span>{stationName}</span>
+                <span>{activeStation.name}</span>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  style={{
+                    transform: stationPopoverOpen ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.2s ease",
+                    color: mutedText,
+                    marginLeft: 2,
+                  }}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </button>
 
               {/* Station Status Popover */}
@@ -313,53 +427,133 @@ export default function AppShell({
                     position: "absolute",
                     top: 46,
                     right: 0,
-                    width: 260,
+                    width: 320,
                     background: surface,
                     borderRadius: 12,
                     border: `1px solid ${border}`,
                     boxShadow: "0 12px 30px rgba(0,0,0,0.2)",
                     zIndex: 100,
-                    padding: 16,
+                    padding: 14,
                   }}
                 >
                   <div
                     style={{
-                      fontSize: 11,
-                      fontWeight: 800,
-                      color: mutedText,
-                      letterSpacing: "0.05em",
-                      marginBottom: 8,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: 10,
+                      paddingBottom: 6,
+                      borderBottom: `1px solid ${divider}`,
                     }}
                   >
-                    CURRENT STATION
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 800,
-                      color: primaryText,
-                      marginBottom: 2,
-                    }}
-                  >
-                    WB-01 — Main Gate
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      color: statusSuccess,
-                      marginBottom: 12,
-                    }}
-                  >
-                    ● Online & Operational
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 800,
+                        color: mutedText,
+                        letterSpacing: "0.05em",
+                      }}
+                    >
+                      SELECT WEIGHBRIDGE
+                    </span>
+                    <span
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        color: primaryOrange,
+                        background: dm ? "rgba(249,115,22,0.15)" : "#FFF7ED",
+                        padding: "2px 6px",
+                        borderRadius: 4,
+                      }}
+                    >
+                      5 Total Stations
+                    </span>
                   </div>
 
+                  {/* Dropdown list of all weighbridges */}
                   <div
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      gap: 6,
-                      fontSize: 12,
+                      gap: 4,
+                      maxHeight: 220,
+                      overflowY: "auto",
+                      marginBottom: 12,
+                    }}
+                  >
+                    {weighbridgesData.map((wb) => {
+                      const isSelected = wb.id === selectedStationId;
+                      return (
+                        <button
+                          key={wb.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedStationId(wb.id);
+                          }}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            padding: "8px 10px",
+                            borderRadius: 8,
+                            border: isSelected
+                              ? `1px solid ${primaryOrange}`
+                              : `1px solid ${divider}`,
+                            background: isSelected
+                              ? dm
+                                ? "rgba(249,115,22,0.12)"
+                                : "#EFF6FF"
+                              : "transparent",
+                            cursor: "pointer",
+                            textAlign: "left",
+                            transition: "all 0.15s ease",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span
+                              style={{
+                                width: 7,
+                                height: 7,
+                                borderRadius: "50%",
+                                background: wb.statusColor,
+                                flexShrink: 0,
+                              }}
+                            />
+                            <div>
+                              <div
+                                style={{
+                                  fontSize: 12,
+                                  fontWeight: isSelected ? 800 : 600,
+                                  color: isSelected ? primaryOrange : primaryText,
+                                }}
+                              >
+                                {wb.name}
+                              </div>
+                              <div style={{ fontSize: 10, color: mutedText }}>
+                                {wb.location}
+                              </div>
+                            </div>
+                          </div>
+                          <span
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 700,
+                              color: wb.statusColor,
+                              background: `${wb.statusColor}15`,
+                              padding: "2px 6px",
+                              borderRadius: 4,
+                            }}
+                          >
+                            {wb.status}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Selected Station Hardware Details */}
+                  <div
+                    style={{
                       borderTop: `1px solid ${divider}`,
                       paddingTop: 10,
                     }}
@@ -367,46 +561,53 @@ export default function AppShell({
                     <div
                       style={{
                         display: "flex",
+                        alignItems: "center",
                         justifyContent: "space-between",
+                        marginBottom: 6,
                       }}
                     >
-                      <span>Indicator</span>
-                      <span style={{ color: statusSuccess, fontWeight: 700 }}>
-                        ✓ Online
+                      <span style={{ fontSize: 11, fontWeight: 800, color: primaryText }}>
+                        {activeStation.name}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          color: activeStation.statusColor,
+                        }}
+                      >
+                        ● {activeStation.statusText}
                       </span>
                     </div>
+
                     <div
                       style={{
                         display: "flex",
-                        justifyContent: "space-between",
+                        flexDirection: "column",
+                        gap: 5,
+                        fontSize: 11.5,
                       }}
                     >
-                      <span>Camera</span>
-                      <span style={{ color: statusSuccess, fontWeight: 700 }}>
-                        ✓ Online
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>Printer</span>
-                      <span style={{ color: statusSuccess, fontWeight: 700 }}>
-                        ✓ Online
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>Network</span>
-                      <span style={{ color: statusSuccess, fontWeight: 700 }}>
-                        ✓ Online
-                      </span>
+                      {activeStation.hardware.map((hw, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            color: mutedText,
+                          }}
+                        >
+                          <span>{hw.name}</span>
+                          <span
+                            style={{
+                              color: hw.ok ? statusSuccess : "#DC2626",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {hw.ok ? `✓ ${hw.status}` : `✕ ${hw.status}`}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
