@@ -100,9 +100,9 @@ export function GlobalDateTime({ darkMode = false }: GlobalDateTimeProps) {
           fontVariantNumeric: "tabular-nums",
         }}
       >
-        <span>{timeStr}</span>
+        <span style={{ fontWeight: 600 }}>{timeStr}</span>
         <span style={{ fontWeight: 600 }}>|</span>
-        <span style={{ fontWeight: 600 }}>{dateStr}</span>
+        <span style={{ fontWeight: 600, color: mutedColor }}>{dateStr}</span>
       </div>
 
       {/* Tablet View: Stacked Date / Time */}
@@ -113,7 +113,7 @@ export function GlobalDateTime({ darkMode = false }: GlobalDateTimeProps) {
           fontSize: 11,
           lineHeight: 1.15,
           fontFamily: "monospace",
-          fontVariantNumeric: "tabular-nums"
+          fontVariantNumeric: "tabular-nums",
         }}
       >
         <span>{dateStr}</span>
